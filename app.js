@@ -6,10 +6,8 @@ const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const upload = require('express-fileupload');
-const getRoutes = require('./backend/routes/getRoutes');
-const postRoutes = require('./backend/routes/postRoutes');
+const routes = require('./backend/routes/mainRoutes');
 const app = express();
-const router = express.Router();
 
 
 app.use(compression());
@@ -27,9 +25,6 @@ app.use(session({
     cookie:{path:'/',httpOnly:true,secure:false,maxAge:null}
 }));
 
-app.get('/api/11',(req,res)=>res.send({msg:'Working correctly'}));
-router.use('/api/',getRoutes);
-router.route('/post/api/',postRoutes);
-
+app.use('/',routes);
 
 app.listen('4000',()=>{console.log('Server started running on port 4000')});
