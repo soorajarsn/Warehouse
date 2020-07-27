@@ -1,0 +1,19 @@
+{
+  "name": "ecommerse-site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sooraj Shukla",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.7-alpha.4",
+    "mongodb": "^3.5.9",
+    "morgan": "^1.10.0"
+  }
+}
