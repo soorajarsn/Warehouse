@@ -1,0 +1,137 @@
+h1 {
+  font-size: 2.5rem;
+  line-height: 2.7rem;
+  font-weight: bold;
+  margin: .5rem; }
+  @media (min-width: 700px) {
+    h1 {
+      font-size: 3rem;
+      line-height: 3.2rem; } }
+
+h2 {
+  font-size: 2.2rem;
+  line-height: 2.4rem;
+  font-weight: bold;
+  margin: .5rem; }
+  @media (min-width: 700px) {
+    h2 {
+      font-size: 2.7rem;
+      line-height: 2.9rem; } }
+
+h3 {
+  font-size: 2rem;
+  line-height: 2.2rem;
+  font-weight: bold;
+  margin: .5rem; }
+  @media (min-width: 700px) {
+    h3 {
+      font-size: 2.5rem;
+      line-height: 2.7rem; } }
+
+p {
+  font-size: 1rem;
+  line-height: 1.2rem;
+  font-weight: bold;
+  margin: .5rem; }
+  @media (min-width: 700px) {
+    p {
+      font-size: 0.9rem;
+      line-height: 1.1rem; } }
+
+ul {
+  list-style-type: disc;
+  font-size: 0.9rem;
+  line-height: 1.05rem; }
+  @media (min-width: 700px) {
+    ul {
+      font-size: 0.8rem;
+      line-height: 0.95rem; } }
+
+a {
+  text-decoration: none; }
+  a:hover {
+    font-weight: bold; }
+
+.button-primary {
+  width: fit-content;
+  padding: .5rem 1rem;
+  color: white;
+  background: #26c1ce;
+  border-radius: .01rem;
+  font-weight: bold; }
+
+.button-secondary {
+  border: solid 1px #e7ebee;
+  color: #26c1ce;
+  font-weight: bold;
+  border-radius: .01rem; }
+
+.button-full-width {
+  width: 100%;
+  padding: .5rem 0; }
+
+.xsmall-margin {
+  margin: .2rem 0; }
+
+.small-margin {
+  margin: .5rem 0; }
+
+.medium-margin {
+  margin: .8rem 0; }
+
+.large-margin {
+  margin: 1rem 0; }
+
+.xsmall-padding {
+  margin: .2rem 0; }
+
+.small-padding {
+  margin: .5rem 0; }
+
+.medium-padding {
+  margin: .8rem 0; }
+
+.large-padding {
+  margin: 1rem 0; }
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.grid {
+  display: grid; }
+
+.hidden {
+  display: none; }
+
+.visible {
+  display: block; }
+
+.flex-visible {
+  display: flex; }
+
+.grid-visible {
+  display: grid; }
+
+.position-relative {
+  position: relative; }
+
+.position-absolute {
+  position: absolute; }
+
+.position-fixed {
+  position: fixed; }
+
+.navbar-container {
+  width: 100%;
+  background: #1e2d7d;
+  height: 8rem; }
+  .navbar-container nav {
+    max-width: 1600px;
+    justify-content: space-between;
+    background: transparent;
+    color: white;
+    padding: 0 1rem; }
+
+/*# sourceMappingURL=theme.css.map */
