@@ -133,5 +133,7 @@ a {
     background: transparent;
     color: white;
     padding: 0 1rem; }
+    .navbar-container nav .content-container {
+      display: unset; }
 
 /*# sourceMappingURL=theme.css.map */
