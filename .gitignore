@@ -1,2 +1,22 @@
+config/default.json
 node_modules
-package-lock.json
+# dependencies
+client/views/node_modules
+client/views/.pnp
+client/views/.pnp.js
+# testing
+client/views/coverage
+
+# production
+client/views/build
+
+# misc
+client/views/.DS_Store
+client/views/.env.local
+client/views/.env.development.local
+client/views/.env.test.local
+client/views/.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

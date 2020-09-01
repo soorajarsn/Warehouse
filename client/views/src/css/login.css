@@ -1,0 +1,33 @@
+.login-panel-main {
+  min-height: calc(100vh - 5.2rem);
+  background: #f8f9fa; }
+  @media (min-width: 700px) {
+    .login-panel-main {
+      min-height: calc(100vh - 5.4rem); } }
+  @media (min-width: 1000px) {
+    .login-panel-main {
+      min-height: calc(100vh - 16rem); } }
+  .login-panel-main .popover {
+    opacity: 1;
+    visibility: visible;
+    position: static;
+    background: transparent;
+    width: 100%;
+    max-width: 400px;
+    height: unset;
+    box-shadow: none; }
+    @media (min-width: 1000px) {
+      .login-panel-main .popover {
+        max-width: 450px;
+        transform: scale(1); } }
+    .login-panel-main .popover .popover__panel-list .popover__panel--sliding {
+      position: static; }
+    .login-panel-main .popover .popover__panel-list .popover__panel--default, .login-panel-main .popover .popover__panel-list .popover__panel--sliding {
+      transform: translateX(0); }
+    .login-panel-main .popover .popover__panel-list .popover__panel {
+      visibility: visible; }
+
+.feature-container {
+  background: #f8f9fa; }
+
+/*# sourceMappingURL=login.css.map */

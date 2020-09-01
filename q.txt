@@ -1,0 +1,230 @@
+1. Like in round 0, there were some details that we need to give, to whom or where we have to send these details or we need to push these details in our repo, 
+2. what should be the file format if we are to send it to some, or if we need to push these details in our git repo which file format do we need to maintain.
+http://vlabs.iitb.ac.in/gitlab/Community-Docs/New-Lab-development/Round-templates/tree/master/experiment/simulation 
+http://vlabs.iitb.ac.in/gitlab/Community-Docs/New-Lab-development/Round-templates 
+https://codecogs.com/latex/eqneditor.php 
+vlab@recbanda.ac.in 
+1@shahnaz123
+vlab@recbanda.ac.in in cc for all communication
+
+ {/* <ul id="collection-filters" className="collections-container collection-filter-linklist large-padding-left large-padding-right" aria-hidden="true">
+              <li>
+                <button className="no-padding xsmall-margin" data-action="toggle-collapsible" aria-controls="filter-0" aria-expanded="false" onClick={showCollectionExpanded}>
+                  Men's Fashion <AngleDownSvg />
+                </button>
+                <div id="filter-0" className="collection-filter-collapsible" aria-hidden="true">
+                  <ul className="collection-filter-linklist">
+                    <li className="xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <a href="/products?productClass=men&subCategory=tshirts">Tshirts (n)</a>
+                    </li>
+                    <li className="xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <a href="/products?productClass=men&subCategory=tshirts">Casual Shirts (n)</a>
+                    </li>
+                    <li className="xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <a href="/products?productClass=men&subCategory=tshirts">Formal Shirts (n)</a>
+                    </li>
+                    <li className="xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <a href="/products?productClass=men&subCategory=tshirts">Jeans (n)</a>
+                    </li>
+                    <li className="xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <a href="/products?productClass=men&subCategory=tshirts">Kurtas (n)</a>
+                    </li>
+                    <li className="xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <a href="/products?productClass=men&subCategory=tshirts">Rain Jackets (n)</a>
+                    </li>
+                    <li className="xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <a href="/products?productClass=men">See All (m)</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <button className="no-padding xsmall-margin" data-action="toggle-collapsible" aria-controls="filter-1" aria-expanded="false" onClick={showCollectionExpanded}>
+                  Women's Collections <AngleDownSvg />
+                </button>
+                <div id="filter-1" className="collection-filter-collapsible" aria-hidden="true">
+                  <ul className="collection-filter-linklist">
+                    <li className="xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <a href="/products?productClass=men&subCategory=tshirts">Tshirts (n)</a>
+                    </li>
+                    <li className="xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <a href="/products?productClass=men&subCategory=tshirts">Shirts (n)</a>
+                    </li>
+                    <li className="xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <a href="/products?productClass=men&subCategory=tshirts">Tops (n)</a>
+                    </li>
+                    <li className="xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <a href="/products?productClass=men&subCategory=tshirts">Dresses and Jumsuits (n)</a>
+                    </li>
+                    <li className="xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <a href="/products?productClass=men&subCategory=tshirts">Ethnic Dresses (n)</a>
+                    </li>
+                    <li className="xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <a href="/products?productClass=men&subCategory=tshirts">Lingerie and Sleepwear (n)</a>
+                    </li>
+                    <li className="xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <a href="/products?productClass=men">See All (m)</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <button className="no-padding xsmall-margin" data-action="toggle-collapsible" aria-controls="filter-2" aria-expanded="false" onClick={showCollectionExpanded}>
+                  Electronics Store <AngleDownSvg />
+                </button>
+                <div id="filter-2" className="collection-filter-collapsible" aria-hidden="true">
+                  <ul className="collection-filter-linklist">
+                    <li className="xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <a href="/products?productClass=men&subCategory=tshirts">Headphones (n)</a>
+                    </li>
+                    <li className="xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <a href="/products?productClass=men&subCategory=tshirts">Speakers (n)</a>
+                    </li>
+                    <li className="xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <a href="/products?productClass=men&subCategory=tshirts">Amplifiers (n)</a>
+                    </li>
+                    <li className="xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <a href="/products?productClass=men&subCategory=tshirts">Subwoofers (n)</a>
+                    </li>
+                    <li className="xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <a href="/products?productClass=men&subCategory=tshirts">Mobiles (n)</a>
+                    </li>
+                    <li className="xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <a href="/products?productClass=men&subCategory=tshirts">Laptops (n)</a>
+                    </li>
+                    <li className="xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <a href="/products?productClass=men">See All (m)</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul> */}
+
+            {/* <div className="collection-filter-grounp-list collection-filter-group-list--ordered ">
+              <div className="collection-filter-group large-padding large-padding-left large-padding-right ">
+                <button className="no-padding xsmall-margin collection-filter-group-name link" aria-controls="filter-3" aria-expanded="false" onClick={showCollectionExpanded}>
+                  Price <AngleDownSvg />
+                </button>
+                <div id="filter-3" className="collection-filter-collapsible" aria-hidden="true">
+                  <ul className="collection-filter-checkbox-list">
+                    <li className="collection-filter-checkbox xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <div className="checkbox-wrapper">
+                        <input type="checkbox" className="checkbox" id="filter-3-tag-price_0-to-100" name="tag-price" data-action="toggle-tag" data-tag="price_0-to-100" />
+                        <CheckSvg />
+                      </div>
+                      <label className="small-margin-left" htmlFor="filter-3-tag-price_0-to-100">
+                        Rs. 0 to 100
+                      </label>
+                    </li>
+                    <li className="collection-filter-checkbox xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <div className="checkbox-wrapper">
+                        <input type="checkbox" className="checkbox" id="filter-3-tag-price_0-to-100" name="tag-price" data-action="toggle-tag" data-tag="price_0-to-100" />
+                        <CheckSvg />
+                      </div>
+                      <label className="small-margin-left" htmlFor="filter-3-tag-price_0-to-100">
+                        Rs. 100 to 250
+                      </label>
+                    </li>
+                    <li className="collection-filter-checkbox xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <div className="checkbox-wrapper">
+                        <input type="checkbox" className="checkbox" id="filter-3-tag-price_0-to-100" name="tag-price" data-action="toggle-tag" data-tag="price_0-to-100" />
+                        <CheckSvg />
+                      </div>
+                      <label className="small-margin-left" htmlFor="filter-3-tag-price_0-to-100">
+                        Rs. 250 to 500
+                      </label>
+                    </li>
+                    <li className="collection-filter-checkbox xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <div className="checkbox-wrapper">
+                        <input type="checkbox" className="checkbox" id="filter-3-tag-price_0-to-100" name="tag-price" data-action="toggle-tag" data-tag="price_0-to-100" />
+                        <CheckSvg />
+                      </div>
+                      <label className="small-margin-left" htmlFor="filter-3-tag-price_0-to-100">
+                        Rs. 500 to 800
+                      </label>
+                    </li>
+                    <li className="collection-filter-checkbox xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <div className="checkbox-wrapper">
+                        <input type="checkbox" className="checkbox" id="filter-3-tag-price_0-to-100" name="tag-price" data-action="toggle-tag" data-tag="price_0-to-100" />
+                        <CheckSvg />
+                      </div>
+                      <label className="small-margin-left" htmlFor="filter-3-tag-price_0-to-100">
+                        Rs. 0 to 100
+                      </label>
+                    </li>
+                    <li className="collection-filter-checkbox xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <div className="checkbox-wrapper">
+                        <input type="checkbox" className="checkbox" id="filter-3-tag-price_0-to-100" name="tag-price" data-action="toggle-tag" data-tag="price_0-to-100" />
+                        <CheckSvg />
+                      </div>
+                      <label className="small-margin-left" htmlFor="filter-3-tag-price_0-to-100">
+                        Rs. 100 to 250
+                      </label>
+                    </li>
+                    <li className="collection-filter-checkbox xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <div className="checkbox-wrapper">
+                        <input type="checkbox" className="checkbox" id="filter-3-tag-price_0-to-100" name="tag-price" data-action="toggle-tag" data-tag="price_0-to-100" />
+                        <CheckSvg />
+                      </div>
+                      <label className="small-margin-left" htmlFor="filter-3-tag-price_0-to-100">
+                        Rs. 250 to 500
+                      </label>
+                    </li>
+                    <li className="collection-filter-checkbox xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <div className="checkbox-wrapper">
+                        <input type="checkbox" className="checkbox" id="filter-3-tag-price_0-to-100" name="tag-price" data-action="toggle-tag" data-tag="price_0-to-100" />
+                        <CheckSvg />
+                      </div>
+                      <label className="small-margin-left" htmlFor="filter-3-tag-price_0-to-100" className="small-margin-left">
+                        Rs. 500 to 800
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div className="collection-filter-group large-padding large-padding-left large-padding-right ">
+                <button className="no-padding xsmall-margin collection-filter-group-name link" aria-controls="filter-4" aria-expanded="false" onClick={showCollectionExpanded}>
+                  Size <AngleDownSvg />
+                </button>
+                <div id="filter-4" className="collection-filter-collapsible" aria-hidden="true">
+                  <ul className="collection-filter-checkbox-list">
+                    <li className="collection-filter-checkbox  xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <div className="checkbox-wrapper">
+                        <input type="checkbox" className="checkbox" id="filter-4-s" name="size" data-action="toggle-size" data-tag="s" />
+                        <CheckSvg />
+                      </div>
+                      <label className="small-margin-left" htmlFor="filter-4-s">
+                        S
+                      </label>
+                    </li>
+                    <li className="collection-filter-checkbox  xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <div className="checkbox-wrapper">
+                        <input type="checkbox" className="checkbox" id="filter-4-m" name="size" data-action="toggle-size" data-tag="m" />
+                        <CheckSvg />
+                      </div>
+                      <label className="small-margin-left" htmlFor="filter-4-m">
+                        M
+                      </label>
+                    </li>
+                    <li className="collection-filter-checkbox  xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <div className="checkbox-wrapper">
+                        <input type="checkbox" className="checkbox" id="filter-4-l" name="size" data-action="toggle-size" data-tag="l" />
+                        <CheckSvg />
+                      </div>
+                      <label className="small-margin-left" htmlFor="filter-4-l">
+                        L
+                      </label>
+                    </li>
+                    <li className="collection-filter-checkbox  xxxsmall-font xsmall-margin xsmall-margin-left">
+                      <div className="checkbox-wrapper">
+                        <input type="checkbox" className="checkbox" id="filter-4-xl" name="size" data-action="toggle-size" data-tag="xl" />
+                        <CheckSvg />
+                      </div>
+                      <label className="small-margin-left" htmlFor="filter-4-xl small-margin-left">
+                        XL
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>*/}
