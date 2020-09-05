@@ -1,6 +1,8 @@
+# dependencies
+config
+q.txt
 config/default.json
 node_modules
-# dependencies
 client/views/node_modules
 client/views/.pnp
 client/views/.pnp.js
