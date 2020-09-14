@@ -293,10 +293,10 @@ function Account(props) {
             <Features />
           </div>
           {pageName === "addresses" && (
-            <AddAddressForm createAddress={props.createAddress} error={props.error} dispatchError={props.dispatchError} editDefaultValues={editValues} className="edit_form" />
+            <AddAddressForm editDefaultValues={editValues} className="edit_form" />
           )}
           {pageName === "addresses" && (
-            <AddAddressForm createAddress={props.createAddress} error={props.error} dispatchError={props.dispatchError} editDefaultValues={{}} className="add_form" />
+            <AddAddressForm editDefaultValues={{}} className="add_form" />
           )}
         </Layout>
       )}

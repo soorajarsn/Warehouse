@@ -1,6 +1,5 @@
 import React from "react";
 import { CartSvg2 } from "./svg/icons";
-// import { Link } from "react-router-dom";
 function Cart() {
   return (
     <div className="cart-popover-container position-absolute flex" aria-hidden="true">

@@ -35,7 +35,7 @@ const addressReducer = (state = initialState, action) => {
     case GET_ADDRESS_ERROR:
     case EDIT_ADDRESS_ERROR:
     case DELETE_ADDRESS_ERROR:
-      return { ...state, loading: false, error: action.payload };
+      return { addresses:[], loading: false, error: action.payload };
     default:
         return state;
   }

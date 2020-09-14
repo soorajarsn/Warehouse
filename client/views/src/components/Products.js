@@ -241,31 +241,45 @@ function Products(props) {
             </div>
             <div className="product-collection grid">
               {props.products.map(product => (
-                <Link key={product._id} to={"/buyproduct/" + product._id}>
-                  <div
-                    id={"product"+product._id}
-                    className="product-card link"
-                    onMouseOver={e => handleEnter(e, props.loading)}
-                    aria-label={product._id}
-                    onMouseLeave={e => handleLeave(e, props.loading)}>
-                    <div className="img-container" aria-label={product._id}>
+                <div
+                  id={"product" + product._id}
+                  className="product-card link"
+                  onMouseOver={e => handleEnter(e, props.loading)}
+                  aria-label={product._id}
+                  key={product._id}
+                  onMouseLeave={e => handleLeave(e, props.loading)}>
+                  <div className="img-container" aria-label={product._id}>
+                    <Link to={"/buyProduct/" + product._id}>
                       <img src={product.imgsrc && product.imgsrc.substr(2)} className="full-img" alt="" aria-label={product._id} />
-                    </div>
-                    <div className="data-container flex flex-column small-padding position-relative" aria-label={product._id}>
+                    </Link>
+                  </div>
+
+                  <div className="data-container flex flex-column small-padding position-relative" aria-label={product._id}>
+                    <Link to={"/buyProduct/" + product._id}>
                       <div className="brand-name xsmall-font light-bold-font small-padding-left small-padding-right xsmall-margin" aria-label={product._id}>
                         {product.brand && product.brand.toUpperCase()}
                       </div>
-                      <div className="name xxsmall-font color-darkGrey small-padding-left small-padding-right xsmall-margin" aria-label={product._id}>{product.name}</div>
-                      <div className="price xsmall-font light-bold-font small-padding-left small-padding-right xsmall-margin" aria-label={product._id}>{product.price && "Rs. " + product.price}</div>
-                      <div className="reviews small-padding-left small-padding-right " aria-label={product._id}></div>
-                      {props.loading && <Loader />}
-                      <div className="button-container flex flex-column xsmall-padding" aria-label={product._id} aria-hidden="true">
-                        <button className="button-primary xsmall-margin" aria-label={product._id}>Buy Now</button>
-                        <button className="button-primary xsmall-margin" aria-label={product._id}>Add to Cart</button>
+                      <div className="name xxsmall-font color-darkGrey small-padding-left small-padding-right xsmall-margin" aria-label={product._id}>
+                        {product.name}
                       </div>
+                      <div className="price xsmall-font light-bold-font small-padding-left small-padding-right xsmall-margin" aria-label={product._id}>
+                        {product.price && "Rs. " + product.price}
+                      </div>
+                      <div className="reviews small-padding-left small-padding-right " aria-label={product._id}></div>
+                    </Link>
+                    {props.loading && <Loader />}
+                    <div className="button-container flex flex-column xsmall-padding" aria-label={product._id} aria-hidden="true">
+                      <Link to={"/buyProduct/" + product._id} className="full-width flex">
+                        <button className="button-primary xsmall-margin" aria-label={product._id}>
+                          Buy Now
+                        </button>
+                      </Link>
+                      <button className="button-primary xsmall-margin" aria-label={product._id}>
+                        Add to Cart
+                      </button>
                     </div>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           </div>

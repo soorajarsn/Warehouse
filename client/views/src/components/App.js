@@ -8,6 +8,8 @@ import Login from "./Login";
 import Recover from "./Recover";
 import Register from "./Register";
 import Index from "./Index";
+import BuyProduct from "./BuyProduct";
+import "../css/buyProduct.css";
 import "../css/reset.css";
 import "../css/theme.css";
 import "../css/index.css";
@@ -29,6 +31,7 @@ function App(props) {
         <Route path="/recover" render={props => <Recover {...props} />} />
         <Route path="/register" render={props => <Register {...props} />} />
         <Route path="/account/:pageName" render={props => <Account {...props} />} />
+        <Route path="/buyProduct/:productId" render={props => <BuyProduct {...props} />} />
       </Switch>
     </Router>
   );

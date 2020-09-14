@@ -252,17 +252,15 @@ button {
 }
 
 .button-secondary {
-    border: solid 1px $lightGrey;
+    border: solid .1rem $lightGrey;
     color: $lightBlue;
     font-weight: bold;
     width: fit-content;
     background: $white;
     border-radius: .2rem;
-
+    padding:.6rem 1rem;
     &:hover {
-        color: $white;
-        background: $lightBlue;
-        border: none;
+        border: solid .1rem $lightBlue;
         transition-duration: 100ms;
     }
 }
@@ -1133,13 +1131,6 @@ input:-internal-autofill-selected {
 
                         .button-primary {
                             border-radius: 0;
-
-                            &:hover {
-                                border: 2px solid $lightBlue;
-                                color: $white;
-                                background: $lightBlue;
-                                box-shadow: inset 0 0 .1rem 0 $blue;
-                            }
                         }
                     }
                 }

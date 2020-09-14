@@ -16,9 +16,9 @@ function TimesSvg(props) {
     </svg>
   );
 }
-function UserSvg({className}) {
+function UserSvg({ className }) {
   return (
-    <svg className={"icon icon-user "+className} viewBox="0 0 20 22" role="presentation">
+    <svg className={"icon icon-user " + className} viewBox="0 0 20 22" role="presentation">
       <path
         d="M10 13c2.82 0 5.33.64 6.98 1.2A3 3 0 0 1 19 17.02V21H1v-3.97a3 3 0 0 1 2.03-2.84A22.35 22.35 0 0 1 10 13zm0 0c-2.76 0-5-3.24-5-6V6a5 5 0 0 1 10 0v1c0 2.76-2.24 6-5 6z"
         stroke="currentColor"
@@ -404,26 +404,57 @@ function FilterSvg() {
     </svg>
   );
 }
-function NoOrdersSvg(props){
+function NoOrdersSvg(props) {
   return (
-    <svg className={"icon icon--package "+props.className} viewBox="0 0 46 46" role="presentation">
+    <svg className={"icon icon--package " + props.className} viewBox="0 0 46 46" role="presentation">
       <g stroke="currentColor" strokeWidth="2" fill="none" fillRule="evenodd">
         <path d="M11 8l24 14m10-6L25 28 1 14m24 14v16"></path>
         <path strokeLinecap="square" d="M45 16v14L25 44 1 30V14L21 2z"></path>
       </g>
     </svg>
-  )
+  );
 }
-function NoAddressesSvg(props){
+function NoAddressesSvg(props) {
   return (
-    <svg className={"icon icon--address "+ props.className} viewBox="0 0 46 45" role="presentation">
+    <svg className={"icon icon--address " + props.className} viewBox="0 0 46 45" role="presentation">
       <g transform="translate(1 1)" stroke="currentColor" strokeWidth="2" fill="none" fillRule="evenodd" strokeLinecap="square">
         <path d="M38 9.5L44 8v30l-16 4-12-4-16 4V12l6-1.5"></path>
         <path d="M32 10c0 6.172-10 16.25-10 16.25S12 16.172 12 10c0-6.328 5.168-10 10-10s10 3.672 10 10z"></path>
         <circle cx="22" cy="10" r="3"></circle>
       </g>
     </svg>
-  )
+  );
+}
+function Rupee(props) {
+  return (
+    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 344.329 344.329" xmlSpace="preserve">
+      <g>
+        <g>
+          <path
+            d="M277.965,90h-50.8c-2.9-28-18-54-40.1-70h90.9c5.5,0,10-4.5,10-10s-4.5-10-10-10h-211.6c-5.5,0-10,4.5-10,10s4.5,10,10,10
+        h60.6c41.2,0,75.2,31,80.1,70h-140.7c-5.5,0-10,4.5-10,10s4.5,10,10,10h140.7c-5,40.5-39.4,70.9-80.1,71h-60.5
+        c-5.6,0.1-10.1,4.7-10,10.3c0,2.7,1.2,5.3,3.1,7.2l151.3,143.1c4,3.8,10.3,3.6,14.1-0.4c3.8-4.1,3.6-10.4-0.4-14.3L91.465,201
+        h35.4c52.2,0,95.3-40,100.3-91h50.8c5.5,0,10-4.5,10-10S283.465,90,277.965,90z"
+          />
+        </g>
+      </g>
+      <g></g>
+      <g></g>
+      <g></g>
+      <g></g>
+      <g></g>
+      <g></g>
+      <g></g>
+      <g></g>
+      <g></g>
+      <g></g>
+      <g></g>
+      <g></g>
+      <g></g>
+      <g></g>
+      <g></g>
+    </svg>
+  );
 }
 //   <svg className="icon icon--nav-triangle-borderless" viewBox="0 0 20 9" role="presentation">
 //       <path d="M.47108938 9c.2694725-.26871321.57077721-.56867841.90388257-.89986354C3.12384116 6.36134886 5.74788116 3.76338565 9.2467995.30653888c.4145057-.4095171 1.0844277-.40860098 1.4977971.00205122L19.4935156 9H.47108938z" fill="#ffffff"></path>
@@ -454,5 +485,6 @@ export {
   CheckSvg,
   FilterSvg,
   NoOrdersSvg,
-  NoAddressesSvg
+  NoAddressesSvg,
+  Rupee
 };

@@ -1,0 +1,172 @@
+//color theming
+$blue: rgb(30, 45, 125);
+$lightBlue : rgb(29, 177, 211);
+$white: rgb(255, 255, 255);
+$black: rgb(0, 0, 0);
+$lightBlack: rgb(45, 45, 45);
+$grey: rgb(204, 207, 210);
+$lightGrey: rgb(231, 235, 238);
+// $offWhite : rgb(248, 249, 250);
+$offWhite: rgb(243, 245, 246);
+$darkGrey: rgb(128, 128, 128);
+$green: rgb(0, 138, 0);
+$red: rgb(238, 0, 0);
+
+
+main.buy-product-main {
+    .main-inner {
+        .main-content {
+            grid-template-columns: 1.5fr 1fr;
+            grid-column-gap: 1rem;
+
+            @media (max-width:700px) {
+                grid-template-columns: 1fr;
+            }
+
+            .img-container-main {
+                grid-template-columns: 1fr 1fr;
+                grid-column-gap: .5rem;
+                grid-row-gap: .5rem;
+
+                .img-container {
+                    width: 100%;
+                    cursor: pointer;
+
+                    @media(min-width:1000px) {
+                        height: 26vw*1.5;
+                    }
+
+                    @media (min-width:1600px) {
+                        height: 36.76rem;
+                    }
+
+                    overflow: hidden;
+
+                    img {
+                        width: 100%;
+
+                        @media (min-width:1000px) {
+                            height: 26vw*1.5;
+                        }
+
+                        @media (min-width:1600px) {
+                            height: 36.76rem;
+                        }
+
+                        transform: scale(1);
+                        transition: transform 300ms ease-in-out;
+
+                        &:hover {
+                            transform: scale(1.5);
+                            transition: transform 700ms ease-in-out;
+                        }
+                    }
+                }
+            }
+
+            .content {
+                .available-sizes {
+                    justify-content: flex-start;
+
+                    div {
+                        cursor: pointer;
+                        border: 1px solid $grey;
+                        border-radius: 100%;
+                        height: 3rem;
+                        width: 3rem;
+
+                        &:first-child {
+                            margin-left: 0;
+                        }
+
+                        &:last-child {
+                            margin-right: 0;
+                        }
+                    }
+                    div.selected{
+                        border:2px solid $green;
+                        color:$green;
+                        font-weight: bold;
+                    }
+                }
+
+                .button-container {
+                    justify-content: flex-start;
+
+                    @media (max-width:900px) {
+                        flex-direction: column;
+
+                        button {
+                            margin-left: 0;
+                            margin-right: 0;
+                        }
+                    }
+
+                    button {
+                        width: 100%;
+
+                        @media (min-width:1000px) {
+                            width: 10rem;
+                        }
+                    }
+                }
+
+                .delivery-options {
+                    .drop-down {
+                        width: 10rem;
+                        height: 1.8rem;
+                        font-size: 1rem;
+                        padding-left: .5rem;
+                        position: relative;
+                        background: rgba(29, 177, 211, .3);
+                        display: flex;
+                        align-items: center;
+                        border-radius: .2rem;
+                        // overflow: hidden;
+                        cursor: pointer;
+                        .items-container{
+                            position:absolute;
+                            top:1.8rem;
+                            left:0rem;
+                            width:calc(100% - 2px - .2rem);
+                            div.item{
+                                border:1px solid $grey;
+                                background: rgb(205, 233, 240);
+                                padding:.4rem .1rem;
+                            }
+                        }
+                        div.item {
+                            display: none;
+                            p {
+                                width: calc(100% - 1.5rem);
+                                display:block;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                            }
+                        }
+
+                        div.item.selected {
+                            display: block;
+                        }
+                        .fa-caret-down {
+                            position: absolute;
+                            right: .5rem;
+                        }
+                    }
+                    .drop-down.open{
+                        .items-container{
+                            div{
+                                display:block;
+                            }
+                        }
+                    }
+                }
+
+                ul {
+                    list-style-type: none;
+                }
+            }
+        }
+    }
+}
