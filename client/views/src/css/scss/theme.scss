@@ -1267,10 +1267,6 @@ input:-internal-autofill-selected {
         height: 100%;
         overflow: hidden;
 
-        @media (min-width:700px) {
-            // min-height: 23rem;
-        }
-
         transition:height 0.2s ease-in-out;
 
         @media (max-width:700px) {
