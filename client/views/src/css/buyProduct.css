@@ -56,10 +56,39 @@ main.buy-product-main .main-inner .main-content {
           margin-left: 0;
           margin-right: 0; } }
     main.buy-product-main .main-inner .main-content .content .button-container button {
-      width: 100%; }
+      width: 100%;
+      position: relative; }
       @media (min-width: 1000px) {
         main.buy-product-main .main-inner .main-content .content .button-container button {
           width: 10rem; } }
+      main.buy-product-main .main-inner .main-content .content .button-container button span.tooltip-text {
+        display: none; }
+      main.buy-product-main .main-inner .main-content .content .button-container button.tooltip {
+        cursor: not-allowed; }
+        main.buy-product-main .main-inner .main-content .content .button-container button.tooltip span.tooltip-text {
+          visibility: hidden;
+          position: absolute;
+          top: 100%;
+          margin-top: .5rem;
+          left: 0;
+          border-radius: .2rem;
+          background: #ee0000;
+          color: #f3f5f6;
+          display: none;
+          width: 11rem;
+          padding: .4rem .2rem;
+          z-index: 1; }
+        main.buy-product-main .main-inner .main-content .content .button-container button.tooltip .tooltip-text::after {
+          content: "";
+          position: absolute;
+          top: -.8rem;
+          right: 50%;
+          border-width: .4rem;
+          border-style: solid;
+          border-color: transparent transparent #ee0000 transparent; }
+        main.buy-product-main .main-inner .main-content .content .button-container button.tooltip:hover span.tooltip-text {
+          visibility: visible;
+          display: block; }
   main.buy-product-main .main-inner .main-content .content .delivery-options .drop-down {
     width: 10rem;
     height: 1.8rem;

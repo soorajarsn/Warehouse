@@ -104,9 +104,44 @@ main.buy-product-main {
 
                     button {
                         width: 100%;
-
+                        position:relative;
                         @media (min-width:1000px) {
                             width: 10rem;
+                        }
+                        span.tooltip-text{
+                            display:none;
+                        }
+                        &.tooltip{
+                            cursor: not-allowed;
+                            span.tooltip-text{
+                                visibility:hidden;
+                                position:absolute;
+                                top:100%;
+                                margin-top:.5rem;
+                                left:0;
+                                border-radius: .2rem;
+                                background:$red;
+                                color:$offWhite;   
+                                display:none;
+                                width:11rem;
+                                padding:.4rem .2rem;
+                                z-index: 1;
+                            }
+                            .tooltip-text::after {
+                                content: "";
+                                position: absolute;
+                                top: -.8rem;
+                                right: 50%;
+                                border-width: .4rem;
+                                border-style: solid;
+                                border-color: transparent transparent $red transparent;
+                              }
+                            &:hover{
+                                span.tooltip-text{
+                                    visibility: visible;
+                                    display: block;
+                                }
+                            }
                         }
                     }
                 }

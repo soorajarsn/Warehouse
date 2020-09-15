@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import Layout from "./Layout";
 import Features from "./Features";
 import ShoppingCards from "./ShoppingCards";
@@ -6,15 +7,16 @@ import { connect } from "react-redux";
 import { logOut, getAddresses, deleteAddress } from "../redux";
 import { Redirect } from "react-router-dom";
 import AddAddressForm from "./Form_addAddress";
-import {Rupee} from './svg/icons';
 
-function DropDown({ selected, setSelected, addresses, userLoggedIn, setRedirect,setShowAddressForm }) {
+function DropDown({ addressSelected, setAddressSelected, addresses, userLoggedIn, setRedirect, setToasterVisible}) {
   function toggleOpen(event) {
     if (!userLoggedIn) {
       setRedirect(true);
     } else {
       if (event.currentTarget.getAttribute("data-action") === "toggle-open") event.currentTarget.classList.toggle("open");
     }
+    //removing toaster if available;
+    setToasterVisible(false);
   }
   const showAddressPopover = () => {
     document.querySelector("#modal-address-new.add_form").setAttribute("aria-hidden", "false");
@@ -22,12 +24,12 @@ function DropDown({ selected, setSelected, addresses, userLoggedIn, setRedirect,
   return (
     <div className="drop-down medium-margin-top" data-action="toggle-open" onClick={toggleOpen}>
       <div className="full-width selected item">
-        <p>{selected}</p>
+        <p>{addressSelected}</p>
       </div>
       <div className="items-container full-width">
         {addresses.length > 0 ? (
           addresses.map(address => (
-            <div className="full-width item" data-action onClick={e => setSelected(e.currentTarget.innerText)}>
+            <div className="full-width item" data-action onClick={e => setAddressSelected(e.currentTarget.innerText)}>
               {address.zipCode}
             </div>
           ))
@@ -41,27 +43,70 @@ function DropDown({ selected, setSelected, addresses, userLoggedIn, setRedirect,
     </div>
   );
 }
+function Toaster({ error }) {
+  useEffect(()=>{
+    document.querySelector('.toaster .info').setAttribute('aria-hidden',false);//to show transition using css;
+  },[])
+  return (
+    <div className="toaster position-fixed">
+      <div className="xxxsmall-font info flex" aria-hidden={true}><span>{error}</span></div>
+    </div>
+  );
+}
 function BuyProduct(props) {
   const { productId } = props.match.params;
-  const [selected, setSelected] = useState("Select");
+  const [addressSelected, setAddressSelected] = useState("Select");
   const [redirect, setRedirect] = useState(false);
-  const [showAddressForm,setShowAddressForm] = useState(false);
-  const [size,setSize] = useState('');
+  const [size, setSize] = useState("");
+  const [toasterVisible, setToasterVisible] = useState(false);
   useEffect(() => {
     props.getAddresses();
-  }, [props.getAddresses,props.userLoggedIn]);
+  }, [props.getAddresses, props.userLoggedIn]);
   useEffect(() => {
     console.log("useEfffect run");
-    if (props.addresses[0]) setSelected(props.addresses[0].zipCode);
-    else setSelected("Select");
-  }, [props.addresses,props.userLoggedIn]);
-  function selectSize(event){
-    var selected = document.querySelector('div.available-sizes .selected');
-    if(selected)
-      selected.classList.remove('selected');
+    if (props.addresses[0]) setAddressSelected(props.addresses[0].zipCode);
+    else setAddressSelected("Select");
+  }, [props.addresses, props.userLoggedIn]);
+
+  function selectSize(event) {
+    var selectedSize = document.querySelector("div.available-sizes .selected");
+    if (selectedSize) selectedSize.classList.remove("selected");
     let current = event.currentTarget;
-    current.classList.add('selected');
+    current.classList.add("selected");
     setSize(current.innerText);
+    if (!selectedSize) {
+      //means the size was selected for the first time only
+      document.querySelectorAll("button.tooltip").forEach(button => {
+        button.classList.remove("tooltip");
+        button.setAttribute("data-action", "true"); //now cart and buy button will do required action, if no size selected tooltip will be shown, but no action, because of condition put in handlers
+      });
+    }
+  }
+  function handleAddToCart(event) {
+    const button = event.currentTarget;
+    if (button.getAttribute("data-action") !== "false") {
+      if (props.userLoggedIn) {
+        if (addressSelected === "Select") setToasterVisible(true);
+        else {
+          setToasterVisible(false);
+        }
+      } else {
+        setRedirect(true);
+      }
+    }
+  }
+  function handleBuyNow(event) {
+    const button = event.currentTarget;
+    if (button.getAttribute("data-action") !== "false") {
+      if (props.userLoggedIn) {
+        if (addressSelected === "Select") setToasterVisible(true);
+        else {
+          setToasterVisible(false);
+        }
+      } else {
+        setRedirect(true);
+      }
+    }
   }
   return (
     <>
@@ -93,31 +138,54 @@ function BuyProduct(props) {
                   <div className="content medium-margin-left medium-margin-right">
                     <h1 className="small-font medium-bold-font">Veni Vidi Vici</h1>
                     <p className="xxsmall-font color-darkGrey">Women Mustard Yellow Solid Twisted Cropped Fitted Top</p>
-                    <p className="no-margin large-margin-top xxxsmall-font large-padding-top color-darkGrey"><label className="regular-font xxxsmall-font">M.R.P: </label><del><i class="fas fa-rupee-sign"></i> 1231</del></p>
-                    <p className="xxsmall-font no-margin xsmall-margin-top color-green"><label className="regular-font xxxsmall-font ">Price: </label><i class="fas fa-rupee-sign xxxsmall-font"></i> 468</p>
-                    <p className="xxxsmall-font no-margin xsmall-margin-top color-red"><label>You Save: </label><i class="fas fa-rupee-sign"></i> {1231 - 468}({parseInt((1231-468)/1231*100)}%)</p>
+                    <p className="no-margin large-margin-top xxxsmall-font large-padding-top color-darkGrey">
+                      <label className="regular-font xxxsmall-font">M.R.P: </label>
+                      <del>
+                        <i class="fas fa-rupee-sign"></i> 1231
+                      </del>
+                    </p>
+                    <p className="xxsmall-font no-margin xsmall-margin-top color-green">
+                      <label className="regular-font xxxsmall-font ">Price: </label>
+                      <i class="fas fa-rupee-sign xxxsmall-font"></i> 468
+                    </p>
+                    <p className="xxxsmall-font no-margin xsmall-margin-top color-red">
+                      <label>You Save: </label>
+                      <i class="fas fa-rupee-sign"></i> {1231 - 468}({parseInt(((1231 - 468) / 1231) * 100)}%)
+                    </p>
                     <p className="xxxsmall-font color-darkGrey">inclusive of all taxes</p>
                     <div className="xxxsmall-font medium-bold-font large-margin-top large-padding-top">SELECT SIZES</div>
                     <div className="available-sizes flex medium-margin">
-                      <div className="small-margin-left small-margin-right flex" onClick={selectSize}>XS</div>
-                      <div className="small-margin-left small-margin-right flex" onClick={selectSize}>S</div>
-                      <div className="small-margin-left small-margin-right flex" onClick={selectSize}>M</div>
-                      <div className="small-margin-left small-margin-right flex" onClick={selectSize}>L</div>
+                      <div className="small-margin-left small-margin-right flex" onClick={selectSize}>
+                        XS
+                      </div>
+                      <div className="small-margin-left small-margin-right flex" onClick={selectSize}>
+                        S
+                      </div>
+                      <div className="small-margin-left small-margin-right flex" onClick={selectSize}>
+                        M
+                      </div>
+                      <div className="small-margin-left small-margin-right flex" onClick={selectSize}>
+                        L
+                      </div>
                     </div>
                     <div className="button-container large-margin-top flex">
-                      <button className="button-primary small-margin small-margin-right">Buy Now</button>
-                      <button className="button-secondary small-margin small-margin-left">Add to Cart</button>
+                      <button className="button-primary small-margin small-margin-right tooltip" data-action="false" onClick={handleBuyNow}>
+                        Buy Now <span className="tooltip-text regular-font xxxsmall-font size">Please Select Size</span>
+                      </button>
+                      <button className="button-secondary small-margin small-margin-left tooltip" data-action="false" onClick={handleAddToCart}>
+                        Add to Cart <span className="tooltip-text regular-font xxxsmall-font size">Please Select Size</span>
+                      </button>
                     </div>
                     <div className="small-margin delivery-options">
                       <div className="xxsmall-font medium-bold-font">Delivery Options</div>
                       <DropDown
-                        selected={selected}
-                        setSelected={setSelected}
+                        addressSelected={addressSelected}
+                        setAddressSelected={setAddressSelected}
                         getAddresses={props.getAddresses}
                         setRedirect={setRedirect}
                         addresses={props.addresses}
                         userLoggedIn={props.userLoggedIn}
-                        setShowAddressForm={setShowAddressForm}
+                        setToasterVisible={setToasterVisible}
                       />
                     </div>
                     <ul className="medium-margin-top">
@@ -137,6 +205,7 @@ function BuyProduct(props) {
             </main>
           </div>
           {!props.addresses[0] && <AddAddressForm editDefaultValues={{}} className="add_form" />}
+          {toasterVisible &&  ReactDOM.createPortal(<Toaster error="Please Select Delivery Options!!!" />,document.getElementById('toaster-container'))}
         </Layout>
       )}
     </>
