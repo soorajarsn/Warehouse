@@ -6,7 +6,6 @@ $black: rgb(0, 0, 0);
 $lightBlack: rgb(45, 45, 45);
 $grey: rgb(204, 207, 210);
 $lightGrey: rgb(231, 235, 238);
-// $offWhite : rgb(248, 249, 250);
 $offWhite: rgb(243, 245, 246);
 $darkGrey: rgb(128, 128, 128);
 $green: rgb(0, 138, 0);
@@ -37,7 +36,6 @@ $xxxlarge: 3rem;
 .layout.products-layout {
     @media (min-width:1000px) {
         display: flex;
-        // margin-top:4rem;
     }
 
     .collection-menu-container {
@@ -422,7 +420,6 @@ $xxxlarge: 3rem;
                     @media (min-width:1000px){
                         height:93.344px;
                     }
-                    // overflow:hidden;
                     .button-container{
                         width:100%;
                         transform: translateY(0);
@@ -442,7 +439,6 @@ $xxxlarge: 3rem;
                             }
                             opacity: 1;
                             visibility: visible;
-                            // transition: transform .2s
                         }
                         button{
                             width:calc(100% - 1rem);
