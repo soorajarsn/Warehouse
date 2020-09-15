@@ -69,4 +69,3 @@ module.exports = {
   user,
   addresses
 };
-// /api/getProducts?productClass=${productClass}&category=${category}&subCategory=${subCategory}&page=${page}&sortBy=${sortBy}&price=${price}&size=${size}
