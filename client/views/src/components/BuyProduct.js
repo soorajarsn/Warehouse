@@ -58,6 +58,10 @@ function BuyProduct(props) {
   const [redirect, setRedirect] = useState(false);
   const [size, setSize] = useState("");
   const [toasterVisible, setToasterVisible] = useState(false);
+  
+  useEffect(()=>{
+    window.scrollTo();
+  },[]);
   useEffect(() => {
     props.getAddresses();
   }, [props.getAddresses, props.userLoggedIn]);
