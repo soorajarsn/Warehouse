@@ -9,11 +9,8 @@ import Loader from "./Loader";
 function Login(props) {
   const { userLoggingIn } = props;
 
-  const didMountRef = useRef(false);
   useEffect(() => {
-    if (didMountRef.current) {
-      window.scrollTo(0, 0);
-    } else didMountRef.current = true;
+   window.scrollTo(0,0);
   }, []);
 
   useEffect(() => {
