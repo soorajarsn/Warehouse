@@ -27,6 +27,29 @@ const address = async (req,res) => {
     if(updateResult.modifiedCount === 0) statusCode = 304;
     return res.status(statusCode).send({addresses});
 }
+const removeCart = async (req,res) => {
+    const {id} = req.body;
+    const token = req.header('x-auth-token');
+    if(!token) return res.status(401).send({errorMsg:'unauthenticated'});
+    let decoded;
+    try{
+        decoded = jwt.verify(token,config.get('jwtSecret'));
+    }
+    catch(err){
+        return res.status(401).send({errorMsg:'unauthenticated'});
+    }
+    const namespace = await database.getNamespace('users');
+    const user = await database.findOne(namespace,{_id:new ObjectID(decoded.id)});
+    if(user){
+        await namespace.updateOne({_id:new ObjectID(decoded.id)},{$pull: {cart: {id}}});
+        const cart = (await database.findOne(namespace, { _id: new ObjectID(decoded.id) })).cart;
+        return res.status(200).send({ products: cart });
+    }
+    else{
+        return res.status(401).send({errorMsg:'unauthenticated'});
+    }
+}
 module.exports = {
-    address
+    address,
+    removeCart
 }
