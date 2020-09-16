@@ -140,11 +140,8 @@ const address = async (req, res) => {
           return res.status(200).send({ addresses });
         } else {
           if (!user.addresses || user.addresses.length === 0) address.isDefault = true;
-          console.log("going to add address ");
           await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $push: { addresses: address } });
-          console.log("added address");
           user = await database.findOne(namespace, { _id: new ObjectID(decoded.id) });
-          console.log("now found addresses ", user);
           addresses = user.addresses;
           addresses = addresses || [];
           return res.status(200).send({ addresses });
