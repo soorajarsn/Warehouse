@@ -203,7 +203,7 @@ function BuyProduct(props) {
               </div>
             </main>
           </div>
-          {!props.addresses[0] && <AddAddressForm editDefaultValues={{}} className="add_form" />}
+          <AddAddressForm editDefaultValues={{}} className="add_form" />
           {toasterVisible && ReactDOM.createPortal(<Toaster error="Please Select Delivery Options!!!" />, document.getElementById("toaster-container"))}
         </Layout>
       )}
