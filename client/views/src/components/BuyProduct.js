@@ -8,7 +8,7 @@ import { logOut, getAddresses, deleteAddress } from "../redux";
 import { Redirect } from "react-router-dom";
 import AddAddressForm from "./Form_addAddress";
 
-function DropDown({ addressSelected, setAddressSelected, addresses, userLoggedIn, setRedirect, setToasterVisible}) {
+function DropDown({ addressSelected, setAddressSelected, addresses, userLoggedIn, setRedirect, setToasterVisible }) {
   function toggleOpen(event) {
     if (!userLoggedIn) {
       setRedirect(true);
@@ -27,29 +27,28 @@ function DropDown({ addressSelected, setAddressSelected, addresses, userLoggedIn
         <p>{addressSelected}</p>
       </div>
       <div className="items-container full-width">
-        {addresses.length > 0 ? (
-          addresses.map(address => (
-            <div className="full-width item" data-action onClick={e => setAddressSelected(e.currentTarget.innerText)}>
-              {address.zipCode}
-            </div>
-          ))
-        ) : (
-          <div className="full-width item" data-action onClick={e => showAddressPopover()}>
-            Add Address
+        {addresses.map(address => (
+          <div className="full-width item" data-action onClick={e => setAddressSelected(e.currentTarget.innerText)}>
+            {address.zipCode}
           </div>
-        )}
+        ))}
+        <div className="full-width item" data-action onClick={e => showAddressPopover()}>
+          Add Address
+        </div>
       </div>
       <i class="fas fa-caret-down"></i>
     </div>
   );
 }
 function Toaster({ error }) {
-  useEffect(()=>{
-    document.querySelector('.toaster .info').setAttribute('aria-hidden',false);//to show transition using css;
-  },[])
+  useEffect(() => {
+    document.querySelector(".toaster .info").setAttribute("aria-hidden", false); //to show transition using css;
+  }, []);
   return (
     <div className="toaster position-fixed">
-      <div className="xxxsmall-font info flex" aria-hidden={true}><span>{error}</span></div>
+      <div className="xxxsmall-font info flex" aria-hidden={true}>
+        <span>{error}</span>
+      </div>
     </div>
   );
 }
@@ -205,7 +204,7 @@ function BuyProduct(props) {
             </main>
           </div>
           {!props.addresses[0] && <AddAddressForm editDefaultValues={{}} className="add_form" />}
-          {toasterVisible &&  ReactDOM.createPortal(<Toaster error="Please Select Delivery Options!!!" />,document.getElementById('toaster-container'))}
+          {toasterVisible && ReactDOM.createPortal(<Toaster error="Please Select Delivery Options!!!" />, document.getElementById("toaster-container"))}
         </Layout>
       )}
     </>
