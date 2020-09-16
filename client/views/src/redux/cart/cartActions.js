@@ -11,7 +11,7 @@ const removeFromCartSuccess = (cartProducts) => ({type:REMOVE_FROM_CART_SUCCESS,
 const removeFromCartError = (error) => ({type:REMOVE_FROM_CART_ERROR,payload:error});
 
 
-const addToCart = (id,size) => {
+export const addToCart = (id,size) => {
     return (dispatch,getState) => {
         dispatch(addToCartRequest());
         const config = getConfig(getState);
