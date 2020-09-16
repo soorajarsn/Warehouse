@@ -63,7 +63,7 @@ function BuyProduct(props) {
   }, [props.getAddresses, props.userLoggedIn]);
   useEffect(() => {
     console.log("useEfffect run");
-    if (props.addresses[0]) setAddressSelected(props.addresses[0].zipCode);
+    if (props.addresses[0] && props.userLoggedIn) setAddressSelected(props.addresses[0].zipCode);
     else setAddressSelected("Select");
   }, [props.addresses, props.userLoggedIn]);
 
