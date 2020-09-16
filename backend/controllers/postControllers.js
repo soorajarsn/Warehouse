@@ -171,7 +171,7 @@ const addCart = async (req,res) => {
         await namespace.updateOne({_id:new ObjectID(decoded.id)},{$pull:{cart:{id}}});
         await namespace.updateOne({_id:new ObjectID(decoded.id)},{$push:{cart:{$each:[{id,size}],$position:0}}});
         const cart = (await database.findOne(namespace,{_id:new ObjectID(decoded.id)})).cart;
-        res.status(200).send({products:cart});
+        return res.status(200).send({products:cart});
     }else {
       return res.status(401).send({ errorMsg: "unauthenticated" });
     }
