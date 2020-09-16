@@ -33,7 +33,8 @@ export const removeFromCart = id => {
   return (dispatch, getState) => {
     dispatch(removeFromCartRequest());
     const config = getConfig(getState);
-    Axios.post("/post/removeCart", { id }, config)
+    config.data = {id};
+    Axios.delete("/post/removeCart", config)
       .then(response => {
         const data = response.data;
         dispatch(removeFromCartSuccess(data.products));
