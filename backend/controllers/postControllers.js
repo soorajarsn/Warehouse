@@ -160,6 +160,7 @@ const addCart = async (req, res) => {
   const token = req.header("x-auth-token");
   const { id, size } = req.body;
   if (!token) return res.status(401).send({ errorMsg: "unauthenticated" });
+  let decoded;
   try {
     const decoded = jwt.verify(token, config.get("jwtSecret"));
     const namespace = await database.getNamespace("users");
