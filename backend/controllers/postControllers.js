@@ -159,10 +159,33 @@ const address = async (req, res) => {
   }
 };
 
+const addCart = async (req,res) => {
+  const token = req.header('x-auth-token');
+  const {id,size} = req.body;
+  if(!token) return res.status(401).send({errorMsg:'unauthenticated'});
+  try {
+    const decoded = jwt.verify(token, config.get("jwtSecret"));
+    const namespace = await database.getNamespace("users");
+    let user = await database.findOne(namespace, { _id: new ObjectID(decoded.id) });
+    if (user) {
+        await namespace.updateOne({_id:new ObjectID(decoded.id)},{$pull:{cart:{id}}});
+        await namespace.updateOne({_id:new ObjectID(decoded.id)},{$push:{cart:{$each:[{id,size}],$position:0}}});
+        const cart = (await database.findOne(namespace,{_id:new ObjectID(decoded.id)})).cart;
+        res.status(200).send({products:cart});
+    }else {
+      return res.status(401).send({ errorMsg: "unauthenticated" });
+    }
+  } catch (e) {
+    console.log(e);
+    return res.status(500).send({ errorMsg: "Something went wrong" });
+  }
+}
+
 module.exports = {
   saveProduct,
   signup,
   login,
   recover,
   address,
+  addCart
 };
