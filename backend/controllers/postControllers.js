@@ -158,7 +158,7 @@ const address = async (req, res) => {
 
 const addCart = async (req, res) => {
   const token = req.header("x-auth-token");
-  const { id, size } = req.body;
+  const { id, size,address } = req.body;
   if (!token) return res.status(401).send({ errorMsg: "unauthenticated" });
   let decoded;
   try {
@@ -167,7 +167,7 @@ const addCart = async (req, res) => {
     let user = await database.findOne(namespace, { _id: new ObjectID(decoded.id) });
     if (user) {
       await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $pull: { cart: { id } } });
-      await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $push: { cart: { $each: [{ id, size }], $position: 0 } } });
+      await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $push: { cart: { $each: [{ id, size, zipCode:address }], $position: 0 } } });
       const cart = (await database.findOne(namespace, { _id: new ObjectID(decoded.id) })).cart;
       return res.status(200).send({ products: cart });
     } else {
