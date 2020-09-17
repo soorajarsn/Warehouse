@@ -2,13 +2,12 @@ import React from "react";
 import { MobileProductMenu, DesktopProductMenu } from "./ProductMenu";
 import { UserSvg, CartSvg, BarsSvg, TimesSvg } from "./svg/icons";
 import AuthenticationMenu from "./AuthenticationMenu";
-import Cart from "./Cart";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { logOut } from "../redux";
 function AccountMenu({ logOut }) {
-  function hideMenu(){
-    document.querySelector('#account-popover-logged-in').setAttribute('aria-hidden','true');
+  function hideMenu() {
+    document.querySelector("#account-popover-logged-in").setAttribute("aria-hidden", "true");
   }
   return (
     <div id="account-popover-logged-in" className="account-menu position-absolute" aria-hidden="true" onClick={hideMenu}>
@@ -55,15 +54,6 @@ function Nav(props) {
       }
     }
   }
-  function toggleCartPopUp() {
-    let cartPopOver = document.querySelector(".cart-popover-container");
-    let hidden = cartPopOver.getAttribute("aria-hidden");
-    let currentStatus = null;
-    hidden === "false" ? (currentStatus = "true") : (currentStatus = "false");
-    cartPopOver.setAttribute("aria-hidden", currentStatus);
-    document.querySelector(".cart-container .cart-icon-container").classList.toggle("hidden");
-    document.querySelector(".cart-container .cart-times-container").classList.toggle("hidden");
-  }
   return (
     <div className="position-relative">
       <div className="navbar-container flex xsmall-padding position-fixed">
@@ -99,7 +89,7 @@ function Nav(props) {
                   <Link to="/account/orders/" className="mobile-view">
                     <UserSvg className="small-margin-right " />
                   </Link>
-                  <UserSvg className="small-margin-left tablet-and-desktop-view"/>
+                  <UserSvg className="small-margin-left tablet-and-desktop-view" />
                   <div className="user hidden flex large-padding-right large-padding-left">
                     <div className="flex flex-column">
                       {props.userLoggedIn ? <span className="xxxsmall-font">{props.userName}</span> : <span className="xxxsmall-font">Login / Signup</span>}
@@ -110,19 +100,17 @@ function Nav(props) {
                 </div>
                 {!props.userLoggedIn ? <AuthenticationMenu /> : <AccountMenu logOut={props.logOut} />}
               </div>
-              <div className="cart-container flex">
-                <div className="link flex" onClick={toggleCartPopUp}>
-                  <div className="cart-icon-container position-relative">
-                    <CartSvg />
-                    <div className="no-of-items-container flex bold-font position-absolute">1</div>
+              <Link to="/cart">
+                <div className="cart-container flex">
+                  <div className="link flex">
+                    <div className="cart-icon-container position-relative">
+                      <CartSvg />
+                      <div className="no-of-items-container flex bold-font position-absolute">1</div>
+                    </div>
+                    <span className="cart small-padding-left xxsmall-font medium-bold-font hidden">Cart</span>
                   </div>
-                  <div className="cart-times-container small-margin-left hidden">
-                    <TimesSvg />
-                  </div>
-                  <span className="cart small-padding-left xxsmall-font medium-bold-font hidden">Cart</span>
                 </div>
-                <Cart />
-              </div>
+              </Link>
             </div>
           </div>
           <div className="search-bar-container xsmall-margin-top">
