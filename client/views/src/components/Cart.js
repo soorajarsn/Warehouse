@@ -1,6 +1,6 @@
 import React from "react";
 import { CartSvg2 } from "./svg/icons";
-function Cart() {
+function Cart(props) {
   return (
     <div className="cart-popover-container position-absolute flex" aria-hidden="true">
       <div className="cart-inner full-width large-margin-left large-margin-right">
