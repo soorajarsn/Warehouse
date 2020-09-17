@@ -4,7 +4,7 @@ import Layout from "./Layout";
 import Features from "./Features";
 import ShoppingCards from "./ShoppingCards";
 import { connect } from "react-redux";
-import { logOut, getAddresses, deleteAddress } from "../redux";
+import { logOut, getAddresses, deleteAddress,addToCart } from "../redux";
 import { Redirect } from "react-router-dom";
 import AddAddressForm from "./Form_addAddress";
 
@@ -92,6 +92,7 @@ function BuyProduct(props) {
         if (addressSelected === "Select") setToasterVisible(true);
         else {
           setToasterVisible(false);
+
         }
       } else {
         setRedirect(true);
@@ -105,6 +106,8 @@ function BuyProduct(props) {
         if (addressSelected === "Select") setToasterVisible(true);
         else {
           setToasterVisible(false);
+          addToCart(productId,size,addressSelected);
+          props.history.push('/cart');
         }
       } else {
         setRedirect(true);
@@ -220,6 +223,7 @@ const mapDispatchToProps = dispatch => {
     logOut: () => dispatch(logOut()),
     getAddresses: () => dispatch(getAddresses()),
     deleteAddress: body => dispatch(deleteAddress(body)),
+    addToCart: (id,size,address) => dispatch(addToCart(id,size,address))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(BuyProduct);
