@@ -159,6 +159,7 @@ const address = async (req, res) => {
 const addCart = async (req, res) => {
   const token = req.header("x-auth-token");
   const { id, size,address } = req.body;
+  if(!id || !size || !address) return res.status(401).send({errorMsg:'id, size, address required'});
   if (!token) return res.status(401).send({ errorMsg: "unauthenticated" });
   let decoded;
   try {
