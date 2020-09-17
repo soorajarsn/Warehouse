@@ -5,7 +5,9 @@
       flex-direction: column-reverse; } }
   @media (min-width: 1000px) {
     .cart-container-main .cart-checkout-container {
-      align-items: flex-start;
+      align-items: flex-start; } }
+  @media (min-width: 1600px) {
+    .cart-container-main .cart-checkout-container {
       margin-right: 0;
       margin-left: 0; } }
   .cart-container-main .cart-checkout-container .cart-container {

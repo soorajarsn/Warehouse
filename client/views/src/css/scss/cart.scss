@@ -21,10 +21,11 @@ $red: rgb(238, 0, 0);
 
         @media(min-width:1000px) {
             align-items: flex-start;
+        }
+        @media (min-width:1600px){
             margin-right: 0;
             margin-left: 0;
         }
-
         .cart-container {
             flex-grow: 1;
             width: 100%;
