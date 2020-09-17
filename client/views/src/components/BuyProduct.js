@@ -93,8 +93,8 @@ function BuyProduct(props) {
         else {
           setToasterVisible(false);
           console.log('add to cart dispatching');
-          addToCart(productId,size,addressSelected);
-          props.history.push('/cart');
+          props.addToCart({id:productId,size,address:addressSelected});
+          // props.history.push('/cart');
         }
       } else {
         setRedirect(true);
@@ -223,7 +223,7 @@ const mapDispatchToProps = dispatch => {
     logOut: () => dispatch(logOut()),
     getAddresses: () => dispatch(getAddresses()),
     deleteAddress: body => dispatch(deleteAddress(body)),
-    addToCart: (id,size,address) => dispatch(addToCart(id,size,address))
+    addToCart: body => dispatch(addToCart(body))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(BuyProduct);
