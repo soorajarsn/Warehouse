@@ -92,7 +92,9 @@ function BuyProduct(props) {
         if (addressSelected === "Select") setToasterVisible(true);
         else {
           setToasterVisible(false);
-
+          console.log('add to cart dispatching');
+          addToCart(productId,size,addressSelected);
+          props.history.push('/cart');
         }
       } else {
         setRedirect(true);
@@ -106,8 +108,6 @@ function BuyProduct(props) {
         if (addressSelected === "Select") setToasterVisible(true);
         else {
           setToasterVisible(false);
-          addToCart(productId,size,addressSelected);
-          props.history.push('/cart');
         }
       } else {
         setRedirect(true);
