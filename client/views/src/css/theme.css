@@ -667,7 +667,7 @@ input:-internal-autofill-selected {
     transition: transform 200ms ease-in-out;
     visibility: hidden; }
     .toaster .info.warning {
-      background: goldenrod; }
+      background: #e4ad24; }
     .toaster .info.success {
       background: #008a00;
       cursor: grab; }
