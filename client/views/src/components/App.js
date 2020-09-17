@@ -9,6 +9,7 @@ import Recover from "./Recover";
 import Register from "./Register";
 import Index from "./Index";
 import BuyProduct from "./BuyProduct";
+import Cart from './Cart';
 import "../css/buyProduct.css";
 import "../css/reset.css";
 import "../css/theme.css";
@@ -32,6 +33,7 @@ function App(props) {
         <Route path="/register" render={props => <Register {...props} />} />
         <Route path="/account/:pageName" render={props => <Account {...props} />} />
         <Route path="/buyProduct/:productId" render={props => <BuyProduct {...props} />} />
+        <Route path="/cart" render={props => <Cart {...props} />} />
       </Switch>
     </Router>
   );
