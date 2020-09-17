@@ -10,11 +10,12 @@ const removeFromCartRequest = () => ({ type: REMOVE_FROM_CART_REQUEST });
 const removeFromCartSuccess = cartProducts => ({ type: REMOVE_FROM_CART_SUCCESS, payload: cartProducts });
 const removeFromCartError = error => ({ type: REMOVE_FROM_CART_ERROR, payload: error });
 
-export const addToCart = (id, size,address) => {
+export const addToCart = (body) => {
   return (dispatch, getState) => {
+    console.log('addToCart called');
     dispatch(addToCartRequest());
     const config = getConfig(getState);
-    Axios.post("/post/addCart", { id, size, address }, config)
+    Axios.post("/post/addCart", body, config)
       .then(response => {
         const data = response.data;
         dispatch(addToCartSuccess(data.products));
