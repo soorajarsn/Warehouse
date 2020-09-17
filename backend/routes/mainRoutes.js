@@ -17,6 +17,7 @@ router.route('/post/createAddress').post(postControllers.address);
 router.route('/post/addCart').post(postControllers.addCart);
 //deleteControllers
 router.route('/api/address').delete(deleteControllers.address);
+router.route('/post/removeCart').delete(deleteControllers.removeCart);
 //putControllers
 router.route('/api/address').put(putControllers.address);
 module.exports = router;
