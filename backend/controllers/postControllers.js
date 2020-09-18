@@ -158,19 +158,30 @@ const address = async (req, res) => {
 
 const addCart = async (req, res) => {
   const token = req.header("x-auth-token");
-  const { id, size,address } = req.body;
-  if(!id || !size || !address) return res.status(401).send({errorMsg:'id, size, address required'});
+  const { id, size, address } = req.body;
+  if (!id || !size || !address) return res.status(401).send({ errorMsg: "id, size, address required" });
   if (!token) return res.status(401).send({ errorMsg: "unauthenticated" });
   let decoded;
   try {
     const decoded = jwt.verify(token, config.get("jwtSecret"));
     const namespace = await database.getNamespace("users");
+    const productNamespace = await database.getNamespace("products");
     let user = await database.findOne(namespace, { _id: new ObjectID(decoded.id) });
     if (user) {
-      await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $pull: { cart: { id } } });
-      await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $push: { cart: { $each: [{ id, size, zipCode:address }], $position: 0 } } });
-      const cart = (await database.findOne(namespace, { _id: new ObjectID(decoded.id) })).cart;
-      return res.status(200).send({ products: cart });
+      const products = await database.findOne(productNamespace, { _id: new ObjectID(id) });
+      if (products) {
+        const address = await database.findOne(namespace, { _id: new ObjectID(decoded.id), "addresses.zipCode": address });
+        if (address) {
+          await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $pull: { cart: { id } } });
+          await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $push: { cart: { $each: [{ id, size, zipCode: address }], $position: 0 } } });
+          const cart = (await database.findOne(namespace, { _id: new ObjectID(decoded.id) })).cart;
+          return res.status(200).send({ products: cart });
+        } else {
+          return res.status(401).send({ errorMsg: "Address Unavailable" });
+        }
+      } else {
+        return res.status(401).send({ errorMsg: "Product Unavailable" });
+      }
     } else {
       return res.status(401).send({ errorMsg: "unauthenticated" });
     }
