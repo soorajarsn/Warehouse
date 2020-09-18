@@ -13,8 +13,6 @@ $red: rgb(238, 0, 0);
 .cart-container-main {
     .cart-checkout-container {
 
-        min-height: calc(100vh - 24.75rem);
-
         @media (max-width:999px) {
             flex-direction: column-reverse;
         }
@@ -175,7 +173,11 @@ $red: rgb(238, 0, 0);
             }
         }
     }
-
+    .cards-container{
+        @media (min-width:1600px){
+            margin-left:0;margin-right:0;
+        }
+    }
     // .cart-container {
     //     width: 100vw;
     //     height:calc(100vh - #{3.5rem});
