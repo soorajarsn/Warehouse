@@ -23,7 +23,6 @@
     .cart-container-main .cart-checkout-container .cart-container .cart-inner.empty-cart-indicator {
       height: calc(100% - 4rem);
       padding: 2rem 0;
-      display: none;
       max-width: 30rem; }
       @media (min-width: 700px) {
         .cart-container-main .cart-checkout-container .cart-container .cart-inner.empty-cart-indicator {

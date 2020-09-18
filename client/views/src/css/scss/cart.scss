@@ -41,7 +41,6 @@ $red: rgb(238, 0, 0);
             .cart-inner.empty-cart-indicator {
                 height: calc(100% - 4rem);
                 padding: 2rem 0;
-                display:none;
                 max-width: 30rem;
 
                 @media (min-width:700px) {
