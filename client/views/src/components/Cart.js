@@ -24,10 +24,17 @@ function Options({ maxQty, qty, handleQtyChange }) {
 }
 function Cart(props) {
   const { products, error, loading, fetchCart, removeFromCart, userLoggedIn } = props;
-  console.log(props);
+
   useEffect(() => {
     fetchCart();
   }, []);
+
+  //scroll to top when get rendered
+  useEffect(()=>{
+    window.scrollTo(0,0)
+  },[]);
+
+
   function handleRemove(event) {
     removeFromCart(event.currentTarget.getAttribute("data-action"));
   }
@@ -58,48 +65,50 @@ function Cart(props) {
                       </div>
                     </div>
                   ) : (
-                    <div className="cart-inner cart-not-empty full-width">
-                      {products.map(product => (
-                        <div key={product.title} className="product-card grid medium-margin-left medium-margin-right small-margin">
-                          <div className="img-container">
-                            <img src={product.img} alt="" />
-                          </div>
-                          <div className="content-and-button-container flex flex-column">
-                            <ul className="xxxsmall-font content flex flex-column">
-                              <li className="name xsmall-margin">{product.title}</li>
-                              <li className="size">
-                                <label>Size: </label> <span className="color-red">{product.size}</span>
-                              </li>
-                              <li className="price xsmall-margin-top">
-                                <label>Price: </label>
-                                <span className="color-red">Rs. {product.price}</span>
-                              </li>
-                            </ul>
-                            <div className="quantity-container xsmall-margin">
-                              <label className="xxxsmall-font color-primary">Quantity: </label>
-                              <Options maxQty={product.maxQty} qty={product.qty} handleQtyChange={handleQtyChange} />
+                    <>
+                      <div className="cart-inner cart-not-empty full-width">
+                        {products.map(product => (
+                          <div key={product.title} className="product-card grid medium-margin-left medium-margin-right small-margin">
+                            <div className="img-container">
+                              <img src={product.img} alt="" />
                             </div>
-                            <div className="button-container medium-margin-right xsmall-margin-top">
-                              <button className="button-primary xsmall-padding xsmall-padding-left xsmall-padding-right" data-action={product.id} onClick={handleRemove}>
-                                Remove
-                              </button>
+                            <div className="content-and-button-container flex flex-column">
+                              <ul className="xxxsmall-font content flex flex-column">
+                                <li className="name xsmall-margin">{product.title}</li>
+                                <li className="size">
+                                  <label>Size: </label> <span className="color-red">{product.size}</span>
+                                </li>
+                                <li className="price xsmall-margin-top">
+                                  <label>Price: </label>
+                                  <span className="color-red">Rs. {product.price}</span>
+                                </li>
+                              </ul>
+                              <div className="quantity-container xsmall-margin">
+                                <label className="xxxsmall-font color-primary">Quantity: </label>
+                                <Options maxQty={product.maxQty} qty={product.qty} handleQtyChange={handleQtyChange} />
+                              </div>
+                              <div className="button-container medium-margin-right xsmall-margin-top">
+                                <button className="button-primary xsmall-padding xsmall-padding-left xsmall-padding-right" data-action={product.id} onClick={handleRemove}>
+                                  Remove
+                                </button>
+                              </div>
                             </div>
                           </div>
+                        ))}
+                      </div>
+                      <div className="checkout-container flex flex-column justify-space-between medium-padding full-width large-margin-top">
+                        <div className="medium-margin-left flex flex-column content">
+                          <div className="cart-subtotal xxsmall-font color-primary">
+                            Cart Subtotal: <span className="color-red">Rs. 500</span>
+                          </div>
+                          <div className="color-green xxxsmall-font small-margin-top">Eligible for Free Delivery</div>
                         </div>
-                      ))}
-                    </div>
+                        <div className="medium-margin-right button-container">
+                          <button className="button-primary full-width xxsmall-font no-padding xsmall-padding">Ready to Checkout</button>
+                        </div>
+                      </div>
+                    </>
                   )}
-                </div>
-                <div className="checkout-container flex flex-column justify-space-between medium-padding full-width large-margin-top">
-                  <div className="medium-margin-left flex flex-column content">
-                    <div className="cart-subtotal xxsmall-font color-primary">
-                      Cart Subtotal: <span className="color-red">Rs. 500</span>
-                    </div>
-                    <div className="color-green xxxsmall-font small-margin-top">Eligible for Free Delivery</div>
-                  </div>
-                  <div className="medium-margin-right button-container">
-                    <button className="button-primary full-width xxsmall-font no-padding xsmall-padding">Ready to Checkout</button>
-                  </div>
                 </div>
               </div>
               <div className="medium-margin-left medium-margin-right">
