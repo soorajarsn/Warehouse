@@ -163,15 +163,15 @@ const addCart = async (req, res) => {
   if (!token) return res.status(401).send({ errorMsg: "unauthenticated" });
   let decoded;
   try {
-    const decoded = jwt.verify(token, config.get("jwtSecret"));
+    decoded = jwt.verify(token, config.get("jwtSecret"));
     const namespace = await database.getNamespace("users");
     const productNamespace = await database.getNamespace("products");
     let user = await database.findOne(namespace, { _id: new ObjectID(decoded.id) });
     if (user) {
       const product = await database.findOne(productNamespace, { _id: new ObjectID(id) });
       if (product) {
-        const address = await database.findOne(namespace, { _id: new ObjectID(decoded.id), "addresses.zipCode": address });
-        if (address) {
+        const addrs = await database.findOne(namespace, { _id: new ObjectID(decoded.id), "addresses.zipCode": address });
+        if (addrs) {
           await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $pull: { cart: { id } } });
           await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $push: { cart: { $each: [{ id, size, zipCode: address, qty:qty||1 }], $position: 0 } } });
           let cart = (await database.findOne(namespace, { _id: new ObjectID(decoded.id) })).cart;
