@@ -13,6 +13,22 @@ import Loader from "./Loader";
 //   { img: "/assets/2d744bcc-ebc8-46f4-a3c2-dc60a5da14291538643882929-Veni-Vidi-Vici-Women-Tops-7901538643882756-1.jpg", title: "Vini Vidi Vici", size: "S", price: 100 },
 //   { img: "/assets/2d744bcc-ebc8-46f4-a3c2-dc60a5da14291538643882929-Veni-Vidi-Vici-Women-Tops-7901538643882756-1.jpg", title: "Vini Vidi Vici", size: "S", price: 100 },
 // ];
+function Options({maxQty,qty,handleQtyChange}){
+  let options = [];
+  for(var i = 1; i < maxQty && i <=20; i++)
+    options.push(<option value={i}>{i}</option>);
+  for(var i = 25; i <= 50 && i < maxQty; i+=5)
+    options.push(<option value={i}>{i}</option>);
+  for(var i = 60; i <= 100 && i < maxQty; i+=10)
+    options.push(<option value={i}>{i}</option>);
+  if(options.length == 0)
+    options.push(<option vlaue="">Currently Not Available</option>)
+  return (<>
+    <select value={qty} onChange={handleQtyChange}>
+      {options.map(opt => ({opt}))}
+    </select>
+  </>)
+}
 function Cart(props) {
   const { products, error, loading, fetchCart, removeFromCart } = props;
   console.log(props);
@@ -21,6 +37,9 @@ function Cart(props) {
   }, []);
   function handleRemove(event) {
     removeFromCart(event.currentTarget.getAttribute("data-action"));
+  }
+  function handleQtyChange(){
+
   }
   return (
     <Layout>
@@ -63,14 +82,7 @@ function Cart(props) {
                         </ul>
                         <div className="quantity-container xsmall-margin">
                           <label className="xxxsmall-font color-primary">Quantity: </label>
-                          <select value="2">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                          </select>
+                          <Options maxQty={product.maxQty} qty={product.qty} handleQtyChange={handleQtyChange} />
                         </div>
                         <div className="button-container medium-margin-right xsmall-margin-top">
                           <button className="button-primary xsmall-padding xsmall-padding-left xsmall-padding-right" data-action={product.id} onClick={handleRemove}>
