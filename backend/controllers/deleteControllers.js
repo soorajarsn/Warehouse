@@ -40,8 +40,8 @@ const removeCart = async (req, res) => {
   if (user) {
     await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $pull: { cart: { id } } });
     const cart = (await database.findOne(namespace, { _id: new ObjectID(decoded.id) })).cart;
-    const cartProducts = [];
     if (cart.length != 0) {
+      const cartProducts = [];
       cart.forEach(c => {
         cartProducts.push({ _id: new ObjectID(c.id) });
       });
