@@ -74,7 +74,7 @@ const cart = async (req, res) => {
   const cart = (await database.findOne(userNamespace, { _id: new ObjectID(decoded.id) })).cart;
   const cartProducts = [];
   cart.forEach(c => {
-    cartProducts.push({ _id: c.id });
+    cartProducts.push({ _id: new ObjectID(c.id) });
   });
   console.log(cartProducts);
   let products = await database.findMany(productNamespace, { $or: cartProducts });
