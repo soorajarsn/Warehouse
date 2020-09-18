@@ -60,7 +60,7 @@ function BuyProduct(props) {
   const [toasterVisible, setToasterVisible] = useState(false);
   
   useEffect(()=>{
-    window.scrollTo();
+    window.scrollTo(0,0);
   },[]);
   useEffect(() => {
     props.getAddresses();
