@@ -8,7 +8,7 @@ const router = require('express').Router();
 router.route('/api/getProducts').get(getControllers.getProducts);
 router.route('/api/loadUser').get(getControllers.user);
 router.route('/api/addresses').get(getControllers.addresses);
-router.route('/api/cart').get(getControllers.getProducts);
+router.route('/api/cart').get(getControllers.cart);
 //postControllers
 router.route('/post/saveProduct').post(postControllers.saveProduct);
 router.route('/post/signup').post(postControllers.signup);
