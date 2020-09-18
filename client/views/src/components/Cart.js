@@ -8,11 +8,6 @@ import ShoppingCards from "./ShoppingCards";
 import { connect } from "react-redux";
 import { removeFromCart, fetchCart } from "../redux";
 import Loader from "./Loader";
-// let products = [
-//   { img: "/assets/2d744bcc-ebc8-46f4-a3c2-dc60a5da14291538643882929-Veni-Vidi-Vici-Women-Tops-7901538643882756-1.jpg", title: "Vini Vidi Vici", size: "S", price: 100 },
-//   { img: "/assets/2d744bcc-ebc8-46f4-a3c2-dc60a5da14291538643882929-Veni-Vidi-Vici-Women-Tops-7901538643882756-1.jpg", title: "Vini Vidi Vici", size: "S", price: 100 },
-//   { img: "/assets/2d744bcc-ebc8-46f4-a3c2-dc60a5da14291538643882929-Veni-Vidi-Vici-Women-Tops-7901538643882756-1.jpg", title: "Vini Vidi Vici", size: "S", price: 100 },
-// ];
 function Options({maxQty,qty,handleQtyChange}){
   let options = [];
   for(var i = 1; i < maxQty && i <=20; i++)
