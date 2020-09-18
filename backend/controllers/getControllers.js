@@ -70,32 +70,34 @@ const cart = async (req, res) => {
     return res.status(401).send({ errorMsg: "Unauthenticated" });
   }
   const userNamespace = await database.getNamespace("users");
-  const productNamespace = await database.getNamespace("products");
   const cart = (await database.findOne(userNamespace, { _id: new ObjectID(decoded.id) })).cart;
-  const cartProducts = [];
-  cart.forEach(c => {
-    cartProducts.push({ _id: new ObjectID(c.id) });
-  });
-  let products = await database.findMany(productNamespace, { $or: cartProducts });
-  products.forEach(prdct => {
-    for (var i = 0; i < cart.length; i++){
-      if (prdct._id == cart[i].id) {
-        cart[i].img = prdct.imageAddresses[0];
-        cart[i].title = prdct.name;
-        cart[i].price = prdct.price;
-        let stocks = 0;
-        prdct.sizeWiseStocks.forEach(sizeStocks => {
-          if (sizeStocks.size === cart[i].size) stocks = sizeStocks.stocks;
-        });
-        cart[i].stocks = stocks;
+  if (cart.length > 0) {
+    const cartProducts = [];
+    cart.forEach(c => {
+      cartProducts.push({ _id: new ObjectID(c.id) });
+    });
+    const productNamespace = await database.getNamespace("products");
+    let products = await database.findMany(productNamespace, { $or: cartProducts });
+    products.forEach(prdct => {
+      for (var i = 0; i < cart.length; i++) {
+        if (prdct._id == cart[i].id) {
+          cart[i].img = prdct.imageAddresses[0];
+          cart[i].title = prdct.name;
+          cart[i].price = prdct.price;
+          let stocks = 0;
+          prdct.sizeWiseStocks.forEach(sizeStocks => {
+            if (sizeStocks.size === cart[i].size) stocks = sizeStocks.stocks;
+          });
+          cart[i].stocks = stocks;
+        }
       }
-    }
-  });
-  return res.status(200).send({products:cart});
+    });
+  }
+  return res.status(200).send({ products: cart });
 };
 module.exports = {
   getProducts,
   user,
   addresses,
-  cart
+  cart,
 };
