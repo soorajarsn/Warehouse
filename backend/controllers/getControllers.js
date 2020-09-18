@@ -76,9 +76,7 @@ const cart = async (req, res) => {
   cart.forEach(c => {
     cartProducts.push({ _id: new ObjectID(c.id) });
   });
-  console.log(cartProducts);
   let products = await database.findMany(productNamespace, { $or: cartProducts });
-  console.log(products);
   products.forEach(prdct => {
     for (var i = 0; i < cart.length; i++){
       if (prdct._id == cart[i].id) {
@@ -93,7 +91,6 @@ const cart = async (req, res) => {
       }
     }
   });
-  console.log(cart);
   return res.status(200).send({products:cart});
 };
 module.exports = {
