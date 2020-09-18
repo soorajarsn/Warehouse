@@ -94,7 +94,7 @@ function BuyProduct(props) {
           setToasterVisible(false);
           console.log('add to cart dispatching');
           props.addToCart({id:productId,size,address:addressSelected});
-          // props.history.push('/cart');
+          props.history.push('/cart');
         }
       } else {
         setRedirect(true);
