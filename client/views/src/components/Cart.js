@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { CartSvg2 } from "./svg/icons";
 import Layout from "./Layout";
 import Features from "./Features";
@@ -24,16 +24,23 @@ function Options({ maxQty, qty, handleQtyChange }) {
 }
 function Cart(props) {
   const { products, error, loading, fetchCart, removeFromCart, userLoggedIn } = props;
-
+  let [price, setPrice] = useState(0);
   useEffect(() => {
     fetchCart();
   }, []);
 
   //scroll to top when get rendered
-  useEffect(()=>{
-    window.scrollTo(0,0)
-  },[]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
+  //cart subtotal
+  useEffect(() => {
+    setPrice(0); //set to 0 when products changes, and then calculate;
+    products.forEach(product => {
+      setPrice(price => price + product.qty * product.price);
+    });
+  }, [products]);
 
   function handleRemove(event) {
     removeFromCart(event.currentTarget.getAttribute("data-action"));
@@ -99,9 +106,13 @@ function Cart(props) {
                       <div className="checkout-container flex flex-column justify-space-between medium-padding full-width large-margin-top">
                         <div className="medium-margin-left flex flex-column content">
                           <div className="cart-subtotal xxsmall-font color-primary">
-                            Cart Subtotal: <span className="color-red">Rs. 500</span>
+                            Cart Subtotal: <span className="color-red">Rs. {price}</span>
                           </div>
-                          <div className="color-green xxxsmall-font small-margin-top">Eligible for Free Delivery</div>
+                          {price >= 500 ? (
+                            <div className="color-green xxxsmall-font small-margin-top">Eligible for Free Delivery</div>
+                          ) : (
+                            <div className="color-red xxxsmall-font small-margin-top">Shop for Rs. {500 - price} more to to Eligible for Free delivery</div>
+                          )}
                         </div>
                         <div className="medium-margin-right button-container">
                           <button className="button-primary full-width xxsmall-font no-padding xsmall-padding">Ready to Checkout</button>
