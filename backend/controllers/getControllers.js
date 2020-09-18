@@ -88,7 +88,7 @@ const cart = async (req, res) => {
           prdct.sizeWiseStocks.forEach(sizeStocks => {
             if (sizeStocks.size === cart[i].size) stocks = sizeStocks.stocks;
           });
-          cart[i].stocks = stocks;
+          cart[i].maxQty = stocks;
         }
       }
     });

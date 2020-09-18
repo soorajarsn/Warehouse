@@ -53,11 +53,11 @@ const removeCart = async (req, res) => {
             cart[i].img = prdct.imageAddresses[0];
             cart[i].title = prdct.name;
             cart[i].price = prdct.price;
-            let stocks = 0;
+            let maxQty = 0;
             prdct.sizeWiseStocks.forEach(sizeStocks => {
-              if (sizeStocks.size === cart[i].size) stocks = sizeStocks.stocks;
+              if (sizeStocks.size === cart[i].size) maxQty = sizeStocks.stocks;
             });
-            cart[i].stocks = stocks;
+            cart[i].maxQty = maxQty;
           }
       });
     }

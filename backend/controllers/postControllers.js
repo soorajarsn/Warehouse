@@ -191,7 +191,7 @@ const addCart = async (req, res) => {
                   if(sizeStocks.size === cart[i].size)
                     stocks = sizeStocks.stocks;
                 })
-                cart[i].stocks = stocks;
+                cart[i].maxQty = stocks;
               }
           });
           return res.status(200).send({ products: cart });
