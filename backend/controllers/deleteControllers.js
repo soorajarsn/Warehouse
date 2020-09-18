@@ -40,25 +40,27 @@ const removeCart = async (req, res) => {
   if (user) {
     await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $pull: { cart: { id } } });
     const cart = (await database.findOne(namespace, { _id: new ObjectID(decoded.id) })).cart;
-    const productNamespace = await database.getNamespace('products');
     const cartProducts = [];
-    cart.forEach(c => {
-      cartProducts.push({ _id: c.id });
-    });
-    let products = await database.findMany(productNamespace, { $or: cartProducts });
-    products.forEach(prdct => {
-      for (var i = 0; i < cart.length; i++)
-        if (prdct._id === cart[i].id) {
-          cart[i].img = prdct.imageAddresses[0];
-          cart[i].title = prdct.name;
-          cart[i].price = prdct.price;
-          let stocks = 0;
-          prdct.sizeWiseStocks.forEach(sizeStocks => {
-            if (sizeStocks.size === cart[i].size) stocks = sizeStocks.stocks;
-          });
-          cart[i].stocks = stocks;
-        }
-    });
+    if (cart.length != 0) {
+      cart.forEach(c => {
+        cartProducts.push({ _id: new ObjectID(c.id) });
+      });
+      const productNamespace = await database.getNamespace("products");
+      let products = await database.findMany(productNamespace, { $or: cartProducts });
+      products.forEach(prdct => {
+        for (var i = 0; i < cart.length; i++)
+          if (prdct._id == cart[i].id) {
+            cart[i].img = prdct.imageAddresses[0];
+            cart[i].title = prdct.name;
+            cart[i].price = prdct.price;
+            let stocks = 0;
+            prdct.sizeWiseStocks.forEach(sizeStocks => {
+              if (sizeStocks.size === cart[i].size) stocks = sizeStocks.stocks;
+            });
+            cart[i].stocks = stocks;
+          }
+      });
+    }
     return res.status(200).send({ products: cart });
   } else {
     return res.status(401).send({ errorMsg: "unauthenticated" });
