@@ -17,9 +17,7 @@ function Options({ maxQty, qty, handleQtyChange }) {
   return (
     <>
       <select value={qty} onChange={handleQtyChange}>
-        {options.map(opt => (
-          <opt />
-        ))}
+        {options}
       </select>
     </>
   );
