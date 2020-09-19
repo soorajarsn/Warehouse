@@ -80,20 +80,22 @@ function Cart(props) {
                           <div className="img-container">
                             <img src={product.img} alt="" />
                           </div>
-                          <div className="content-and-button-container flex flex-column">
-                            <ul className="xxxsmall-font content flex flex-column">
-                              <li className="name xsmall-margin">{product.title}</li>
-                              <li className="size">
-                                <label>Size: </label> <span className="color-red">{product.size}</span>
-                              </li>
-                              <li className="price xsmall-margin-top">
-                                <label>Price: </label>
-                                <span className="color-red">Rs. {product.price}</span>
-                              </li>
-                            </ul>
-                            <div className="quantity-container xsmall-margin">
-                              <label className="xxxsmall-font color-primary">Quantity: </label>
-                              <Options maxQty={product.maxQty} qty={product.qty} handleQtyChange={handleQtyChange} />
+                          <div className="content-qty-button-container flex flex-column">
+                            <div className="content-qty-container">
+                              <ul className="xxxsmall-font content flex flex-column">
+                                <li className="name xsmall-margin">{product.title}</li>
+                                <li className="size">
+                                  <label>Size: </label> <span className="color-red">{product.size}</span>
+                                </li>
+                                <li className="price xsmall-margin-top">
+                                  <label>Price: </label>
+                                  <span className="color-red">Rs. {product.price}</span>
+                                </li>
+                              </ul>
+                              <div className="quantity-container xsmall-margin">
+                                <label className="xxxsmall-font color-primary">Quantity: </label>
+                                <Options maxQty={product.maxQty} qty={product.qty} handleQtyChange={handleQtyChange} />
+                              </div>
                             </div>
                             <div className="button-container medium-margin-right xsmall-margin-top">
                               <button className="button-primary xsmall-padding xsmall-padding-left xsmall-padding-right" data-action={product.id} onClick={handleRemove}>
