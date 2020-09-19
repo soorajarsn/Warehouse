@@ -87,7 +87,7 @@ function BuyProduct(props) {
       var selectedSize = document.querySelector("div.available-sizes .selected");
       if (selectedSize) selectedSize.classList.remove("selected");
       current.classList.add("selected");
-      setSize(current.innerText);
+      setSize(current.getAttribute('data-label'));
       if (!selectedSize) {
         //means the size was selected for the first time only
         document.querySelectorAll("button.tooltip").forEach(button => {
@@ -196,6 +196,7 @@ function BuyProduct(props) {
                         product.sizeWiseStocks.map(size => (
                           <div
                             key={size}
+                            data-label={size.size}
                             className={"small-margin-left small-margin-right flex " + (size.stocks == 0 ? "fade" : "")}
                             data-action={!!size.stocks}
                             onClick={selectSize}>
