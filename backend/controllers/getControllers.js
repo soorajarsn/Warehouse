@@ -95,9 +95,18 @@ const cart = async (req, res) => {
   }
   return res.status(200).send({ products: cart });
 };
+const product = async (req,res) => {
+  const {id} = req.params;
+  if(!id) return res.status(400).send({errorMsg:'Id Required'});
+  const namespace = await database.getNamespace('products');
+  const prdct = await database.findOne(namespace,{_id:new ObjectID(id)});
+  if(!prdct) return res.status(400).send({errorMsg:'Invalid Product Id'});
+  return res.send(200).send({product:prdct});
+}
 module.exports = {
   getProducts,
   user,
   addresses,
   cart,
+  product
 };
