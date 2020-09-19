@@ -126,4 +126,5 @@ const updateCart = async (req, res) => {
 };
 module.exports = {
   address,
+  updateCart
 };
