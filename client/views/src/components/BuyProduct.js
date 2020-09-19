@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { logOut, getAddresses, deleteAddress,addToCart } from "../redux";
 import { Redirect } from "react-router-dom";
 import AddAddressForm from "./Form_addAddress";
+import Axios from "axios";
 
 function DropDown({ addressSelected, setAddressSelected, addresses, userLoggedIn, setRedirect, setToasterVisible }) {
   function toggleOpen(event) {
@@ -54,17 +55,29 @@ function Toaster({ error }) {
 }
 function BuyProduct(props) {
   const { productId } = props.match.params;
+  const [product,setProduct] = useState({});
   const [addressSelected, setAddressSelected] = useState("Select");
   const [redirect, setRedirect] = useState(false);
   const [size, setSize] = useState("");
   const [toasterVisible, setToasterVisible] = useState(false);
-  
+  useEffect(()=>{
+    Axios.get('/api/product'+productId)
+    .then(response=>{
+      setProduct(response.data.product);
+      console.log(product);
+    })
+    .catch(err=>{
+      
+    });
+  })
   useEffect(()=>{
     window.scrollTo(0,0);
   },[]);
+
   useEffect(() => {
     props.getAddresses();
   }, [props.getAddresses, props.userLoggedIn]);
+
   useEffect(() => {
     console.log("useEfffect run");
     if (props.addresses[0] && props.userLoggedIn) setAddressSelected(props.addresses[0].zipCode);
