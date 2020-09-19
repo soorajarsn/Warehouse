@@ -30,7 +30,8 @@ main.buy-product-main {
                 .img-container {
                     width: 100%;
                     cursor: pointer;
-
+                    background:#eaeaec -webkit-gradient(linear,left top,right top,color-stop(0,#eaeaec),color-stop(35%,#e6e4e4),color-stop(70%,#eaeaec),to(#eaeaec)) no-repeat;
+                    animation: mini-image-loading-skeleton 2s cubic-bezier(.25,.46,.45,.94) infinite forwards;
                     @media(min-width:1000px) {
                         height: 26vw*1.5;
                     }
@@ -64,6 +65,20 @@ main.buy-product-main {
             }
 
             .content {
+                .loading{
+                    background:#eaeaec -webkit-gradient(linear,left top,right top,color-stop(0,#eaeaec),color-stop(35%,#e6e4e4),color-stop(70%,#eaeaec),to(#eaeaec)) no-repeat;
+                    animation: mini-image-loading-skeleton 2s cubic-bezier(.25,.46,.45,.94) infinite forwards;
+                }
+                .loading-content{
+                    width:8rem;
+                    max-width:100%;
+                    height:1.3rem;
+                }
+                .loading-size{
+                    width:13rem;
+                    max-width:100%;
+                    height:1.6rem;                    
+                }
                 .available-sizes {
                     justify-content: flex-start;
 
