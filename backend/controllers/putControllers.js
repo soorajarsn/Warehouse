@@ -70,7 +70,60 @@ const address = async (req, res) => {
     return res.status(500).send({ errorMsg: "Something went wrong" });
   }
 };
-
+const updateCart = async (req, res) => {
+  const token = req.header("x-auth-token");
+  const { id, size, address,qty } = req.body;
+  if (!id || !size || !address) return res.status(401).send({ errorMsg: "id, size, address required" });
+  if (!token) return res.status(401).send({ errorMsg: "unauthenticated" });
+  let decoded;
+  try {
+    decoded = jwt.verify(token, config.get("jwtSecret"));
+    const namespace = await database.getNamespace("users");
+    const productNamespace = await database.getNamespace("products");
+    let user = await database.findOne(namespace, { _id: new ObjectID(decoded.id) });
+    if (user) {
+      const product = await database.findOne(productNamespace, { _id: new ObjectID(id) });
+      if (product) {
+        const addrs = await database.findOne(namespace, { _id: new ObjectID(decoded.id), "addresses.zipCode": address });
+        if (addrs) {
+          // await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $pull: { cart: { id } } });
+          await namespace.updateOne({ _id: new ObjectID(decoded.id),"cart.productId":id }, {"cart.$.productId":id,"cart.$.size":size,"cart.$.qty":qty||1,"cart.$.zipCode":address});
+          let cart = (await database.findOne(namespace, { _id: new ObjectID(decoded.id) })).cart;
+          const cartProducts = [];
+          cart.forEach(c => {
+            cartProducts.push({_id:new ObjectID(c.productId)});
+          });
+          let products = await database.findMany(productNamespace,{$or:cartProducts});
+          products.forEach(prdct => {
+            for(var i = 0; i < cart.length; i++)
+              if(prdct._id === cart[i].productId){
+                cart[i].img = prdct.imageAddresses[0];
+                cart[i].title = prdct.name;
+                cart[i].price = prdct.price;
+                let stocks = 0;
+                prdct.sizeWiseStocks.forEach(sizeStocks=>{
+                  if(sizeStocks.size === cart[i].size)
+                    stocks = sizeStocks.stocks;
+                })
+                cart[i].maxQty = stocks;
+              }
+          });
+          console.log("post ",cart);
+          return res.status(200).send({ products: cart });
+        } else {
+          return res.status(401).send({ errorMsg: "Address Unavailable" });
+        }
+      } else {
+        return res.status(401).send({ errorMsg: "Product Unavailable" });
+      }
+    } else {
+      return res.status(401).send({ errorMsg: "unauthenticated" });
+    }
+  } catch (e) {
+    console.log(e);
+    return res.status(500).send({ errorMsg: "Something went wrong" });
+  }
+};
 module.exports = {
   address,
 };
