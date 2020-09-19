@@ -87,7 +87,7 @@ function Cart(props) {
                                 </li>
                                 <li className="price xsmall-margin-top">
                                   <label>Price: </label>
-                                  <span className="color-red">Rs. {product.price}</span>
+                                  <span className="color-red"><i class="fas fa-rupee-sign"></i> {product.price}</span>
                                 </li>
                               </ul>
                               <div className="quantity-container xsmall-margin">
@@ -110,7 +110,7 @@ function Cart(props) {
                   <div className="checkout-container flex flex-column justify-space-between medium-padding full-width large-margin-top">
                     <div className="medium-margin-left flex flex-column content">
                       <div className="cart-subtotal xxsmall-font color-primary">
-                        Cart Subtotal: <span className="color-red">Rs. {price}</span>
+                        Cart Subtotal: <span className="color-red"><i class="fas fa-rupee-sign"></i> {price}</span>
                       </div>
                       {price >= 500 ? (
                         <div className="color-green xxxsmall-font small-margin-top">Eligible for Free Delivery</div>
