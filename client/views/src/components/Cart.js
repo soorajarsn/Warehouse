@@ -96,7 +96,7 @@ function Cart(props) {
                               </div>
                             </div>
                             <div className="button-container medium-margin-right xsmall-margin-top">
-                              <button className="button-primary xsmall-padding xsmall-padding-left xsmall-padding-right" data-action={product.id} onClick={handleRemove}>
+                              <button className="button-primary xsmall-padding xsmall-padding-left xsmall-padding-right" data-action={product.productId} onClick={handleRemove}>
                                 Remove
                               </button>
                             </div>
