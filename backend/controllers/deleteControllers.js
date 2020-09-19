@@ -27,6 +27,7 @@ const address = async (req, res) => {
 };
 const removeCart = async (req, res) => {
   const { id } = req.body;
+  console.log(id);
   const token = req.header("x-auth-token");
   if (!token) return res.status(401).send({ errorMsg: "unauthenticated" });
   let decoded;
