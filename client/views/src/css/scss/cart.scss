@@ -107,12 +107,24 @@ $red: rgb(238, 0, 0);
                         }
                     }
 
-                    .content-and-button-container {
+                    .content-qty-button-container {
                         align-items: flex-start;
                         @media (min-width:700px){
                             flex-direction: row;
                             justify-content: space-between;
                             align-items: center;
+                        }
+                        .content-qty-container{
+                            max-width:90%;
+                            @media (min-width:1000px){
+                                width:80%;
+                                display:flex;
+                                align-items: center;
+                                justify-content: space-between;
+                                .content{
+                                    width:70%;
+                                }
+                            }
                         }
                         .content {
                             align-items: flex-start;
