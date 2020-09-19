@@ -128,6 +128,11 @@ $red: rgb(238, 0, 0);
                         }
                         .content {
                             align-items: flex-start;
+                            .price{
+                                i{
+                                    font-size:smaller;
+                                }
+                            }
                         }
                         select{
                             border:1px solid $lightGrey;
@@ -168,6 +173,11 @@ $red: rgb(238, 0, 0);
                 }
                 @media (min-width:1200px){
                     margin-left:0;
+                }
+                .cart-subtotal{
+                    i{
+                        font-size:smaller;
+                    }
                 }
             }
             .button-container {
