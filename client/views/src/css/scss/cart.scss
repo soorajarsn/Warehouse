@@ -13,11 +13,11 @@ $red: rgb(238, 0, 0);
 .cart-container-main {
     .cart-checkout-container {
 
-        @media (max-width:999px) {
+        @media (max-width:1199px) {
             flex-direction: column-reverse;
         }
 
-        @media(min-width:1000px) {
+        @media(min-width:1200px) {
             align-items: flex-start;
         }
         @media (min-width:1600px){
@@ -31,7 +31,7 @@ $red: rgb(238, 0, 0);
             border-radius: .1rem;
             border: 1px solid $lightGrey;
 
-            @media (min-width:1000px) {
+            @media (min-width:1200px) {
                 margin-top: 0;
                 width: unset;
             }
@@ -138,12 +138,12 @@ $red: rgb(238, 0, 0);
             border: 1px solid $lightGrey;
             border-radius: .1rem;
 
-            @media (min-width:700px) and (max-width:999px) {
+            @media (min-width:700px) and (max-width:1199px) {
                 display: grid;
                 grid-template-columns: 2fr 1fr;
             }
 
-            @media (min-width:1000px) {
+            @media (min-width:1200px) {
                 width: 22rem;
                 margin-top: 0;
                 height: 15rem;
@@ -153,6 +153,9 @@ $red: rgb(238, 0, 0);
             .content{
                 @media (min-width:700px) and (max-width:999px){
                     align-items: flex-start ;
+                }
+                @media (min-width:1200px){
+                    margin-left:0;
                 }
             }
             .button-container {
@@ -164,9 +167,8 @@ $red: rgb(238, 0, 0);
 
                 @media (min-width:1000px) {
                     margin: 0;
-                    width: 20rem;
+                    width: 18rem;
                 }
-
                 button {
                     border-radius: .1rem;
                 }
