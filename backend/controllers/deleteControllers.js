@@ -38,18 +38,18 @@ const removeCart = async (req, res) => {
   const namespace = await database.getNamespace("users");
   const user = await database.findOne(namespace, { _id: new ObjectID(decoded.id) });
   if (user) {
-    await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $pull: { cart: { id } } });
+    await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $pull: { cart: { productId:id } } });
     const cart = (await database.findOne(namespace, { _id: new ObjectID(decoded.id) })).cart;
     if (cart.length != 0) {
       const cartProducts = [];
       cart.forEach(c => {
-        cartProducts.push({ _id: new ObjectID(c.id) });
+        cartProducts.push({ _id: new ObjectID(c.productId) });
       });
       const productNamespace = await database.getNamespace("products");
       let products = await database.findMany(productNamespace, { $or: cartProducts });
       products.forEach(prdct => {
         for (var i = 0; i < cart.length; i++)
-          if (prdct._id == cart[i].id) {
+          if (prdct._id == cart[i].productId) {
             cart[i].img = prdct.imageAddresses[0];
             cart[i].title = prdct.name;
             cart[i].price = prdct.price;
