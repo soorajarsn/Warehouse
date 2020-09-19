@@ -22,4 +22,5 @@ router.route('/api/address').delete(deleteControllers.address);
 router.route('/post/removeCart').delete(deleteControllers.removeCart);
 //putControllers
 router.route('/api/address').put(putControllers.address);
+router.route('/api/updateCart').put(putControllers.updateCart);
 module.exports = router;
