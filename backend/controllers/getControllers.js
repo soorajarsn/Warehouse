@@ -74,13 +74,13 @@ const cart = async (req, res) => {
   if (cart.length > 0) {
     const cartProducts = [];
     cart.forEach(c => {
-      cartProducts.push({ _id: new ObjectID(c.id) });
+      cartProducts.push({ _id: new ObjectID(c.productId) });
     });
     const productNamespace = await database.getNamespace("products");
     let products = await database.findMany(productNamespace, { $or: cartProducts });
     products.forEach(prdct => {
       for (var i = 0; i < cart.length; i++) {
-        if (prdct._id == cart[i].id) {
+        if (prdct._id == cart[i].productId) {
           cart[i].img = prdct.imageAddresses[0];
           cart[i].title = prdct.name;
           cart[i].price = prdct.price;
