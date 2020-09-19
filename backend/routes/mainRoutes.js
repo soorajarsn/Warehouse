@@ -9,6 +9,7 @@ router.route('/api/getProducts').get(getControllers.getProducts);
 router.route('/api/loadUser').get(getControllers.user);
 router.route('/api/addresses').get(getControllers.addresses);
 router.route('/api/cart').get(getControllers.cart);
+router.route('/api/product/:id').get(getControllers.product);
 //postControllers
 router.route('/post/saveProduct').post(postControllers.saveProduct);
 router.route('/post/signup').post(postControllers.signup);
