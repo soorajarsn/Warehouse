@@ -51,11 +51,19 @@ main.buy-product-main .main-inner .main-content {
       border: 1px solid #cccfd2;
       border-radius: 100%;
       height: 3rem;
-      width: 3rem; }
+      width: 3rem;
+      position: relative; }
       main.buy-product-main .main-inner .main-content .content .available-sizes div:first-child {
         margin-left: 0; }
       main.buy-product-main .main-inner .main-content .content .available-sizes div:last-child {
         margin-right: 0; }
+      main.buy-product-main .main-inner .main-content .content .available-sizes div.fade {
+        color: #cccfd2;
+        cursor: not-allowed; }
+      main.buy-product-main .main-inner .main-content .content .available-sizes div span.stocks {
+        position: absolute;
+        bottom: -1rem;
+        font-size: .8rem; }
     main.buy-product-main .main-inner .main-content .content .available-sizes div.selected {
       border: 2px solid #008a00;
       color: #008a00;
