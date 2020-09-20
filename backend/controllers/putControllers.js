@@ -72,8 +72,8 @@ const address = async (req, res) => {
 };
 const updateCart = async (req, res) => {
   const token = req.header("x-auth-token");
-  const { id, size, address,qty } = req.body;
-  if (!id || !size || !address) return res.status(401).send({ errorMsg: "id, size, address required" });
+  const { id, size ,qty } = req.body;
+  if (!id || (!size && !qty)) return res.status(401).send({ errorMsg: "id and atleast one of size, qty required" });
   if (!token) return res.status(401).send({ errorMsg: "unauthenticated" });
   let decoded;
   try {
@@ -87,7 +87,12 @@ const updateCart = async (req, res) => {
         const addrs = await database.findOne(namespace, { _id: new ObjectID(decoded.id), "addresses.zipCode": address });
         if (addrs) {
           // await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $pull: { cart: { id } } });
-          await namespace.updateOne({ _id: new ObjectID(decoded.id),"cart.productId":id }, {"cart.$.productId":id,"cart.$.size":size,"cart.$.qty":qty||1,"cart.$.zipCode":address});
+          let updateTo = {};
+          if(size)
+            updateTo = {"cart.$.size":size};
+          if(qty)
+            updateTo = {...updateTo,"cart.$.qty":parseInt(qty)};
+          await namespace.updateOne({ _id: new ObjectID(decoded.id),"cart.productId":id }, {$set:updateTo});
           let cart = (await database.findOne(namespace, { _id: new ObjectID(decoded.id) })).cart;
           const cartProducts = [];
           cart.forEach(c => {
@@ -96,7 +101,7 @@ const updateCart = async (req, res) => {
           let products = await database.findMany(productNamespace,{$or:cartProducts});
           products.forEach(prdct => {
             for(var i = 0; i < cart.length; i++)
-              if(prdct._id === cart[i].productId){
+              if(prdct._id == cart[i].productId){
                 cart[i].img = prdct.imageAddresses[0];
                 cart[i].title = prdct.name;
                 cart[i].price = prdct.price;
@@ -108,7 +113,6 @@ const updateCart = async (req, res) => {
                 cart[i].maxQty = stocks;
               }
           });
-          console.log("post ",cart);
           return res.status(200).send({ products: cart });
         } else {
           return res.status(401).send({ errorMsg: "Address Unavailable" });
