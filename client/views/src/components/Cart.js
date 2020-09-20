@@ -6,9 +6,9 @@ import { Link, Redirect } from "react-router-dom";
 import "../css/cart.css";
 import ShoppingCards from "./ShoppingCards";
 import { connect } from "react-redux";
-import { removeFromCart, fetchCart } from "../redux";
+import { removeFromCart, fetchCart, updateCart } from "../redux";
 import Loader from "./Loader";
-function Options({ maxQty, qty, handleQtyChange }) {
+function Options({ maxQty, qty, handleQtyChange,dataAction }) {
   let options = [];
   for (var i = 1; i < maxQty && i <= 20; i++) options.push(<option value={i}>{i}</option>);
   for (var i = 25; i <= 50 && i < maxQty; i += 5) options.push(<option value={i}>{i}</option>);
@@ -16,14 +16,14 @@ function Options({ maxQty, qty, handleQtyChange }) {
   if (options.length == 0) options.push(<option vlaue="">Currently Not Available</option>);
   return (
     <>
-      <select value={qty} onChange={handleQtyChange}>
+      <select value={qty} data-action={dataAction} onChange={handleQtyChange}>
         {options}
       </select>
     </>
   );
 }
 function Cart(props) {
-  const { products, error, loading, fetchCart, removeFromCart, userLoggedIn } = props;
+  const { products, error, loading, fetchCart, removeFromCart, userLoggedIn,updateCart } = props;
   let [price, setPrice] = useState(0);
   useEffect(() => {
     fetchCart();
@@ -45,7 +45,10 @@ function Cart(props) {
   function handleRemove(event) {
     removeFromCart(event.currentTarget.getAttribute("data-action"));
   }
-  function handleQtyChange() {}
+  function handleQtyChange(event) {
+    const newQty = event.target.value;
+    updateCart({id:event.target.getAttribute('data-action'),qty:newQty});
+  }
   return (
     <>
       {!userLoggedIn ? (
@@ -92,7 +95,7 @@ function Cart(props) {
                               </ul>
                               <div className="quantity-container xsmall-margin">
                                 <label className="xxxsmall-font color-primary">Quantity: </label>
-                                <Options maxQty={product.maxQty} qty={product.qty} handleQtyChange={handleQtyChange} />
+                                <Options maxQty={product.maxQty} qty={product.qty} dataAction={product.productId} handleQtyChange={handleQtyChange} />
                               </div>
                             </div>
                             <div className="button-container medium-margin-right xsmall-margin-top">
@@ -142,6 +145,7 @@ const mapDispatchToProps = dispatch => {
   return {
     removeFromCart: id => dispatch(removeFromCart(id)),
     fetchCart: () => dispatch(fetchCart()),
+    updateCart:body => dispatch(updateCart(body))
   };
 };
 
