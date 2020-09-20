@@ -79,6 +79,13 @@ main.buy-product-main {
                     max-width:100%;
                     height:1.6rem;                    
                 }
+                .qty-container {
+                    select{
+                        min-width:3rem;
+                        background:rgb(173, 216, 230);
+                        cursor: pointer;
+                    }
+                  }
                 .available-sizes {
                     justify-content: flex-start;
 
