@@ -44,6 +44,7 @@ function Cart(props) {
 
   function handleRemove(event) {
     removeFromCart(event.currentTarget.getAttribute("data-action"));
+    event.preventDefault();
   }
   function handleQtyChange(event) {
     const newQty = event.target.value;
@@ -86,7 +87,8 @@ function Cart(props) {
                   ) : (
                     <div className="cart-inner cart-not-empty full-width">
                       {products.map(product => (
-                        <div key={product.title} className="product-card grid medium-margin-left medium-margin-right small-margin">
+                        <Link key={product.title}  to={"/buyProduct/"+product.productId} className="product-card-link">
+                        <div className="product-card grid medium-margin-left medium-margin-right small-margin">
                           <div className="img-container">
                             <img src={product.img} alt="" />
                           </div>
@@ -100,7 +102,7 @@ function Cart(props) {
                                     <i class="fas fa-rupee-sign"></i> {product.price}
                                   </span>
                                 </li>
-                                <li className="available-sizes flex small-margin">
+                                <li className="available-sizes flex small-margin" onClick={(event) => event.preventDefault()}>
                                   {product.availableSizes.map(size => (
                                     <div
                                       key={size}
@@ -114,7 +116,7 @@ function Cart(props) {
                                   ))}
                                 </li>
                               </ul>
-                              <div className="quantity-container xsmall-margin">
+                              <div className="quantity-container xsmall-margin" onClick={event => event.preventDefault() }>
                                 <label className="xxxsmall-font color-primary">Quantity: </label>
                                 <Options maxQty={product.maxQty} qty={product.qty} dataLabel={product.productId} handleQtyChange={handleQtyChange} />
                               </div>
@@ -126,6 +128,7 @@ function Cart(props) {
                             </div>
                           </div>
                         </div>
+                        </Link>
                       ))}
                     </div>
                   )}
