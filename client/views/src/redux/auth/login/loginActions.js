@@ -107,7 +107,3 @@ export const recoverUser = body => {
         })
     }
 }
-
-// export const logOut = () => dispatch => {
-//     dispatch(logOutSuccess());
-// }
