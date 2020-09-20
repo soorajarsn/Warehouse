@@ -173,7 +173,7 @@ const addCart = async (req, res) => {
         const addrs = await database.findOne(namespace, { _id: new ObjectID(decoded.id), "addresses.zipCode": address });
         if (addrs) {
           await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $pull: { cart: { productId:id } } });
-          await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $push: { cart: { $each: [{ productId:id, size, zipCode: address, qty:qty||1 }], $position: 0 } } });
+          await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $push: { cart: { $each: [{ productId:id, size, zipCode: address, qty:parseInt(qty||1) }], $position: 0 } } });
           let cart = (await database.findOne(namespace, { _id: new ObjectID(decoded.id) })).cart;
           const cartProducts = [];
           cart.forEach(c => {
@@ -182,7 +182,7 @@ const addCart = async (req, res) => {
           let products = await database.findMany(productNamespace,{$or:cartProducts});
           products.forEach(prdct => {
             for(var i = 0; i < cart.length; i++)
-              if(prdct._id === cart[i].productId){
+              if(prdct._id == cart[i].productId){
                 cart[i].img = prdct.imageAddresses[0];
                 cart[i].title = prdct.name;
                 cart[i].price = prdct.price;
@@ -194,7 +194,6 @@ const addCart = async (req, res) => {
                 cart[i].maxQty = stocks;
               }
           });
-          console.log("post ",cart);
           return res.status(200).send({ products: cart });
         } else {
           return res.status(401).send({ errorMsg: "Address Unavailable" });
