@@ -8,7 +8,7 @@ import { logOut, getAddresses, deleteAddress, addToCart } from "../redux";
 import { Redirect } from "react-router-dom";
 import AddAddressForm from "./Form_addAddress";
 import Axios from "axios";
-
+import {Options} from './Cart';
 function DropDown({ addressSelected, setAddressSelected, addresses, userLoggedIn, setRedirect, setToasterVisible }) {
   function toggleOpen(event) {
     if (!userLoggedIn) {
@@ -60,6 +60,7 @@ function BuyProduct(props) {
   const [redirect, setRedirect] = useState(false);
   const [size, setSize] = useState("");
   const [toasterVisible, setToasterVisible] = useState(false);
+  const [qty, setQty] = useState(1);
   useEffect(() => {
     Axios.get("/api/product/" + productId)
       .then(response => {
@@ -87,7 +88,7 @@ function BuyProduct(props) {
       var selectedSize = document.querySelector("div.available-sizes .selected");
       if (selectedSize) selectedSize.classList.remove("selected");
       current.classList.add("selected");
-      setSize(current.getAttribute('data-label'));
+      setSize(current.getAttribute("data-label"));
       if (!selectedSize) {
         //means the size was selected for the first time only
         document.querySelectorAll("button.tooltip").forEach(button => {
@@ -97,6 +98,9 @@ function BuyProduct(props) {
       }
     }
   }
+  function handleQtyChange(event){
+    setQty(event.target.value);
+  }
   function handleAddToCart(event) {
     const button = event.currentTarget;
     if (button.getAttribute("data-action") !== "false") {
@@ -105,7 +109,7 @@ function BuyProduct(props) {
         else {
           setToasterVisible(false);
           console.log("add to cart dispatching");
-          props.addToCart({ id: productId, size, address: addressSelected });
+          props.addToCart({ id: productId, size, address: addressSelected,qty });
           props.history.push("/cart");
         }
       } else {
@@ -190,6 +194,11 @@ function BuyProduct(props) {
                       )}
                     </p>
                     <p className="xxxsmall-font color-darkGrey">inclusive of all taxes</p>
+                    <div className="qty-container">
+                      {product.stocks > 0 ? <div className="color-green xxsmall-font large-margin-top xsmall-padding">In Stock</div> : <div className="color-green xxsmall-font">Out Of Stocks</div>}
+                      {product.stocks > 0 && <><label className="xxxsmall-font color-primary">Quantity: </label>
+                      <Options maxQty={product.stocks} qty={qty} dataLabel="" handleQtyChange={handleQtyChange} /></>}
+                    </div>
                     <div className="xxxsmall-font medium-bold-font large-margin-top large-padding-top">SELECT SIZES</div>
                     <div className="available-sizes flex medium-margin">
                       {product.sizeWiseStocks ? (
