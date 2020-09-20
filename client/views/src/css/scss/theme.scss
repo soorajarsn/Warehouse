@@ -1493,7 +1493,8 @@ form {
 
     .expanded-menu-container-desktop {
         top: 100%;
-        background: $white;
+        background: $offWhite;
+        box-shadow: 0 .2rem .3rem 0 rgb(100,100,100);
         z-index: 1;
 
         .expanded-menu {

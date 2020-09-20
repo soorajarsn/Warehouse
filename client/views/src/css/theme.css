@@ -1076,7 +1076,8 @@ form .form__input-wrapper {
       color: #1db1d3; }
   .desktop-menu-container-main .expanded-menu-container-desktop {
     top: 100%;
-    background: white;
+    background: #f3f5f6;
+    box-shadow: 0 0.2rem 0.3rem 0 #646464;
     z-index: 1; }
     .desktop-menu-container-main .expanded-menu-container-desktop .expanded-menu {
       display: none;
