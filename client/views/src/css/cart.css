@@ -43,6 +43,11 @@
           width: calc(100% - 2rem); } }
       .cart-container-main .cart-checkout-container .cart-container .cart-inner.empty-cart-indicator .empty-cart a.shop-more-products button {
         border-radius: .1rem; }
+  .cart-container-main .cart-checkout-container .cart-container .cart-inner.cart-not-empty a.product-card-link {
+    color: #1e2d7d;
+    font-weight: 500; }
+    .cart-container-main .cart-checkout-container .cart-container .cart-inner.cart-not-empty a.product-card-link:hover {
+      font-weight: 500; }
   .cart-container-main .cart-checkout-container .cart-container .cart-inner.cart-not-empty .product-card {
     grid-template-columns: auto 2fr;
     grid-column-gap: 1rem;

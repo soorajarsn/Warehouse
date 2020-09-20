@@ -80,6 +80,13 @@ $red: rgb(238, 0, 0);
             }
 
             .cart-inner.cart-not-empty {
+                a.product-card-link{
+                    color:$blue;
+                    font-weight: 500;
+                    &:hover{
+                        font-weight: 500;
+                    }
+                }
                 .product-card {
                     grid-template-columns: auto 2fr;
                     grid-column-gap: 1rem;
