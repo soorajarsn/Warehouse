@@ -8,7 +8,7 @@ import ShoppingCards from "./ShoppingCards";
 import { connect } from "react-redux";
 import { removeFromCart, fetchCart, updateCart } from "../redux";
 import Loader from "./Loader";
-function Options({ maxQty, qty, handleQtyChange,dataAction }) {
+function Options({ maxQty, qty, handleQtyChange, dataLabel }) {
   let options = [];
   for (var i = 1; i < maxQty && i <= 20; i++) options.push(<option value={i}>{i}</option>);
   for (var i = 25; i <= 50 && i < maxQty; i += 5) options.push(<option value={i}>{i}</option>);
@@ -16,14 +16,14 @@ function Options({ maxQty, qty, handleQtyChange,dataAction }) {
   if (options.length == 0) options.push(<option vlaue="">Currently Not Available</option>);
   return (
     <>
-      <select value={qty} data-action={dataAction} onChange={handleQtyChange}>
+      <select value={qty} data-label={dataLabel} onChange={handleQtyChange}>
         {options}
       </select>
     </>
   );
 }
 function Cart(props) {
-  const { products, error, loading, fetchCart, removeFromCart, userLoggedIn,updateCart } = props;
+  const { products, error, loading, fetchCart, removeFromCart, userLoggedIn, updateCart } = props;
   let [price, setPrice] = useState(0);
   useEffect(() => {
     fetchCart();
@@ -47,7 +47,14 @@ function Cart(props) {
   }
   function handleQtyChange(event) {
     const newQty = event.target.value;
-    updateCart({id:event.target.getAttribute('data-action'),qty:newQty});
+    updateCart({ id: event.target.getAttribute("data-label"), qty: newQty });
+  }
+  function updateSize(event) {
+    let current = event.currentTarget;
+    if(!current.classList.contains('selected') && current.getAttribute('data-action') == "true"){//if the selected size is already the default size no need to update; data-action true if size more than 0
+      const newSize = current.getAttribute('data-label');
+      updateCart({id:current.getAttribute('data-id'),size:newSize});
+    }
   }
   return (
     <>
@@ -60,20 +67,22 @@ function Cart(props) {
               <div className="cart-checkout-container medium-margin-left medium-margin-right flex large-margin">
                 <div className="cart-container flex large-padding large-margin-top flex-column">
                   {products.length == 0 ? (
-                    <div className="cart-inner empty-cart-indicator full-width">
-                      <div className="flex flex-column justify-space-between empty-cart full-width">
-                        <p className="alert color-primary light-bold-font xxsmall-font full-width">
-                          Spend <span>Rs. 500</span> more and get free shipping!
-                        </p>
-                        <div className="flex flex-column medium-margin-top">
-                          <CartSvg2 />
-                          <h4 className="heading h4 color-primary small-font medium-bold-font medium-margin medium-padding">Your cart is empty</h4>
+                    !loading && (
+                      <div className="cart-inner empty-cart-indicator full-width">
+                        <div className="flex flex-column justify-space-between empty-cart full-width">
+                          <p className="alert color-primary light-bold-font xxsmall-font full-width">
+                            Spend <span>Rs. 500</span> more and get free shipping!
+                          </p>
+                          <div className="flex flex-column medium-margin-top">
+                            <CartSvg2 />
+                            <h4 className="heading h4 color-primary small-font medium-bold-font medium-margin medium-padding">Your cart is empty</h4>
+                          </div>
+                          <Link to="/products" className="full-width shop-more-products">
+                            <button className="button button-primary button-full-width medium-padding xsmall-font ">Shop our products</button>
+                          </Link>
                         </div>
-                        <Link to="/products" className="full-width shop-more-products">
-                          <button className="button button-primary button-full-width medium-padding xsmall-font ">Shop our products</button>
-                        </Link>
                       </div>
-                    </div>
+                    )
                   ) : (
                     <div className="cart-inner cart-not-empty full-width">
                       {products.map(product => (
@@ -85,17 +94,29 @@ function Cart(props) {
                             <div className="content-qty-container">
                               <ul className="xxxsmall-font content flex flex-column">
                                 <li className="name xsmall-margin">{product.title}</li>
-                                <li className="size">
-                                  <label>Size: </label> <span className="color-red">{product.size}</span>
-                                </li>
-                                <li className="price xsmall-margin-top">
+                                <li className="price">
                                   <label>Price: </label>
-                                  <span className="color-red"><i class="fas fa-rupee-sign"></i> {product.price}</span>
+                                  <span className="color-red">
+                                    <i class="fas fa-rupee-sign"></i> {product.price}
+                                  </span>
+                                </li>
+                                <li className="available-sizes flex small-margin">
+                                  {product.availableSizes.map(size => (
+                                    <div
+                                      key={size}
+                                      data-label={size.size}
+                                      data-id={product.productId}
+                                      className={"small-margin-left small-margin-right flex " + (size.stocks == 0 ? "fade" : "") + (size.size == product.size ? "selected" : "")}
+                                      data-action={!!size.stocks}
+                                      onClick={updateSize}>
+                                      {size.size}
+                                    </div>
+                                  ))}
                                 </li>
                               </ul>
                               <div className="quantity-container xsmall-margin">
                                 <label className="xxxsmall-font color-primary">Quantity: </label>
-                                <Options maxQty={product.maxQty} qty={product.qty} dataAction={product.productId} handleQtyChange={handleQtyChange} />
+                                <Options maxQty={product.maxQty} qty={product.qty} dataLabel={product.productId} handleQtyChange={handleQtyChange} />
                               </div>
                             </div>
                             <div className="button-container medium-margin-right xsmall-margin-top">
@@ -113,7 +134,10 @@ function Cart(props) {
                   <div className="checkout-container flex flex-column justify-space-between medium-padding full-width large-margin-top">
                     <div className="medium-margin-left flex flex-column content">
                       <div className="cart-subtotal xxsmall-font color-primary">
-                        Cart Subtotal: <span className="color-red"><i class="fas fa-rupee-sign"></i> {price}</span>
+                        Cart Subtotal:{" "}
+                        <span className="color-red">
+                          <i class="fas fa-rupee-sign"></i> {price}
+                        </span>
                       </div>
                       {price >= 500 ? (
                         <div className="color-green xxxsmall-font small-margin-top">Eligible for Free Delivery</div>
@@ -145,7 +169,7 @@ const mapDispatchToProps = dispatch => {
   return {
     removeFromCart: id => dispatch(removeFromCart(id)),
     fetchCart: () => dispatch(fetchCart()),
-    updateCart:body => dispatch(updateCart(body))
+    updateCart: body => dispatch(updateCart(body)),
   };
 };
 
