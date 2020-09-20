@@ -45,33 +45,6 @@ const deleteDoc = function (namespace, query) {
     client.close();
   });
 };
-
-// const updateDb = async function () {
-//   let namespace = await getNamespace("updatedProducts");
-//   let data = await findMany(namespace, {});
-//   data = data.map(product => {
-//     return {
-//       _id: product._id,
-//       name: product.name,
-//       stocks: product.stocks,
-//       price: product.price,
-//       color: product.color.toLowerCase(),
-//       productClass: product.productClass.toLowerCase(),
-//       category: product.category.toLowerCase(),
-//       subCategory: product.subCategory.toLowerCase(),
-//       brand: product.brand.toLowerCase(),
-//       rating: product.rating,
-//       reviews: product.reviews,
-//       sizes: product.sizes,
-//       sizeWiseStocks: product.sizeWiseStocks,
-//       imageAddresses: product.imageAddresses,
-//     };
-//   });
-//   console.log(data);
-//   namespace = await getNamespace("products");
-//   namespace.insertMany(data);
-// };
-// updateDb();
 module.exports = {
   dbName,
   client,
