@@ -14,7 +14,6 @@ const getProducts = async (req, res) => {
     databaseQuery.$or = priceQuery;
   }
   let products = await database.findMany(await database.getNamespace("products"), databaseQuery);
-  console.log(products);
   products = products.slice(0, 20).map(products => ({ ...products, imgsrc: products.imageAddresses[0] }));
   console.log(products);
   let responce = {
@@ -60,15 +59,7 @@ const addresses = async (req, res) => {
   return res.status(200).send({ addresses });
 };
 
-const cart = async (req, res) => {
-  const token = req.header("x-auth-token");
-  if (!token) return res.status(401).send({ errorMsg: "unauthenticated" });
-  let decoded;
-  try {
-    decoded = jwt.verify(token, config.get("jwtSecret"));
-  } catch (e) {
-    return res.status(401).send({ errorMsg: "Unauthenticated" });
-  }
+const getCartProducts = async (decoded) => {
   const userNamespace = await database.getNamespace("users");
   const cart = (await database.findOne(userNamespace, { _id: new ObjectID(decoded.id) })).cart;
   if (cart.length > 0) {
@@ -85,14 +76,27 @@ const cart = async (req, res) => {
           cart[i].title = prdct.name;
           cart[i].price = prdct.price;
           let stocks = 0;
-          prdct.sizeWiseStocks.forEach(sizeStocks => {
+          prdct.sizeWiseStocks.forEach(sizeStocks => {//need to change sizeWiseStocks to size after db update;
             if (sizeStocks.size === cart[i].size) stocks = sizeStocks.stocks;
           });
           cart[i].maxQty = stocks;
+          cart[i].availableSizes = prdct.sizeWiseStocks;//need to change sizeWiseStocks to size after db update;
         }
       }
     });
   }
+  return cart;
+}
+const cart = async (req, res) => {
+  const token = req.header("x-auth-token");
+  if (!token) return res.status(401).send({ errorMsg: "unauthenticated" });
+  let decoded;
+  try {
+    decoded = jwt.verify(token, config.get("jwtSecret"));
+  } catch (e) {
+    return res.status(401).send({ errorMsg: "Unauthenticated" });
+  }
+  const cart = await getCartProducts(decoded);
   return res.status(200).send({ products: cart });
 };
 const product = async (req,res) => {
@@ -110,5 +114,6 @@ module.exports = {
   user,
   addresses,
   cart,
-  product
+  product,
+  getCartProducts
 };

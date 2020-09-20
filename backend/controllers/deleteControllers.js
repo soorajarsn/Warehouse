@@ -2,6 +2,7 @@ const database = require("../models/database");
 const ObjectID = require("mongodb").ObjectID;
 const config = require("config");
 const jwt = require("jsonwebtoken");
+const getCartProducts = require('./getControllers').getCartProducts;
 
 const address = async (req, res) => {
   const { addressId } = req.body;
@@ -40,28 +41,7 @@ const removeCart = async (req, res) => {
   const user = await database.findOne(namespace, { _id: new ObjectID(decoded.id) });
   if (user) {
     await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $pull: { cart: { productId:id } } });
-    const cart = (await database.findOne(namespace, { _id: new ObjectID(decoded.id) })).cart;
-    if (cart.length != 0) {
-      const cartProducts = [];
-      cart.forEach(c => {
-        cartProducts.push({ _id: new ObjectID(c.productId) });
-      });
-      const productNamespace = await database.getNamespace("products");
-      let products = await database.findMany(productNamespace, { $or: cartProducts });
-      products.forEach(prdct => {
-        for (var i = 0; i < cart.length; i++)
-          if (prdct._id == cart[i].productId) {
-            cart[i].img = prdct.imageAddresses[0];
-            cart[i].title = prdct.name;
-            cart[i].price = prdct.price;
-            let maxQty = 0;
-            prdct.sizeWiseStocks.forEach(sizeStocks => {
-              if (sizeStocks.size === cart[i].size) maxQty = sizeStocks.stocks;
-            });
-            cart[i].maxQty = maxQty;
-          }
-      });
-    }
+    const cart = await getCartProducts(decoded);
     return res.status(200).send({ products: cart });
   } else {
     return res.status(401).send({ errorMsg: "unauthenticated" });
