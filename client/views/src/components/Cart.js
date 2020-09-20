@@ -8,7 +8,7 @@ import ShoppingCards from "./ShoppingCards";
 import { connect } from "react-redux";
 import { removeFromCart, fetchCart, updateCart } from "../redux";
 import Loader from "./Loader";
-function Options({ maxQty, qty, handleQtyChange, dataLabel }) {
+export function Options({ maxQty, qty, handleQtyChange, dataLabel }) {
   let options = [];
   for (var i = 1; i < maxQty && i <= 20; i++) options.push(<option value={i}>{i}</option>);
   for (var i = 25; i <= 50 && i < maxQty; i += 5) options.push(<option value={i}>{i}</option>);
