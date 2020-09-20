@@ -150,19 +150,14 @@ function BuyProduct(props) {
                     ) : (
                       <>
                         <div className="img-container">
-                          {/* <img src="/assets/4a50fb31-dff0-40cb-b24b-aa3c5793b1a01538643882906-Veni-Vidi-Vici-Women-Tops-7901538643882756-2.jpg" alt="" /> */}
                         </div>
                         <div className="img-container">
-                          {/* <img src="/assets/4a50fb31-dff0-40cb-b24b-aa3c5793b1a01538643882906-Veni-Vidi-Vici-Women-Tops-7901538643882756-2.jpg" alt="" /> */}
                         </div>
                         <div className="img-container">
-                          {/* <img src="/assets/f7485037-e1d1-4621-b70f-f09a3a400c8b1538643882868-Veni-Vidi-Vici-Women-Tops-7901538643882756-4.jpg" alt="" /> */}
                         </div>
                         <div className="img-container">
-                          {/* <img src="/assets/e7121bdd-da21-4af7-bda4-c505eb4410681538643882885-Veni-Vidi-Vici-Women-Tops-7901538643882756-3.jpg" alt="" /> */}
                         </div>
                         <div className="img-container">
-                          {/* <img src="/assets/c70beeda-241d-4d8a-933b-a62e100b12df1538643882852-Veni-Vidi-Vici-Women-Tops-7901538643882756-5.jpg" alt="" /> */}
                         </div>
                       </>
                     )}
