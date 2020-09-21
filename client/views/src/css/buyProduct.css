@@ -11,8 +11,14 @@ main.buy-product-main .main-inner .main-content {
     grid-row-gap: .5rem; }
     @media (max-width: 699px) {
       main.buy-product-main .main-inner .main-content .img-container-main {
-        grid-template-columns: auto;
-        margin-left: 0; } }
+        margin-left: 0;
+        overflow-x: scroll;
+        display: flex;
+        grid-column-gap: unset; }
+        main.buy-product-main .main-inner .main-content .img-container-main .img-container {
+          overflow: visible !important; }
+          main.buy-product-main .main-inner .main-content .img-container-main .img-container img {
+            width: 100vw !important; } }
     main.buy-product-main .main-inner .main-content .img-container-main .img-container {
       width: 100%;
       cursor: pointer;
@@ -20,6 +26,8 @@ main.buy-product-main .main-inner .main-content {
       animation: mini-image-loading-skeleton 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite forwards;
       height: 133.4vw;
       overflow: hidden; }
+      main.buy-product-main .main-inner .main-content .img-container-main .img-container.visible {
+        display: block; }
       @media (min-width: 700px) and (max-width: 799px) {
         main.buy-product-main .main-inner .main-content .img-container-main .img-container {
           height: calc((100vw - 2rem)*0.376); } }
@@ -45,9 +53,10 @@ main.buy-product-main .main-inner .main-content {
         @media (min-width: 1600px) {
           main.buy-product-main .main-inner .main-content .img-container-main .img-container img {
             height: 36.76rem; } }
-        main.buy-product-main .main-inner .main-content .img-container-main .img-container img:hover {
-          transform: scale(1.5);
-          transition: transform 700ms ease-in-out; }
+        @media (min-width: 700px) {
+          main.buy-product-main .main-inner .main-content .img-container-main .img-container img:hover {
+            transform: scale(1.5);
+            transition: transform 700ms ease-in-out; } }
   main.buy-product-main .main-inner .main-content .content .loading {
     background: #eaeaec -webkit-gradient(linear, left top, right top, color-stop(0, #eaeaec), color-stop(35%, #e6e4e4), color-stop(70%, #eaeaec), to(#eaeaec)) no-repeat;
     animation: mini-image-loading-skeleton 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite forwards; }
