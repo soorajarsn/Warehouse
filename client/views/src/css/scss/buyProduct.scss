@@ -18,20 +18,34 @@ main.buy-product-main {
             grid-template-columns: 1.5fr 1fr;
             grid-column-gap: 1rem;
 
-            @media (max-width:700px) {
+            @media (max-width:699px) {
                 grid-template-columns: 1fr;
+                margin-top:-.1rem;
             }
 
             .img-container-main {
                 grid-template-columns: 1fr 1fr;
                 grid-column-gap: .5rem;
                 grid-row-gap: .5rem;
-
+                @media (max-width:699px){
+                    grid-template-columns: auto;
+                    margin-left:0;
+                }
                 .img-container {
                     width: 100%;
                     cursor: pointer;
                     background:#eaeaec -webkit-gradient(linear,left top,right top,color-stop(0,#eaeaec),color-stop(35%,#e6e4e4),color-stop(70%,#eaeaec),to(#eaeaec)) no-repeat;
                     animation: mini-image-loading-skeleton 2s cubic-bezier(.25,.46,.45,.94) infinite forwards;
+                    height:100vw*1.334;
+                    @media (min-width:700px) and (max-width:799px){
+                        height:calc((100vw - 2rem)*0.376);//to maintain aspect ratio
+                    }
+                    @media (min-width:800px) and (max-width:899px){
+                        height:calc((100vw - 2rem)*0.39);//to maitain aspect ratio
+                    }
+                    @media (min-width:900px) and (max-width:999px){
+                        height:calc((100vw - 2rem)*0.39);//to maitain aspect ratio
+                    }
                     @media(min-width:1000px) {
                         height: 26vw*1.5;
                     }
