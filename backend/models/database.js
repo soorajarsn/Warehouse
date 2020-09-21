@@ -4,11 +4,10 @@ const ObjectID = require("mongodb").ObjectID;
 const url = "mongodb://localhost:27017";
 const dbName = "warehouse";
 const client = new MongoClient(url, { useUnifiedTopology: true });
-
+client.connect();
 const getNamespace = async function (collection) {
   try {
-    const clnt = await client.connect();
-    return clnt.db(dbName).collection(collection);
+    return client.db(dbName).collection(collection);
   } catch (err) {
     throw err;
   }
