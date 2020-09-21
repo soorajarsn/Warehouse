@@ -17,7 +17,6 @@ const saveProduct = async (req, res) => {
       const file = images[img];
       const mimetype = file.mimetype;
       if (mimetype === "image/png" || mimetype === "image/jpeg") {
-        console.log(file);
         imgFile = file.name;
         imageAddresses.push(`../assets/${imgFile}`);
         file.mv(path.join(__dirname, `../../client/views/public/assets/${imgFile}`), function (err) {
@@ -58,7 +57,6 @@ const saveProduct = async (req, res) => {
       ],
       imageAddresses,
     };
-    console.log(doc);
     database.insertOne(await database.getNamespace("products"), doc);
     return res.status(200).json({ errorMsg: "Passed" });
   } else {
@@ -68,7 +66,6 @@ const saveProduct = async (req, res) => {
 
 const signup = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
-  console.log(req.body);
   if (firstName && lastName && email && password) {
     const namespace = await database.getNamespace("users");
     var isPresent = await database.findOne(namespace, { email });
@@ -91,7 +88,6 @@ const signup = async (req, res) => {
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-  console.log({ email, password });
   if (email && password) {
     const namespace = await database.getNamespace("users");
     var user = await database.findOne(namespace, { email });
@@ -153,8 +149,8 @@ const address = async (req, res) => {
       return res.status(401).send({ errorMsg: "unauthenticated" });
     }
   } catch (e) {
-    console.log(e);
-    return res.status(500).send({ errorMsg: "Something went wrong" });
+    console.log("Invalid Token");
+    return res.status(500).send({ errorMsg: "Unauthenticated" });
   }
 };
 
@@ -188,8 +184,8 @@ const addCart = async (req, res) => {
       return res.status(401).send({ errorMsg: "unauthenticated" });
     }
   } catch (e) {
-    console.log(e);
-    return res.status(500).send({ errorMsg: "Something went wrong" });
+    console.log("Inavalid Token");
+    return res.status(500).send({ errorMsg: "Unauthenticated" });
   }
 };
 
