@@ -8,14 +8,12 @@ const getProducts = async (req, res) => {
   if (productClass) databaseQuery.productClass = productClass;
   databaseQuery.category = { $regex: `.*${category.toLowerCase()}.*` };
   databaseQuery.subCategory = { $regex: `.*${subCategory.toLowerCase()}.*` };
-  console.log({ category: category.toLowerCase(), subCategory: subCategory.toLowerCase() });
   if (price) {
     priceQuery = eval(price).map(priceFilter => ({ $gt: priceFilter.from, $lt: priceFilter.to }));
     databaseQuery.$or = priceQuery;
   }
   let products = await database.findMany(await database.getNamespace("products"), databaseQuery);
   products = products.slice(0, 20).map(products => ({ ...products, imgsrc: products.imageAddresses[0] }));
-  console.log(products);
   let responce = {
     products,
     appliedSizes: size,
@@ -39,7 +37,7 @@ const user = async (req, res) => {
     res.set("Cache-Control", "no-store");
     return res.status(200).send({ ...userData });
   } catch (e) {
-    console.log(e);
+    console.log("Token Expired");
     return res.status(400).send({ errorMsg: "Invalid Token" });
   }
 };
@@ -101,11 +99,9 @@ const cart = async (req, res) => {
 };
 const product = async (req,res) => {
   const {id} = req.params;
-  console.log(id);
   if(!id) return res.status(400).send({errorMsg:'Id Required'});
   const namespace = await database.getNamespace('products');
   const prdct = await database.findOne(namespace,{_id:new ObjectID(id)});
-  console.log(prdct);
   if(!prdct) return res.status(400).send({errorMsg:'Invalid Product Id'});
   return res.status(200).send({product:prdct});
 }
