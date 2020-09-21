@@ -20,32 +20,52 @@ main.buy-product-main {
 
             @media (max-width:699px) {
                 grid-template-columns: 1fr;
-                margin-top:-.1rem;
+                margin-top: -.1rem;
             }
 
             .img-container-main {
                 grid-template-columns: 1fr 1fr;
                 grid-column-gap: .5rem;
                 grid-row-gap: .5rem;
-                @media (max-width:699px){
-                    grid-template-columns: auto;
-                    margin-left:0;
+
+                @media (max-width:699px) {
+                    margin-left: 0;
+                    overflow-x: scroll;
+                    display: flex;
+                    grid-column-gap: unset;
+
+                    .img-container {
+                        overflow: visible !important;
+
+                        img {
+                            width: 100vw !important;
+                        }
+                    }
                 }
+
                 .img-container {
                     width: 100%;
                     cursor: pointer;
-                    background:#eaeaec -webkit-gradient(linear,left top,right top,color-stop(0,#eaeaec),color-stop(35%,#e6e4e4),color-stop(70%,#eaeaec),to(#eaeaec)) no-repeat;
-                    animation: mini-image-loading-skeleton 2s cubic-bezier(.25,.46,.45,.94) infinite forwards;
-                    height:100vw*1.334;
-                    @media (min-width:700px) and (max-width:799px){
-                        height:calc((100vw - 2rem)*0.376);//to maintain aspect ratio
+                    background: #eaeaec -webkit-gradient(linear, left top, right top, color-stop(0, #eaeaec), color-stop(35%, #e6e4e4), color-stop(70%, #eaeaec), to(#eaeaec)) no-repeat;
+                    animation: mini-image-loading-skeleton 2s cubic-bezier(.25, .46, .45, .94) infinite forwards;
+                    height: 100vw*1.334;
+
+                    &.visible {
+                        display: block;
                     }
-                    @media (min-width:800px) and (max-width:899px){
-                        height:calc((100vw - 2rem)*0.39);//to maitain aspect ratio
+
+                    @media (min-width:700px) and (max-width:799px) {
+                        height: calc((100vw - 2rem)*0.376); //to maintain aspect ratio
                     }
-                    @media (min-width:900px) and (max-width:999px){
-                        height:calc((100vw - 2rem)*0.39);//to maitain aspect ratio
+
+                    @media (min-width:800px) and (max-width:899px) {
+                        height: calc((100vw - 2rem)*0.39); //to maitain aspect ratio
                     }
+
+                    @media (min-width:900px) and (max-width:999px) {
+                        height: calc((100vw - 2rem)*0.39); //to maitain aspect ratio
+                    }
+
                     @media(min-width:1000px) {
                         height: 26vw*1.5;
                     }
@@ -71,35 +91,41 @@ main.buy-product-main {
                         transition: transform 300ms ease-in-out;
 
                         &:hover {
-                            transform: scale(1.5);
-                            transition: transform 700ms ease-in-out;
+                            @media (min-width:700px) {
+                                transform: scale(1.5);
+                                transition: transform 700ms ease-in-out;
+                            }
                         }
                     }
                 }
             }
 
             .content {
-                .loading{
-                    background:#eaeaec -webkit-gradient(linear,left top,right top,color-stop(0,#eaeaec),color-stop(35%,#e6e4e4),color-stop(70%,#eaeaec),to(#eaeaec)) no-repeat;
-                    animation: mini-image-loading-skeleton 2s cubic-bezier(.25,.46,.45,.94) infinite forwards;
+                .loading {
+                    background: #eaeaec -webkit-gradient(linear, left top, right top, color-stop(0, #eaeaec), color-stop(35%, #e6e4e4), color-stop(70%, #eaeaec), to(#eaeaec)) no-repeat;
+                    animation: mini-image-loading-skeleton 2s cubic-bezier(.25, .46, .45, .94) infinite forwards;
                 }
-                .loading-content{
-                    width:8rem;
-                    max-width:100%;
-                    height:1.3rem;
+
+                .loading-content {
+                    width: 8rem;
+                    max-width: 100%;
+                    height: 1.3rem;
                 }
-                .loading-size{
-                    width:13rem;
-                    max-width:100%;
-                    height:1.6rem;                    
+
+                .loading-size {
+                    width: 13rem;
+                    max-width: 100%;
+                    height: 1.6rem;
                 }
+
                 .qty-container {
-                    select{
-                        min-width:3rem;
-                        background:rgb(173, 216, 230);
+                    select {
+                        min-width: 3rem;
+                        background: rgb(173, 216, 230);
                         cursor: pointer;
                     }
-                  }
+                }
+
                 .available-sizes {
                     justify-content: flex-start;
 
@@ -110,6 +136,7 @@ main.buy-product-main {
                         height: 3rem;
                         width: 3rem;
                         position: relative;
+
                         &:first-child {
                             margin-left: 0;
                         }
@@ -117,19 +144,22 @@ main.buy-product-main {
                         &:last-child {
                             margin-right: 0;
                         }
-                        &.fade{
-                            color:$grey;
-                            cursor:not-allowed;
+
+                        &.fade {
+                            color: $grey;
+                            cursor: not-allowed;
                         }
-                        span.stocks{
+
+                        span.stocks {
                             position: absolute;
-                            bottom:-1rem;
-                            font-size:.8rem;
+                            bottom: -1rem;
+                            font-size: .8rem;
                         }
                     }
-                    div.selected{
-                        border:2px solid $green;
-                        color:$green;
+
+                    div.selected {
+                        border: 2px solid $green;
+                        color: $green;
                         font-weight: bold;
                     }
                 }
@@ -148,29 +178,34 @@ main.buy-product-main {
 
                     button {
                         width: 100%;
-                        position:relative;
+                        position: relative;
+
                         @media (min-width:1000px) {
                             width: 10rem;
                         }
-                        span.tooltip-text{
-                            display:none;
+
+                        span.tooltip-text {
+                            display: none;
                         }
-                        &.tooltip{
+
+                        &.tooltip {
                             cursor: not-allowed;
-                            span.tooltip-text{
-                                visibility:hidden;
-                                position:absolute;
-                                top:100%;
-                                margin-top:.5rem;
-                                left:0;
+
+                            span.tooltip-text {
+                                visibility: hidden;
+                                position: absolute;
+                                top: 100%;
+                                margin-top: .5rem;
+                                left: 0;
                                 border-radius: .2rem;
-                                background:$red;
-                                color:$offWhite;   
-                                display:none;
-                                width:11rem;
-                                padding:.4rem .2rem;
+                                background: $red;
+                                color: $offWhite;
+                                display: none;
+                                width: 11rem;
+                                padding: .4rem .2rem;
                                 z-index: 1;
                             }
+
                             .tooltip-text::after {
                                 content: "";
                                 position: absolute;
@@ -179,9 +214,10 @@ main.buy-product-main {
                                 border-width: .4rem;
                                 border-style: solid;
                                 border-color: transparent transparent $red transparent;
-                              }
-                            &:hover{
-                                span.tooltip-text{
+                            }
+
+                            &:hover {
+                                span.tooltip-text {
                                     visibility: visible;
                                     display: block;
                                 }
@@ -202,22 +238,26 @@ main.buy-product-main {
                         align-items: center;
                         border-radius: .2rem;
                         cursor: pointer;
-                        .items-container{
-                            position:absolute;
-                            top:1.8rem;
-                            left:0rem;
-                            width:calc(100% - 2px - .2rem);
-                            div.item{
-                                border:1px solid $grey;
+
+                        .items-container {
+                            position: absolute;
+                            top: 1.8rem;
+                            left: 0rem;
+                            width: calc(100% - 2px - .2rem);
+
+                            div.item {
+                                border: 1px solid $grey;
                                 background: rgb(205, 233, 240);
-                                padding:.4rem .1rem;
+                                padding: .4rem .1rem;
                             }
                         }
+
                         div.item {
                             display: none;
+
                             p {
                                 width: calc(100% - 1.5rem);
-                                display:block;
+                                display: block;
                                 white-space: nowrap;
                                 overflow: hidden;
                                 text-overflow: ellipsis;
@@ -227,15 +267,17 @@ main.buy-product-main {
                         div.item.selected {
                             display: block;
                         }
+
                         .fa-caret-down {
                             position: absolute;
                             right: .5rem;
                         }
                     }
-                    .drop-down.open{
-                        .items-container{
-                            div{
-                                display:block;
+
+                    .drop-down.open {
+                        .items-container {
+                            div {
+                                display: block;
                             }
                         }
                     }
