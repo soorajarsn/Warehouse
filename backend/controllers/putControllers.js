@@ -6,7 +6,6 @@ const getCartProducts = require('./getControllers').getCartProducts;
 const address = async (req, res) => {
   const token = req.header("x-auth-token");
   const { addressId, ...address } = req.body;
-  console.log(req.body);
   let addresses = [];
   if (!token) return res.status(401).send({ errorMsg: "unauthenticated" });
   try {
@@ -31,8 +30,6 @@ const address = async (req, res) => {
           } else {
             let updatingDefaultAddress = database.findOne(namespace,{_id:new ObjectID(decoded.id),"addresses.zipCode":addressId, "addresses.isDefault":true});
             if (updatingDefaultAddress) address.isDefault = true;
-            console.log(address)
-            console.log("going to update address ");
             const updateResult = await namespace.updateOne(
               { _id: new ObjectID(decoded.id), "addresses.zipCode": addressId },
               {
@@ -66,8 +63,8 @@ const address = async (req, res) => {
       return res.status(401).send({ errorMsg: "unauthenticated" });
     }
   } catch (e) {
-    console.log(e);
-    return res.status(500).send({ errorMsg: "Something went wrong" });
+    console.log("Invalid Token");
+    return res.status(500).send({ errorMsg: "Unauthenticated" });
   }
 };
 const updateCart = async (req, res) => {
@@ -104,8 +101,8 @@ const updateCart = async (req, res) => {
       return res.status(401).send({ errorMsg: "unauthenticated" });
     }
   } catch (e) {
-    console.log(e);
-    return res.status(500).send({ errorMsg: "Something went wrong" });
+    console.log("Invalid Token");
+    return res.status(500).send({ errorMsg: "Unauthenticated" });
   }
 };
 module.exports = {
