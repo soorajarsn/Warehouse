@@ -139,8 +139,8 @@ function BuyProduct(props) {
           <div>
             <main className="flex flex-column buy-product-main">
               <div className="full-width limit-width main-inner shift-down-below-nav-bar">
-                <div className="main-content grid medium-margin-left medium-margin-right large-margin">
-                  <div className="img-container-main grid">
+                <div className="main-content grid large-margin">
+                  <div className="img-container-main grid  medium-margin-left">
                     {product.imageAddresses ? (
                       product.imageAddresses.map((src, index) => (
                         <div className="img-container">
