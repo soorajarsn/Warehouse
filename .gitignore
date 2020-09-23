@@ -6,6 +6,7 @@ node_modules
 client/views/node_modules
 client/views/.pnp
 client/views/.pnp.js
+.sass-cache
 # testing
 client/views/coverage
 
