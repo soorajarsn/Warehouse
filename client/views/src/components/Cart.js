@@ -23,10 +23,14 @@ export function Options({ maxQty, qty, handleQtyChange, dataLabel }) {
   );
 }
 function Cart(props) {
+  //eslint-disable-next-line
   const { products, error, loading, fetchCart, removeFromCart, userLoggedIn, updateCart } = props;
   let [price, setPrice] = useState(0);
+
+
   useEffect(() => {
     fetchCart();
+    //eslint-disable-next-line
   }, []);
 
   //scroll to top when get rendered
@@ -52,7 +56,7 @@ function Cart(props) {
   }
   function updateSize(event) {
     let current = event.currentTarget;
-    if(!current.classList.contains('selected') && current.getAttribute('data-action') == "true"){//if the selected size is already the default size no need to update; data-action true if size more than 0
+    if(!current.classList.contains('selected') && current.getAttribute('data-action') === "true"){//if the selected size is already the default size no need to update; data-action true if size more than 0
       const newSize = current.getAttribute('data-label');
       updateCart({id:current.getAttribute('data-id'),size:newSize});
     }
@@ -67,7 +71,7 @@ function Cart(props) {
             <div className="full-width limit-width">
               <div className="cart-checkout-container medium-margin-left medium-margin-right flex large-margin">
                 <div className="cart-container flex large-padding large-margin-top flex-column">
-                  {products.length == 0 ? (
+                  {products.length === 0 ? (
                     !loading && (
                       <div className="cart-inner empty-cart-indicator full-width">
                         <div className="flex flex-column justify-space-between empty-cart full-width">
@@ -108,6 +112,7 @@ function Cart(props) {
                                       key={size}
                                       data-label={size.size}
                                       data-id={product.productId}
+                                      //eslint-disable-next-line
                                       className={"small-margin-left small-margin-right flex " + (size.stocks == 0 ? "fade" : "") + (size.size == product.size ? "selected" : "")}
                                       data-action={!!size.stocks}
                                       onClick={updateSize}>
