@@ -58,7 +58,7 @@ function ProductImages({ images }) {
     <div className="img-container-main grid  medium-margin-left">
       {images ? (
         images.map((src, index) => (
-          <div className={(index == 0) ? "img-container visible" : "img-container"}>
+          <div className={(index === 0) ? "img-container visible" : "img-container"}>
             <img src={src.substr(2)} alt="" />
           </div>
         ))
@@ -82,26 +82,27 @@ function BuyProduct(props) {
   const [size, setSize] = useState("");
   const [toasterVisible, setToasterVisible] = useState(false);
   const [qty, setQty] = useState(1);
+  const {getAddresses,userLoggedIn,addresses} = props;
   useEffect(() => {
     Axios.get("/api/product/" + productId)
       .then(response => {
         setProduct(response.data.product);
       })
       .catch(err => {});
+      //eslint-disable-next-line
   }, []);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
-    props.getAddresses();
-  }, [props.getAddresses, props.userLoggedIn]);
+    getAddresses();
+  }, [getAddresses, userLoggedIn]);
 
   useEffect(() => {
-    console.log("useEfffect run");
-    if (props.addresses[0] && props.userLoggedIn) setAddressSelected(props.addresses[0].zipCode);
+    if (addresses[0] && userLoggedIn) setAddressSelected(addresses[0].zipCode);
     else setAddressSelected("Select");
-  }, [props.addresses, props.userLoggedIn]);
+  }, [addresses, userLoggedIn]);
 
   function selectSize(event) {
     let current = event.currentTarget;
@@ -247,10 +248,10 @@ function BuyProduct(props) {
                       <DropDown
                         addressSelected={addressSelected}
                         setAddressSelected={setAddressSelected}
-                        getAddresses={props.getAddresses}
+                        getAddresses={getAddresses}
                         setRedirect={setRedirect}
-                        addresses={props.addresses}
-                        userLoggedIn={props.userLoggedIn}
+                        addresses={addresses}
+                        userLoggedIn={userLoggedIn}
                         setToasterVisible={setToasterVisible}
                       />
                     </div>
