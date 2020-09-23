@@ -186,7 +186,7 @@ function BuyProduct(props) {
                   </div> */}
                   <ProductImages images={product.imageAddresses} />
                   <div className="content medium-margin-left medium-margin-right">
-                    {product.brand ? <h1 className="small-font medium-bold-font">{product.brand}</h1> : <h1 className="medium-bold-font loading loading-content"></h1>}
+                    {product.brand ? <h1 className="small-font medium-bold-font">{product.brand}</h1> : <h1 className="medium-bold-font loading loading-content"> </h1>}
                     {product.name ? <p className="xxsmall-font color-darkGrey">{product.name}</p> : <p className="loading loading-content"></p>}
                     <p className="no-margin large-margin-top xxxsmall-font large-padding-top color-darkGrey">
                       <label className="regular-font xxxsmall-font">M.R.P: </label>
@@ -224,6 +224,7 @@ function BuyProduct(props) {
                           <div
                             key={size}
                             data-label={size.size}
+                            //eslint-disable-next-line
                             className={"small-margin-left small-margin-right flex " + (size.stocks == 0 ? "fade" : "")}
                             data-action={!!size.stocks}
                             onClick={selectSize}>
