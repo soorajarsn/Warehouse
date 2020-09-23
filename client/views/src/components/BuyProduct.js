@@ -162,28 +162,6 @@ function BuyProduct(props) {
             <main className="flex flex-column buy-product-main">
               <div className="full-width limit-width main-inner shift-down-below-nav-bar">
                 <div className="main-content grid large-margin">
-                  {/* <div className="img-container-main grid  medium-margin-left">
-                    {product.imageAddresses ? (
-                      product.imageAddresses.map((src, index) => (
-                        <div className={(index == 0) ? 'img-container visible' : 'img-container'}>
-                          <img src={src.substr(2)} alt="" />
-                        </div>
-                      ))
-                    ) : (
-                      <>
-                        <div className="img-container visible">
-                        </div>
-                        <div className="img-container">
-                        </div>
-                        <div className="img-container">
-                        </div>
-                        <div className="img-container">
-                        </div>
-                        <div className="img-container">
-                        </div>
-                      </>
-                    )}
-                  </div> */}
                   <ProductImages images={product.imageAddresses} />
                   <div className="content medium-margin-left medium-margin-right">
                     {product.brand ? <h1 className="small-font medium-bold-font">{product.brand}</h1> : <h1 className="medium-bold-font loading loading-content"> </h1>}
