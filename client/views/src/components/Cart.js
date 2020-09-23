@@ -13,7 +13,7 @@ export function Options({ maxQty, qty, handleQtyChange, dataLabel }) {
   for (let i = 1; i < maxQty && i <= 20; i++) options.push(<option value={i}>{i}</option>);
   for (let i = 25; i <= 50 && i < maxQty; i += 5) options.push(<option value={i}>{i}</option>);
   for (let i = 60; i <= 100 && i < maxQty; i += 10) options.push(<option value={i}>{i}</option>);
-  if (options.length == 0) options.push(<option vlaue="">Currently Not Available</option>);
+  if (options.length === 0) options.push(<option vlaue="">Currently Not Available</option>);
   return (
     <>
       <select value={qty} data-label={dataLabel} onChange={handleQtyChange}>

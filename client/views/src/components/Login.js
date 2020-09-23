@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { LoginPanel, Layout } from "./AuthenticationMenu";
 import PrimaryLayout from "./Layout";
 import Features from "./Features";
