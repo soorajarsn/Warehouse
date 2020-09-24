@@ -80,16 +80,46 @@ const updateCart = async (req, res) => {
     let user = await database.findOne(namespace, { _id: new ObjectID(decoded.id) });
     if (user) {
       const product = await database.findOne(productNamespace, { _id: new ObjectID(id) });
+      console.log(product);
       if (product) {
         const addrs = await database.findOne(namespace, { _id: new ObjectID(decoded.id), "addresses.zipCode": address });
         if (addrs) {
           let updateTo = {};
-          if(size)
-            updateTo = {"cart.$.size":size};
-          if(qty)
-            updateTo = {...updateTo,"cart.$.qty":parseInt(qty)};
+
+          //finding current quantity and size for validation;
+          let cart = await getCartProducts(decoded);
+          let currentQty, currentSize;
+          cart.forEach(cartP => {
+            if(cartP.productId == id){
+              currentQty = cartP.qty;
+              currentSize = cartP.size;
+            }
+          });
+          //we are supposed to have size of qty at a time;
+          if(size){
+            //need to update after db update ========================------------------------->
+            let update = false;
+            let q = 1;
+            product.sizeWiseStocks.forEach(s => {
+              if(s.size == size && s.stocks > 0){
+                update = true;
+                if(s.stocks >= currentQty)
+                    q = currentQty;
+              }
+            });
+            update ? updateTo = {"cart.$.size":size,"cart.$.qty":q} : res.status(401).send({errorMsg:'Out of Stocks!!'});
+          }
+          else if(qty){
+            let update = false;
+            product.sizeWiseStocks.forEach(s => {
+              if(s.size == currentSize && s.stocks >= parseInt(qty)){//validation qty;
+                update = true;
+              }
+            });
+            update ? updateTo = {...updateTo,"cart.$.qty":parseInt(qty)} : res.status(401).send({errorMsg:"Quantity out of Stokcs"});
+          }
           await namespace.updateOne({ _id: new ObjectID(decoded.id),"cart.productId":id }, {$set:updateTo});
-          const cart = await getCartProducts(decoded);
+          cart = await getCartProducts(decoded);
           return res.status(200).send({ products: cart });
         } else {
           return res.status(401).send({ errorMsg: "Address Unavailable" });
