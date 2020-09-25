@@ -17,6 +17,7 @@ import "../css/index.css";
 import "../css/products.css";
 import "../css/account.css";
 import "../css/login.css";
+import Checkout from "./Checkout";
 function App(props) {
   const { userLoggedIn, loadUser } = props;
   useEffect(() => {
@@ -34,6 +35,7 @@ function App(props) {
         <Route path="/account/:pageName" render={props => <Account {...props} />} />
         <Route path="/buyProduct/:productId" render={props => <BuyProduct {...props} />} />
         <Route path="/cart" render={props => <Cart {...props} />} />
+        <Route path="/checkout" render={props => <Checkout {...props} />} />
       </Switch>
     </Router>
   );
