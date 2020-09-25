@@ -17,6 +17,7 @@ import "../css/index.css";
 import "../css/products.css";
 import "../css/account.css";
 import "../css/login.css";
+import "../css/checkout.css";
 import Checkout from "./Checkout";
 function App(props) {
   const { userLoggedIn, loadUser } = props;
