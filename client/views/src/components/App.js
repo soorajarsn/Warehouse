@@ -2,14 +2,14 @@ import React, { useEffect } from "react";
 import { loadUser } from "../redux";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Account from './Account';
+import Account from "./Account";
 import Products from "./Products";
 import Login from "./Login";
 import Recover from "./Recover";
 import Register from "./Register";
 import Index from "./Index";
 import BuyProduct from "./BuyProduct";
-import Cart from './Cart';
+import Cart from "./Cart";
 import "../css/buyProduct.css";
 import "../css/reset.css";
 import "../css/theme.css";
@@ -35,7 +35,8 @@ function App(props) {
         <Route path="/account/:pageName" render={props => <Account {...props} />} />
         <Route path="/buyProduct/:productId" render={props => <BuyProduct {...props} />} />
         <Route path="/cart" render={props => <Cart {...props} />} />
-        <Route path="/checkout" render={props => <Checkout {...props} />} />
+        {/* type indicates checkout the whole cart or buy a single product; type == cart || buyPage, id indicates id of product if type = buyPage otherwise null*/}
+        <Route path="/checkout/:type/:id" render={props => <Checkout {...props} />} />
       </Switch>
     </Router>
   );
