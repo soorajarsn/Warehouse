@@ -28,10 +28,10 @@ function Cart(props) {
   let [price, setPrice] = useState(0);
 
 
-  useEffect(() => {
-    fetchCart();
+  // useEffect(() => {
+    // fetchCart();
     //eslint-disable-next-line
-  }, []);
+  // }, []);
 
   //scroll to top when get rendered
   useEffect(() => {
