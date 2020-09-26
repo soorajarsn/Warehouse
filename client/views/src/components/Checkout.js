@@ -1,11 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import Layout from './Layout'
+import { connect } from 'react-redux';
 
-function Checkout() {
+function Checkout(props) {
+    const {type} = props.match.params;
+    console.log(props);
+    useEffect(()=>{
+        if(type == 'cart'){
+
+        }
+    },[]) 
     return (
-        <div>
-            
-        </div>
+        <Layout>
+
+        </Layout>
     )
 }
+const mapStateToProps = state => ({cart:state.cart});
 
-export default Checkout
+export default connect(mapStateToProps)(Checkout);
