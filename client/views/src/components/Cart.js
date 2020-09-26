@@ -10,9 +10,9 @@ import { removeFromCart, fetchCart, updateCart } from "../redux";
 import Loader from "./Loader";
 export function Options({ maxQty, qty, handleQtyChange, dataLabel }) {
   let options = [];
-  for (let i = 1; i < maxQty && i <= 20; i++) options.push(<option value={i}>{i}</option>);
-  for (let i = 25; i <= 50 && i < maxQty; i += 5) options.push(<option value={i}>{i}</option>);
-  for (let i = 60; i <= 100 && i < maxQty; i += 10) options.push(<option value={i}>{i}</option>);
+  for (let i = 1; i <= maxQty && i <= 20; i++) options.push(<option value={i}>{i}</option>);
+  for (let i = 25; i <= 50 && i <= maxQty; i += 5) options.push(<option value={i}>{i}</option>);
+  for (let i = 60; i <= 100 && i <= maxQty; i += 10) options.push(<option value={i}>{i}</option>);
   if (options.length === 0) options.push(<option vlaue="">Currently Not Available</option>);
   return (
     <>
@@ -26,12 +26,6 @@ function Cart(props) {
   //eslint-disable-next-line
   const { products, error, loading, fetchCart, removeFromCart, userLoggedIn, updateCart } = props;
   let [price, setPrice] = useState(0);
-
-
-  // useEffect(() => {
-    // fetchCart();
-    //eslint-disable-next-line
-  // }, []);
 
   //scroll to top when get rendered
   useEffect(() => {
