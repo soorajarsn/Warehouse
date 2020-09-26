@@ -20,7 +20,7 @@ import "../css/login.css";
 import "../css/checkout.css";
 import Checkout from "./Checkout";
 function App(props) {
-  const { userLoggedIn, loadUser } = props;
+  const { userLoggedIn, loadUser,fetchCart } = props;
   useEffect(() => {
     loadUser();
   }, [userLoggedIn, loadUser]);
