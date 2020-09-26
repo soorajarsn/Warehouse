@@ -28,7 +28,7 @@ function App(props) {
     if(userLoggedIn){
       fetchCart();
     }
-  },[])
+  },[userLoggedIn])
   return (
     <Router>
       <Switch>
