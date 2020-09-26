@@ -37,7 +37,7 @@ function App(props) {
         <Route path="/buyProduct/:productId" render={props => <BuyProduct {...props} />} />
         <Route path="/cart" render={props => <Cart {...props} />} />
         {/* type indicates checkout the whole cart or buy a single product; type == cart || buyPage, id indicates id of product if type = buyPage otherwise null*/}
-        <Route path="/checkout/:type/:id" render={props => <Checkout {...props} />} />
+        <Route exact={true} path="/checkout/:type/:id?" render={props => <Checkout {...props} />} />
       </Switch>
     </Router>
   );
