@@ -154,7 +154,9 @@ function Cart(props) {
                       )}
                     </div>
                     <div className="medium-margin-right button-container">
-                      <button className="button-primary full-width xxsmall-font no-padding xsmall-padding">Ready to Checkout</button>
+                      <Link to="/checkout/cart">
+                        <button className="button-primary full-width xxsmall-font no-padding xsmall-padding">Ready to Checkout</button>
+                      </Link>
                     </div>
                   </div>
                 )}
