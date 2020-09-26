@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { loadUser } from "../redux";
+import { loadUser, fetchCart } from "../redux";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Account from "./Account";
@@ -24,6 +24,11 @@ function App(props) {
   useEffect(() => {
     loadUser();
   }, [userLoggedIn, loadUser]);
+  useEffect(()=>{
+    if(userLoggedIn){
+      fetchCart();
+    }
+  },[])
   return (
     <Router>
       <Switch>
@@ -43,7 +48,8 @@ function App(props) {
   );
 }
 const mapStateToProps = state => ({ userLoggedIn: state.user.userLoggedIn });
-const mapDispatchToProps = {
-  loadUser,
-};
+const mapDispatchToProps = dispatch => ({
+  loadUser:() => dispatch(loadUser()),
+  fetchCart:() => dispatch(fetchCart())
+});
 export default connect(mapStateToProps, mapDispatchToProps)(App);
