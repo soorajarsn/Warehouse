@@ -26,7 +26,7 @@ function Checkout(props) {
                     <li className="price">
                       <label>Price: </label>
                       <span className="color-red">
-                        <i class="fas fa-rupee-sign"></i> Price
+                        <i className="fas fa-rupee-sign"></i> Price
                       </span>
                     </li>
                     <li className="quantity-container xsmall-margin">
