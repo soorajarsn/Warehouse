@@ -130,7 +130,7 @@
       .cart-container-main .cart-checkout-container .cart-container .cart-inner.cart-not-empty .product-card .content-qty-button-container select {
         border: 1px solid #e7ebee;
         background: #f3f5f6;
-        width: 2rem; }
+        min-width: 2rem; }
       .cart-container-main .cart-checkout-container .cart-container .cart-inner.cart-not-empty .product-card .content-qty-button-container .button-container button {
         border-radius: .1rem; }
 .cart-container-main .cart-checkout-container .checkout-container {

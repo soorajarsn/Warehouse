@@ -204,7 +204,7 @@ $red: rgb(238, 0, 0);
                         select {
                             border: 1px solid $lightGrey;
                             background: $offWhite;
-                            width: 2rem;
+                            min-width: 2rem;
                         }
 
                         .button-container {
