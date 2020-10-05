@@ -8,12 +8,13 @@ import ShoppingCards from "./ShoppingCards";
 import { connect } from "react-redux";
 import { removeFromCart, fetchCart, updateCart } from "../redux";
 import Loader from "./Loader";
+import { populateCheckout } from "../redux/checkout/checkoutActions";
 export function Options({ maxQty, qty, handleQtyChange, dataLabel }) {
   let options = [];
-  for (let i = 1; i <= maxQty && i <= 20; i++) options.push(<option value={i}>{i}</option>);
-  for (let i = 25; i <= 50 && i <= maxQty; i += 5) options.push(<option value={i}>{i}</option>);
-  for (let i = 60; i <= 100 && i <= maxQty; i += 10) options.push(<option value={i}>{i}</option>);
-  if (options.length === 0) options.push(<option vlaue="">Currently Not Available</option>);
+  for (let i = 1; i <= maxQty && i <= 20; i++) options.push(<option key={i} value={i}>{i}</option>);
+  for (let i = 25; i <= 50 && i <= maxQty; i += 5) options.push(<option key={i} value={i}>{i}</option>);
+  for (let i = 60; i <= 100 && i <= maxQty; i += 10) options.push(<option key={i} value={i}>{i}</option>);
+  if (options.length === 0) options.push(<option value="">Currently Not Available</option>);
   return (
     <>
       <select value={qty} data-label={dataLabel} onChange={handleQtyChange}>
@@ -24,10 +25,11 @@ export function Options({ maxQty, qty, handleQtyChange, dataLabel }) {
 }
 function Cart(props) {
   //eslint-disable-next-line
-  const { products, error, loading, fetchCart, removeFromCart, userLoggedIn, updateCart } = props;
+  const { products, error, loading, fetchCart, removeFromCart, userLoggedIn, updateCart, populateCheckout,addresses } = props;
+  // console.log("here we go",addresses);
   let [price, setPrice] = useState(0);
-
-  //scroll to top when get rendered
+  // console.log(products);
+  //scroll to top when get rendered 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -54,6 +56,17 @@ function Cart(props) {
       const newSize = current.getAttribute('data-label');
       updateCart({id:current.getAttribute('data-id'),size:newSize});
     }
+  }
+  function processProducts(){
+    return products.map(product => {
+      let address = addresses.addresses.filter(address => address.zipCode == product.zipCode);
+      return {...product,address:address[0]};
+    })
+  }
+  function checkout(){
+    let processedProducts = processProducts();
+    populateCheckout(processedProducts);
+    props.history.push('/checkout/KSFJSJFMLKSULJSLKKFJLKSFF_SNFSK_SJFLSF_SJJFKSUFOLJWIEF7USSOFHIF');
   }
   return (
     <>
@@ -97,13 +110,13 @@ function Cart(props) {
                                 <li className="price">
                                   <label>Price: </label>
                                   <span className="color-red">
-                                    <i class="fas fa-rupee-sign"></i> {product.price}
+                                    <i className="fas fa-rupee-sign"></i> {product.price}
                                   </span>
                                 </li>
                                 <li className="available-sizes flex small-margin" onClick={(event) => event.preventDefault()}>
                                   {product.availableSizes.map(size => (
                                     <div
-                                      key={size}
+                                      key={size.size}
                                       data-label={size.size}
                                       data-id={product.productId}
                                       //eslint-disable-next-line
@@ -138,7 +151,7 @@ function Cart(props) {
                       <div className="cart-subtotal xxsmall-font color-primary">
                         Cart Subtotal:{" "}
                         <span className="color-red">
-                          <i class="fas fa-rupee-sign"></i> {price}
+                          <i className="fas fa-rupee-sign"></i> {price}
                         </span>
                       </div>
                       {price >= 500 ? (
@@ -148,9 +161,9 @@ function Cart(props) {
                       )}
                     </div>
                     <div className="medium-margin-right button-container">
-                      <Link to="/checkout/cart">
-                        <button className="button-primary full-width xxsmall-font no-padding xsmall-padding">Ready to Checkout</button>
-                      </Link>
+                      {/* <Link to="/checkout/cart"> */} 
+                        <button className="button-primary full-width xxsmall-font no-padding xsmall-padding" onClick={checkout}>Ready to Checkout</button>
+                      {/* </Link> */}
                     </div>
                   </div>
                 )}
@@ -168,12 +181,13 @@ function Cart(props) {
   );
 }
 
-const mapStateToProps = state => ({ ...state.cart, userLoggedIn: state.user.userLoggedIn });
+const mapStateToProps = state => ({ ...state.cart, userLoggedIn: state.user.userLoggedIn,addresses:state.addresses });
 const mapDispatchToProps = dispatch => {
   return {
     removeFromCart: id => dispatch(removeFromCart(id)),
     fetchCart: () => dispatch(fetchCart()),
     updateCart: body => dispatch(updateCart(body)),
+    populateCheckout: products => dispatch(populateCheckout(products))
   };
 };
 
