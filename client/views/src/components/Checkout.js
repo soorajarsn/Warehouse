@@ -53,6 +53,7 @@ function Checkout(props) {
           {props.checkout.products.map(product => (
             <ProductCard key={product.productId} {...product} img = {product.img.substr(2)} />
           ))}
+        {props.checkout.products.length > 0 && <button className="buy-button button-primary medium-margin-left large-margin">Proceed to Pay</button>}
         </div>
       </div>
     </Layout>
