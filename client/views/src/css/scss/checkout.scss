@@ -176,4 +176,8 @@ $red: rgb(238, 0, 0);
             }
         }
     }
+    .buy-button{
+        width:calc(100% - 2rem);
+        max-width:30rem;
+    }
 }
