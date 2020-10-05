@@ -4,11 +4,11 @@ import { connect } from "react-redux";
 
 function Checkout(props) {
   const { type } = props.match.params;
-  console.log(props);
-  useEffect(() => {
-    if (type == "cart") {
-    }
-  }, []);
+//   console.log(props);
+//   useEffect(() => {
+//     if (type == "cart") {
+//     }
+//   }, []);
   return (
     <Layout>
       <div className="full-width flex checkout-container-main flex-column">
@@ -56,6 +56,6 @@ function Checkout(props) {
     </Layout>
   );
 }
-const mapStateToProps = state => ({ cart: state.cart });
+const mapStateToProps = state => ({ checkout: state.checkout });
 
 export default connect(mapStateToProps)(Checkout);
