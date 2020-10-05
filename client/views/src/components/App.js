@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { loadUser, fetchCart } from "../redux";
+import { loadUser, fetchCart, getAddresses } from "../redux";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Account from "./Account";
@@ -20,15 +20,16 @@ import "../css/login.css";
 import "../css/checkout.css";
 import Checkout from "./Checkout";
 function App(props) {
-  const { userLoggedIn, loadUser,fetchCart } = props;
+  const { userLoggedIn, loadUser,fetchCart,getAddresses } = props;
   useEffect(() => {
     loadUser();
   }, [userLoggedIn, loadUser]);
   useEffect(()=>{
     if(userLoggedIn){
       fetchCart();
+      getAddresses();
     }
-  },[userLoggedIn])
+  },[userLoggedIn,fetchCart,getAddresses]);
   return (
     <Router>
       <Switch>
@@ -50,6 +51,7 @@ function App(props) {
 const mapStateToProps = state => ({ userLoggedIn: state.user.userLoggedIn });
 const mapDispatchToProps = dispatch => ({
   loadUser:() => dispatch(loadUser()),
-  fetchCart:() => dispatch(fetchCart())
+  fetchCart:() => dispatch(fetchCart()),
+  getAddresses: () => dispatch(getAddresses()) 
 });
 export default connect(mapStateToProps, mapDispatchToProps)(App);
