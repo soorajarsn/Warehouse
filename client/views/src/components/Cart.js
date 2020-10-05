@@ -26,9 +26,7 @@ export function Options({ maxQty, qty, handleQtyChange, dataLabel }) {
 function Cart(props) {
   //eslint-disable-next-line
   const { products, error, loading, fetchCart, removeFromCart, userLoggedIn, updateCart, populateCheckout,addresses } = props;
-  // console.log("here we go",addresses);
   let [price, setPrice] = useState(0);
-  // console.log(products);
   //scroll to top when get rendered 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -59,6 +57,7 @@ function Cart(props) {
   }
   function processProducts(){
     return products.map(product => {
+      //eslint-disable-next-line
       let address = addresses.addresses.filter(address => address.zipCode == product.zipCode);
       return {...product,address:address[0]};
     })
