@@ -1,7 +1,13 @@
 .checkout-container-main {
   background: #f3f5f6;
-  min-height: calc(100vh - 15.9rem);
+  min-height: calc(100vh - 8rem);
   justify-content: flex-start; }
+  @media (min-width: 700px) {
+    .checkout-container-main {
+      min-height: calc(100vh - 7rem); } }
+  @media (min-width: 1000px) {
+    .checkout-container-main {
+      min-height: calc(100vh - 15.9rem); } }
   .checkout-container-main .product-container-main {
     background: white;
     overflow: hidden;
