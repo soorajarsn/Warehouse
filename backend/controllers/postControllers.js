@@ -21,7 +21,6 @@ const saveProduct = async (req, res) => {
         imageAddresses.push(`../assets/${imgFile}`);
         file.mv(path.join(__dirname, `../../client/views/public/assets/${imgFile}`), function (err) {
           if (err) {
-            console.log("Error occured while saving the file : ", err);
             return res.status(501).json({ errorMsg: "Couldn't save the product, Error while saving the image" });
           }
         });
@@ -60,7 +59,7 @@ const saveProduct = async (req, res) => {
     database.insertOne(await database.getNamespace("products"), doc);
     return res.status(200).json({ errorMsg: "Passed" });
   } else {
-    console.log("no files in request");
+    return res.status(400).send({errorMsg:'Product Image required'});
   }
 };
 
