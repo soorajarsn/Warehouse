@@ -21,6 +21,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.9",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "razorpay": "^2.0.6"
   }
 }
