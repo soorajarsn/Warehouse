@@ -64,7 +64,7 @@ function Cart(props) {
   }
   function checkout(){
     let processedProducts = processProducts();
-    populateCheckout(processedProducts,price);
+    populateCheckout({products:processedProducts,amount:price});
     props.history.push('/checkout/KSFJSJFMLKSULJSLKKFJLKSFF_SNFSK_SJFLSF_SJJFKSUFOLJWIEF7USSOFHIF');
   }
   return (
