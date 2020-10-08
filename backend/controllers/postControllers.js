@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const getCartProducts = require('./getControllers').getCartProducts;
+const Razorpay = require('razorpay');
 const razorpay = new Razorpay({
 	key_id: 'rzp_test_k5HUtJbT6gifJp',
 	key_secret: '0uFMQQZthJOQopSED1HUCZTw'
