@@ -4,6 +4,7 @@ const path = require("path");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
+const shortid = require('shortid');
 const getCartProducts = require('./getControllers').getCartProducts;
 const Razorpay = require('razorpay');
 const razorpay = new Razorpay({
@@ -199,7 +200,7 @@ const createRazorpayOrder = async (req,res) => {
 	const options = {
 		amount: amount * 100,
 		currency,
-		receipt: new ObjectID(),
+		receipt: shortid.generate(),
 		payment_capture
 	}
 
@@ -213,7 +214,7 @@ const createRazorpayOrder = async (req,res) => {
 		});
 	} catch (error) {
     console.log(error);
-    res.status(501).send({errorMsg:'Something went wrong'});
+    res.status(500).send({errorMsg:'Something went wrong'});
 	}
 }
 module.exports = {
