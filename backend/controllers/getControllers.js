@@ -2,6 +2,7 @@ const database = require("../models/database");
 const config = require("config");
 const jwt = require("jsonwebtoken");
 const ObjectID = require("mongodb").ObjectID;
+const path = require('path');
 const getProducts = async (req, res) => {
   const { productClass, category, subCategory, page, sortBy, price, size } = req.query;
   let databaseQuery = {};
@@ -105,11 +106,15 @@ const product = async (req,res) => {
   if(!prdct) return res.status(400).send({errorMsg:'Invalid Product Id'});
   return res.status(200).send({product:prdct});
 }
+const logo = (req,res) => {
+  res.status(200).sendFile(path.join(__dirname+"../../client/views/public/assets/logo_4031f3e7-60f6-44da-98f7-3e8b9320ef7f_175x@2x.webp"));
+}
 module.exports = {
   getProducts,
   user,
   addresses,
   cart,
   product,
-  getCartProducts
+  getCartProducts,
+  logo
 };
