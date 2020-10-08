@@ -5,7 +5,10 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const getCartProducts = require('./getControllers').getCartProducts;
-
+const razorpay = new Razorpay({
+	key_id: 'rzp_test_k5HUtJbT6gifJp',
+	key_secret: '0uFMQQZthJOQopSED1HUCZTw'
+});
 const saveProduct = async (req, res) => {
   const { name, stocks, price, color, productClass, category, subCategory, brand, sizes, sStocks, mStocks, lStocks, xlStocks } = req.body;
   const reviews = [],
@@ -187,7 +190,6 @@ const addCart = async (req, res) => {
     return res.status(500).send({ errorMsg: "Unauthenticated" });
   }
 };
-
 module.exports = {
   saveProduct,
   signup,
