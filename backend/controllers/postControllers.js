@@ -190,7 +190,7 @@ const addCart = async (req, res) => {
     return res.status(500).send({ errorMsg: "Unauthenticated" });
   }
 };
-const razorpay = async (req,res) =>{
+const createRazorpayOrder = async (req,res) => {
   const payment_capture = 1
 	const amount = req.body.amount;
 	const currency = 'INR'
@@ -222,4 +222,5 @@ module.exports = {
   recover,
   address,
   addCart,
+  createRazorpayOrder
 };
