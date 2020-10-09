@@ -123,11 +123,23 @@ function EmptyCard({ pageName }) {
     </div>
   );
 }
-function OrderCards(props) {
+function OrderCards({fetchOrders,products,loading}) {
+  useEffect(() => {
+    fetchOrders();
+  }, [fetchOrders]);
   return (
     <div className="position-relative">
       <EmptyCard pageName="orders" />
-      {props.loading && <Loader />}
+      {products.length === 0 ? (
+        <EmptyCard pageName="orders" />
+      ) : (
+        <div className="product-collection grd">
+          {products.map((product, index) => (
+            <div key={index}></div>
+          ))}
+        </div>
+      )}
+      {loading && <Loader />}
     </div>
   );
 }
@@ -253,7 +265,7 @@ function Account(props) {
                 <div className="title-container large-padding medium-margin-left medium-margin-right flex justify-space-between">
                   <h1 className="color-primary medium-bold-font medium-font">{pageTitle}</h1>
                   {pageName === "orders" ? (
-                    props.orders ? (
+                    props.orders.products.length > 0 ? (
                       <PlaceOrderButton>Place More Orders</PlaceOrderButton>
                     ) : null
                   ) : props.addresses.length > 0 ? (
@@ -262,27 +274,10 @@ function Account(props) {
                 </div>
                 <hr className="no-margin" />
                 {pageName === "orders" ? (
-                  <OrderCards loading={props.loading} />
+                  <OrderCards loading={props.orders.loading} products={props.orders.products} fetchOrders={props.fetchOrders} />
                 ) : (
                   <AddressCards addresses={props.addresses} getAddress={props.getAddresses} deleteAddress={props.deleteAddress} loading={props.loading} editSetters={editSetters} />
                 )}
-
-                {/* <div className="product-collection large-margin large-padding">
-              {props.products.map(product => (
-                <div key={product._id} id={product._id} className="product-card link">
-                  <div className="img-container">
-                    <img src={product.imgsrc && product.imgsrc.substr(2)} className="full-img" alt="" />
-                  </div>
-                  <div className="data-container flex flex-column small-padding small-padding-left small-padding-right position-relative">
-                    <div className="brand-name xsmall-font light-bold-font xsmall-margin">{product.brand && product.brand.toUpperCase()}</div>
-                    <div className="name xxsmall-font color-darkGrey xsmall-margin">{product.name}</div>
-                    <div className="price xsmall-font light-bold-font xsmall-margin">{product.price && 'Rs. '+product.price}</div>
-                    <div className="reviews"></div>
-                    {props.loading && <Loader />}
-                  </div>
-                </div>
-              ))}
-            </div> */}
               </div>
             </div>
             <div className="medium-margin-left medium-margin-right">
@@ -292,24 +287,20 @@ function Account(props) {
           <div className=" flex medium-padding-left medium-padding-right features-container large-padding-top">
             <Features />
           </div>
-          {pageName === "addresses" && (
-            <AddAddressForm editDefaultValues={editValues} className="edit_form" />
-          )}
-          {pageName === "addresses" && (
-            <AddAddressForm editDefaultValues={{}} className="add_form" />
-          )}
+          {pageName === "addresses" && <AddAddressForm editDefaultValues={editValues} className="edit_form" />}
+          {pageName === "addresses" && <AddAddressForm editDefaultValues={{}} className="add_form" />}
         </Layout>
       )}
     </>
   );
 }
-const mapStateToProps = state => ({ ...state.addresses, userLoggedIn: state.user.userLoggedIn,orders:state.orders });
+const mapStateToProps = state => ({ ...state.addresses, userLoggedIn: state.user.userLoggedIn, orders: state.orders });
 const mapDispatchToProps = dispatch => {
   return {
     logOut: () => dispatch(logOut()),
     getAddresses: () => dispatch(getAddresses()),
     deleteAddress: body => dispatch(deleteAddress(body)),
-    fetchOrders: () => dispatch(fetchOrders())
+    fetchOrders: () => dispatch(fetchOrders()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Account);
