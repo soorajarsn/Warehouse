@@ -6,7 +6,7 @@ const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const upload = require('express-fileupload');
 const routes = require('./backend/routes/mainRoutes');
-const app = express();=
+const app = express();
 app.use(compression());
 app.use(cors());
 app.use(upload());
