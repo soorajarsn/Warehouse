@@ -10,7 +10,7 @@ router.route('/api/loadUser').get(getControllers.user);
 router.route('/api/addresses').get(getControllers.addresses);
 router.route('/api/cart').get(getControllers.cart);
 router.route('/api/product/:id').get(getControllers.product);
-router.route('/logo.svg').get(getControllers.logo);
+router.route('/api/orders').get(getControllers.orders);
 //postControllers
 router.route('/post/saveProduct').post(postControllers.saveProduct);
 router.route('/post/signup').post(postControllers.signup);
