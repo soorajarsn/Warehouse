@@ -128,9 +128,10 @@ const orders = async (req,res) => {
   });
   const products = await database.findMany(productNamespace,{$or:orderProducts});
   const ordersWithProductImages = orders.map(order => {
-    for(let i = 0; i < product.length; i++)
-      if(products[i]._id == order.productId)
+    for(let i = 0; i < products.length; i++)
+      if(products[i]._id == order.productId){
         return {...order,img:products[i].imageAddresses[0]};
+      }
   });
   return res.status(200).send({products:ordersWithProductImages});
 }
