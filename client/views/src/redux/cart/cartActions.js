@@ -1,4 +1,4 @@
-import { ADD_TO_CART_REQUEST, ADD_TO_CART_SUCCESS, ADD_TO_CART_ERROR, REMOVE_FROM_CART_REQUEST, REMOVE_FROM_CART_SUCCESS, REMOVE_FROM_CART_ERROR, FETCH_CART_PRODUCT_REQUEST, FETCH_CART_PRODUCT_SUCCESS, FETCH_CART_PRODUCT_ERROR, UPDATE_CART_ERROR, UPDATE_CART_REQUEST, UPDATE_CART_SUCCESS } from "./cartConsts";
+import { ADD_TO_CART_REQUEST, ADD_TO_CART_SUCCESS, ADD_TO_CART_ERROR, REMOVE_FROM_CART_REQUEST, REMOVE_FROM_CART_SUCCESS, REMOVE_FROM_CART_ERROR, FETCH_CART_PRODUCT_REQUEST, FETCH_CART_PRODUCT_SUCCESS, FETCH_CART_PRODUCT_ERROR, UPDATE_CART_ERROR, UPDATE_CART_REQUEST, UPDATE_CART_SUCCESS, CLEAR_CART } from "./cartConsts";
 import Axios from "axios";
 import { getConfig } from "../auth/login/loginActions";
 
@@ -18,6 +18,7 @@ const updateCartRequest = () => ({type:UPDATE_CART_REQUEST});
 const updateCartSuccess = cartProducts => ({type:UPDATE_CART_SUCCESS,payload:cartProducts});
 const updateCartError = error => ({type:UPDATE_CART_ERROR,payload:error});
 
+const clearCart = (cartProducts) => ({type:CLEAR_CART,payload:cartProducts});
 export const addToCart = (body) => {
   return (dispatch, getState) => {
     console.log('addToCart called');
@@ -91,6 +92,20 @@ export const updateCart = (body) => {
       else{
         dispatch(updateCartError('Something went wrong!!!'));
       }
+    })
+  }
+}
+
+export const clearCartProducts = () => {
+  return (dispatch,getState) => {
+    const config = getConfig(getState);
+    Axios.delete('/api/clearCart')
+    .then(response => {
+      const data = response.data;
+      dispatch(clearCart(data.products));
+    })
+    .catch(err => {
+      console.log(err);
     })
   }
 }
