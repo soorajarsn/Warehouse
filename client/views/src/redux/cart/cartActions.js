@@ -99,7 +99,7 @@ export const updateCart = (body) => {
 export const clearCartProducts = () => {
   return (dispatch,getState) => {
     const config = getConfig(getState);
-    Axios.delete('/api/clearCart')
+    Axios.delete('/api/clearCart',config)
     .then(response => {
       const data = response.data;
       dispatch(clearCart(data.products));
