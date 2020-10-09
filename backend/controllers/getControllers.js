@@ -109,6 +109,31 @@ const product = async (req,res) => {
 const logo = (req,res) => {
   res.status(200).sendFile(path.join(__dirname+"../../client/views/public/assets/logo_4031f3e7-60f6-44da-98f7-3e8b9320ef7f_175x@2x.webp"));
 }
+const orders = async (req,res) => {
+  const token  = req.header('x-auth-token');
+  if(!token) return res.status(401).send({errorMsg:'Unauthenticated'});
+  let decoded;
+  try{
+    decoded = jwt.verify(token,config.get("jwtSecret"));
+  }
+  catch(err){
+    return res.status(401).send({errorMsg:'Unauthenticated'});
+  }
+  const userNamespace = await database.getNamespace('users');
+  const productNamespace = await database.getNamespace('products');
+  const orders = (await database.findOne(userNamespace,{_id:new ObjectID(decoded.id),"orders.paid":true})).orders;
+  let orderProducts = [];
+  orders.forEach(order => {
+    orderProducts.push({_id:new ObjectID(order.productId)});
+  });
+  const products = await database.findMany(productNamespace,{$or:orderProducts});
+  const ordersWithProductImages = orders.map(order => {
+    for(let i = 0; i < product.length; i++)
+      if(products[i]._id == order.productId)
+        return {...order,img:products[i].imageAddresses[0]};
+  });
+  return res.status(200).send({products:ordersWithProductImages});
+}
 module.exports = {
   getProducts,
   user,
@@ -116,5 +141,6 @@ module.exports = {
   cart,
   product,
   getCartProducts,
-  logo
+  logo,
+  orders
 };
