@@ -223,7 +223,7 @@ const createRazorpayOrder = async (req, res) => {
     const productNamespace = await database.getNamespace("products");
     let product;
     if (type == "cart") {
-      const cart = (await database.findOne(userNamespace,{ _id: new ObjectID(decoded.id) })).cart;
+      const cart = (await database.findOne(userNamespace, { _id: new ObjectID(decoded.id) })).cart;
       const orders = [];
       cart.forEach(async cartProduct => {
         product = await productNamespace.findOne({ _id: new ObjectID(cartProduct.productId) });
@@ -265,7 +265,7 @@ const createRazorpayOrder = async (req, res) => {
     res.status(500).send({ errorMsg: "Something went wrong" });
   }
 };
-const paymentVerification = (req, res) => {
+const paymentVerification = async (req, res) => {
   const secret = config.get("razorpayPaymentVerificationSecret");
   console.log("body start " + req.body + " body over");
   const crypto = require("crypto");
@@ -276,12 +276,18 @@ const paymentVerification = (req, res) => {
   console.log(digest, req.headers["x-razorpay-signature"]);
 
   if (digest === req.headers["x-razorpay-signature"]) {
-    // process it
     const entity = req.body.payload.payment.entity;
-    if(entity.captured){
+    if (entity.captured) {
       const orderId = entity.order_id;
       const paymentId = entity.id;
-      console.log(entity,orderId,paymentId);
+      const namespace = await database.getNamespace("users");
+      const updateRes = await namespace.updateOne(
+        { "orders.orderId": orderId },
+        { $set: { "orders.$[order].paid": true, "orders.$[order].paymentId": paymentId } },
+        { arrayFilters: [{ "order.orderId": orderId }] }
+      );
+      console.log("update result was ", updateRes.result);
+      console.log(entity, orderId, paymentId);
     }
     res.status(200).send({ status: "ok" });
   } else {
