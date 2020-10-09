@@ -232,6 +232,7 @@ const createRazorpayOrder = async (req, res) => {
           maxPrice: product.maxPrice || product.price, //need to update after db update
           ...cartProduct,
           paid: false,
+          orderCreatedAt:new Date(response.created_at*1000)
         };
         userNamespace.updateOne({ _id: new ObjectID(decoded.id) }, { $push: { orders: order } });
       });
@@ -251,6 +252,7 @@ const createRazorpayOrder = async (req, res) => {
         size,
         zipCode,
         paid: false,
+        orderCreatedAt:new Date(response.created_at*1000)
       };
       userNamespace.updateOne({ _id: new ObjectID(decoded.id) }, { $push: { orders: order } });
     }
