@@ -14,9 +14,16 @@ function loadScript(src) {
 			resolve(false)
 		}
 		document.body.appendChild(script);
-	})
+	});
 }
-
+const getConfig = (token) => {
+  return {
+    headers:{
+      "Content-type":'application/json',
+      "x-auth-token":token
+    }
+  }
+}
 function ProductCard(props) {
   return (
     <div className="product-container-main flex flex-column medium-margin-left medium-margin-right small-margin">
@@ -60,41 +67,35 @@ function ProductCard(props) {
   );
 }
 function Checkout(props) {
+  const {type,id} = props.match.params;
   async function displayRazorpay() {
 		const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js')
 
 		if (!res) {
-			alert('Razorpay SDK failed to load. Are you online?')
-			return
+			alert('Failed to load. Make sure you are online?')
+			return;
 		}
     let data;
 		try{
-      data = (await Axios.post('/post/razorpay',{amount:1})).data;
+      data = (await Axios.post('/post/razorpay',{amount:props.checkout.amount,type,id},getConfig(props.token))).data;
     }catch(err){
       console.log(err);
     }
-  
-		console.log(data)
 
 		const options = {
 			key: __DEV__ ? 'rzp_test_k5HUtJbT6gifJp' : 'PRODUCTION_KEY',
 			currency: data.currency,
 			amount: data.amount.toString(),
       order_id: data.id,
-			name: 'Buy Something',
+			name: 'Warehouse Corporation',
 			description: 'Thank you for shoping with us',
 			image: '/assets/icon.png',
-			handler: function (response) {
-				alert(response.razorpay_payment_id)
-				alert(response.razorpay_order_id)
-				alert(response.razorpay_signature)
-			},
 		  theme: {
         color: "rgb(30, 45, 125)"
       }
 		}
 		const paymentObject = new window.Razorpay(options)
-		paymentObject.open()
+		paymentObject.open();
 	}
   return (
     <Layout>
@@ -104,12 +105,12 @@ function Checkout(props) {
           {props.checkout.products.map(product => (
             <ProductCard key={product.productId} {...product} img = {product.img.substr(2)} />
           ))}
-        {props.checkout.products.length > 0 && <button className="buy-button button-primary medium-margin-left large-margin" onClick={displayRazorpay}>Proceed to Pay</button>}
+        {props.checkout.products.length > 0 && <button className="buy-button button-primary medium-margin-left large-margin" onClick={displayRazorpay}>Proceed to Pay <i className="fas fa-rupee-sign"></i> {props.checkout.amount}</button>}
         </div>
       </div>
     </Layout>
   );
 }
-const mapStateToProps = state => ({ checkout: state.checkout });
+const mapStateToProps = state => ({ checkout: state.checkout,token:state.user.token, userLoggedIn:state.user.userLoggedIn });
 
 export default connect(mapStateToProps)(Checkout);
