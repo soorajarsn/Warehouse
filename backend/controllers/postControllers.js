@@ -224,17 +224,16 @@ const createRazorpayOrder = async (req, res) => {
     let product;
     if (type == "cart") {
       const cart = (await database.findOne(userNamespace, { _id: new ObjectID(decoded.id) })).cart;
-      const orders = [];
       cart.forEach(async cartProduct => {
         product = await productNamespace.findOne({ _id: new ObjectID(cartProduct.productId) });
-        orders.push({
+        let order = {
           orderId: response.id,
           orderPrice: product.price,
           maxPrice: product.maxPrice || product.price, //need to update after db update
           ...cartProduct,
           paid: false,
-        });
-        userNamespace.updateOne({ _id: new ObjectID(decoded.id) }, { $push: { orders: { $each: orders } } });
+        };
+        userNamespace.updateOne({ _id: new ObjectID(decoded.id) }, { $push: { orders: order } });
       });
     } else {
       const id = req.body.id;
