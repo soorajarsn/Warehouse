@@ -4,12 +4,12 @@ const path = require("path");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
-const shortid = require('shortid');
-const getCartProducts = require('./getControllers').getCartProducts;
-const Razorpay = require('razorpay');
+const shortid = require("shortid");
+const getCartProducts = require("./getControllers").getCartProducts;
+const Razorpay = require("razorpay");
 const razorpay = new Razorpay({
-	key_id: 'rzp_test_k5HUtJbT6gifJp',
-	key_secret: '0uFMQQZthJOQopSED1HUCZTw'
+  key_id: "rzp_test_k5HUtJbT6gifJp",
+  key_secret: "0uFMQQZthJOQopSED1HUCZTw",
 });
 const saveProduct = async (req, res) => {
   const { name, stocks, price, color, productClass, category, subCategory, brand, sizes, sStocks, mStocks, lStocks, xlStocks } = req.body;
@@ -64,7 +64,7 @@ const saveProduct = async (req, res) => {
     database.insertOne(await database.getNamespace("products"), doc);
     return res.status(200).json({ errorMsg: "Passed" });
   } else {
-    return res.status(400).send({errorMsg:'Product Image required'});
+    return res.status(400).send({ errorMsg: "Product Image required" });
   }
 };
 
@@ -154,13 +154,13 @@ const address = async (req, res) => {
     }
   } catch (e) {
     console.log("Invalid Token");
-    return res.status(500).send({ errorMsg: "Unauthenticated" });
+    return res.status(401).send({ errorMsg: "Unauthenticated" });
   }
 };
 
 const addCart = async (req, res) => {
   const token = req.header("x-auth-token");
-  const { id, size, address,qty } = req.body;
+  const { id, size, address, qty } = req.body;
   if (!id || !size || !address) return res.status(401).send({ errorMsg: "id, size, address required" });
   if (!token) return res.status(401).send({ errorMsg: "unauthenticated" });
   let decoded;
@@ -174,8 +174,11 @@ const addCart = async (req, res) => {
       if (product) {
         const addrs = await database.findOne(namespace, { _id: new ObjectID(decoded.id), "addresses.zipCode": address });
         if (addrs) {
-          await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $pull: { cart: { productId:id } } });
-          await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $push: { cart: { $each: [{ productId:id, size, zipCode: address, qty:parseInt(qty||1) }], $position: 0 } } });
+          await namespace.updateOne({ _id: new ObjectID(decoded.id) }, { $pull: { cart: { productId: id } } });
+          await namespace.updateOne(
+            { _id: new ObjectID(decoded.id) },
+            { $push: { cart: { $each: [{ productId: id, size, zipCode: address, qty: parseInt(qty || 1) }], $position: 0 } } }
+          );
           const cart = await getCartProducts(decoded);
           return res.status(200).send({ products: cart });
         } else {
@@ -189,34 +192,102 @@ const addCart = async (req, res) => {
     }
   } catch (e) {
     console.log("Inavalid Token");
-    return res.status(500).send({ errorMsg: "Unauthenticated" });
+    return res.status(401).send({ errorMsg: "Unauthenticated" });
   }
 };
-const createRazorpayOrder = async (req,res) => {
-  const payment_capture = 1
-	const amount = req.body.amount;
-	const currency = 'INR'
+const createRazorpayOrder = async (req, res) => {
+  const { amount, type } = req.body;
+  const token = req.header("x-auth-token");
+  if (!token) return res.status(401).send({ errorMsg: "Unauthenticated" });
+  console.log(token);
+  let decoded;
+  try {
+    decoded = jwt.verify(token, config.get("jwtSecret"));
+  } catch (err) {
+    console.log(err);
+    return res.status(401).send({ errorMsg: "Unauthenticated" });
+  }
+  const payment_capture = 1;
+  const currency = "INR";
+  const options = {
+    amount: amount * 100,
+    currency,
+    receipt: shortid.generate(),
+    payment_capture,
+  };
 
-	const options = {
-		amount: amount * 100,
-		currency,
-		receipt: shortid.generate(),
-		payment_capture
-	}
-
-	try {
-		const response = await razorpay.orders.create(options);
-		console.log(response);
-		res.status(200).send({
-			id: response.id,
-			currency: response.currency,
-			amount: response.amount
-		});
-	} catch (error) {
+  try {
+    const response = await razorpay.orders.create(options);
+    console.log(response);
+    const userNamespace = await database.getNamespace("users");
+    const productNamespace = await database.getNamespace("products");
+    let product;
+    if (type == "cart") {
+      const cart = (await database.findOne(userNamespace,{ _id: new ObjectID(decoded.id) })).cart;
+      const orders = [];
+      cart.forEach(async cartProduct => {
+        product = await productNamespace.findOne({ _id: new ObjectID(cartProduct.productId) });
+        orders.push({
+          orderId: response.id,
+          orderPrice: product.price,
+          maxPrice: product.maxPrice || product.price, //need to update after db update
+          ...cartProduct,
+          paid: false,
+        });
+        userNamespace.updateOne({ _id: new ObjectID(decoded.id) }, { $push: { orders: { $each: orders } } });
+      });
+    } else {
+      const id = req.body.id;
+      const qty = req.body.qty;
+      const size = req.body.size;
+      const zipCode = req.body.zipCode;
+      product = await productNamespace.findOne({ _id: new ObjectID(id) });
+      if (id != product._id) return res.status(400).send("bad request");
+      const order = {
+        orderId: response.id,
+        productId: id,
+        qty,
+        orderPrice: amount,
+        maxPrice: product.maxPrice || amount, //need to update after db update;
+        size,
+        zipCode,
+        paid: false,
+      };
+      userNamespace.updateOne({ _id: new ObjectID(decoded.id) }, { $push: { orders: order } });
+    }
+    res.status(200).send({
+      id: response.id,
+      currency: response.currency,
+      amount: response.amount,
+    });
+  } catch (error) {
     console.log(error);
-    res.status(500).send({errorMsg:'Something went wrong'});
-	}
-}
+    res.status(500).send({ errorMsg: "Something went wrong" });
+  }
+};
+const paymentVerification = (req, res) => {
+  const secret = config.get("razorpayPaymentVerificationSecret");
+  console.log("body start " + req.body + " body over");
+  const crypto = require("crypto");
+  const shasum = crypto.createHmac("sha256", secret);
+  shasum.update(JSON.stringify(req.body));
+  const digest = shasum.digest("hex");
+
+  console.log(digest, req.headers["x-razorpay-signature"]);
+
+  if (digest === req.headers["x-razorpay-signature"]) {
+    // process it
+    const entity = req.body.payload.payment.entity;
+    if(entity.captured){
+      const orderId = entity.order_id;
+      const paymentId = entity.id;
+      console.log(entity,orderId,paymentId);
+    }
+    res.status(200).send({ status: "ok" });
+  } else {
+    res.status(400).send({ status: "Bad Request" });
+  }
+};
 module.exports = {
   saveProduct,
   signup,
@@ -224,5 +295,6 @@ module.exports = {
   recover,
   address,
   addCart,
-  createRazorpayOrder
+  createRazorpayOrder,
+  paymentVerification,
 };
