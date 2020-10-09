@@ -284,7 +284,7 @@ const paymentVerification = async (req, res) => {
       const namespace = await database.getNamespace("users");
       const updateRes = await namespace.updateOne(
         { "orders.orderId": orderId },
-        { $set: { "orders.$[order].paid": true, "orders.$[order].paymentId": paymentId,"orders.$[order].paymentCreatedAt": entity.created_at*1000} },
+        { $set: { "orders.$[order].paid": true, "orders.$[order].paymentId": paymentId,"orders.$[order].paymentCreatedAt": new Date(entity.created_at*1000)} },
         { arrayFilters: [{ "order.orderId": orderId }] }
       );
       console.log("update result was ", updateRes.result);
