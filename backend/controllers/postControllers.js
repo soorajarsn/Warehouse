@@ -303,5 +303,5 @@ module.exports = {
   address,
   addCart,
   createRazorpayOrder,
-  paymentVerification,
+  paymentVerification
 };
