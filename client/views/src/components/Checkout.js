@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect ,useState} from "react";
 import Layout from "./Layout";
 import { connect } from "react-redux";
 import Axios from "axios";
+import { Redirect } from "react-router-dom";
 const __DEV__ = document.domain === 'localhost'
 function loadScript(src) {
 	return new Promise((resolve) => {
@@ -68,18 +69,24 @@ function ProductCard(props) {
 }
 function Checkout(props) {
   const {type,id} = props.match.params;
+  const {userLoggedIn} = props;
+  const [redirect,setRedirect] = useState(false);
+  useEffect(()=>{
+    if(!userLoggedIn) setRedirect(true);
+  },[userLoggedIn])
   async function displayRazorpay() {
 		const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js')
 
 		if (!res) {
-			alert('Failed to load. Make sure you are online?')
+			alert('Failed to load. Make sure you are online!')
 			return;
 		}
     let data;
 		try{
       data = (await Axios.post('/post/razorpay',{amount:props.checkout.amount,type,id},getConfig(props.token))).data;
     }catch(err){
-      console.log(err);
+      if(err.response.status === 401) return setRedirect(true);
+      else return alert('Unable to connect to server, Make sure you are online!');
     }
 
 		const options = {
@@ -98,6 +105,8 @@ function Checkout(props) {
 		paymentObject.open();
 	}
   return (
+    <React.Fragment>{
+      redirect ? <Redirect to={{pathname:'/login',state:{from:props.location}}} /> :
     <Layout>
       <div className="full-width flex checkout-container-main flex-column">
         <div className="full-width limit-width shift-down-below-nav-bar">
@@ -109,6 +118,8 @@ function Checkout(props) {
         </div>
       </div>
     </Layout>
+    }
+    </React.Fragment>
   );
 }
 const mapStateToProps = state => ({ checkout: state.checkout,token:state.user.token, userLoggedIn:state.user.userLoggedIn });
