@@ -46,7 +46,22 @@ const removeCart = async (req, res) => {
     return res.status(401).send({ errorMsg: "unauthenticated" });
   }
 };
+const clearCart = async (req,res) => {
+  const token = req.header('x-auth-token');
+  if(!token) return res.status(401).send({errorMsg:'unauthenticated'});
+  let decoded;
+  try{
+    decoded = jwt.verify(token,config.get('jwtSecret'));
+  }
+  catch(err){
+    return res.status(401).send({errorMsg: "unauthenticated"});
+  }
+  const namespace = await database.getNamespace('users');
+  namespace.updateOne({_id:new ObjectID(decoded.id)},{$set:{cart:[]}});
+  return res.status(200).send({products:[]});
+}
 module.exports = {
   address,
   removeCart,
+  clearCart
 };
