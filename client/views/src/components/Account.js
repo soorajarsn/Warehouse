@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import Layout from "./Layout";
-import { logOut, getAddresses, deleteAddress } from "../redux";
+import { logOut, getAddresses, deleteAddress, fetchOrders } from "../redux";
 import { AngleDownSvg, CheckSvg, TimesSvg, NoOrdersSvg, NoAddressesSvg } from "./svg/icons";
 import { connect } from "react-redux";
 import Features from "./Features";
@@ -303,12 +303,13 @@ function Account(props) {
     </>
   );
 }
-const mapStateToProps = state => ({ ...state.addresses, userLoggedIn: state.user.userLoggedIn });
+const mapStateToProps = state => ({ ...state.addresses, userLoggedIn: state.user.userLoggedIn,orders:state.orders });
 const mapDispatchToProps = dispatch => {
   return {
     logOut: () => dispatch(logOut()),
     getAddresses: () => dispatch(getAddresses()),
     deleteAddress: body => dispatch(deleteAddress(body)),
+    fetchOrders: () => dispatch(fetchOrders())
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Account);
