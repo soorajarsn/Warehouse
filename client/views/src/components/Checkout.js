@@ -59,7 +59,7 @@ function ProductCard(props) {
         <ul className="xxxsmall-font small-padding-left small-padding-right">
           <li>{props.address.firstName + " " + props.address.lastName}, </li>
           <li>{props.address.locality + ", " + props.address.city}, </li>
-          <li>{props.address.zipCide + ", " + props.address.state}, </li>
+          <li>{props.address.zipCode + ", " + props.address.state}, </li>
           <li>{props.address.country}, </li>
           <li>{props.address.phone}</li>
         </ul>
