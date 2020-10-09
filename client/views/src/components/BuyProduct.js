@@ -58,7 +58,7 @@ function ProductImages({ images }) {
     <div className="img-container-main grid  medium-margin-left">
       {images ? (
         images.map((src, index) => (
-          <div className={(index === 0) ? "img-container visible" : "img-container"}>
+          <div key={src} className={(index === 0) ? "img-container visible" : "img-container"}>
             <img src={src.substr(2)} alt="" />
           </div>
         ))
