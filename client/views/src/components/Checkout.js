@@ -96,7 +96,8 @@ function Checkout(props) {
       order_id: data.id,
 			name: 'Warehouse Corporation',
 			description: 'Thank you for shoping with us',
-			image: '/assets/icon.png',
+      image: '/assets/icon.png',
+      handler:[],
 		  theme: {
         color: "rgb(30, 45, 125)"
       }
