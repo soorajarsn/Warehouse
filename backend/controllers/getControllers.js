@@ -121,17 +121,23 @@ const orders = async (req,res) => {
   }
   const userNamespace = await database.getNamespace('users');
   const productNamespace = await database.getNamespace('products');
-  const orders = (await database.findOne(userNamespace,{_id:new ObjectID(decoded.id),"orders.paid":true})).orders;
+  const user = await database.findOne(userNamespace,{_id:new ObjectID(decoded.id),"orders.paid":true});
+  const orders = user.orders;
+  const addresses = user.addresses;
   let orderProducts = [];
   orders.forEach(order => {
     orderProducts.push({_id:new ObjectID(order.productId)});
   });
   const products = await database.findMany(productNamespace,{$or:orderProducts});
   const ordersWithProductImages = orders.map(order => {
-    for(let i = 0; i < products.length; i++)
-      if(products[i]._id == order.productId){
-        return {...order,img:products[i].imageAddresses[0]};
-      }
+    let orderWithExtraDetails;
+    products.forEach(product => {
+      if(product._id == order.productId) orderWithExtraDetails = {...order,img:product.imageAddresses[0],title:product.name};
+    });
+    addresses.forEach(address => {
+      if(address.zipCode == order.zipCode) orderWithExtraDetails = {...orderWithExtraDetails,address:address};
+    });
+    return orderWithExtraDetails;
   });
   return res.status(200).send({products:ordersWithProductImages});
 }
