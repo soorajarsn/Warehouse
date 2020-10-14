@@ -9,7 +9,8 @@ const getNamespace = async function (collection) {
   try {
     return client.db(dbName).collection(collection);
   } catch (err) {
-    throw err;
+    await client.connect();
+    return client.db(dbName).collection(collection);
   }
 };
 
