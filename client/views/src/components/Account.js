@@ -123,7 +123,32 @@ function EmptyCard({ pageName }) {
     </div>
   );
 }
-function OrderCards({fetchOrders,products,loading}) {
+function OrderCard({ product }) {
+  return (
+    <div className="product-card order-container">
+      <div className="img-container">
+        <img src={product.img.substr(2)} alt="" />
+      </div>
+      {/* <div className="order-details data-container">
+        <div className="address-header xsmall-font light-bold-font color-primary medium-margin">
+          {product.title || "Product Title goes here"}
+        </div>
+        <div className="data xxsmall-font color-darkGrey xsmall-margin">
+          <span className="first-name">{product.address.firstName}</span> <span className="last-name">{address.lastName}</span>
+        </div>
+        <div className="data xsmall-font color-darkGrey xsmall-margin">
+          <span className="locality">{address.locality}</span>, <span className="city">{address.city}</span>
+        </div>
+        <div className="data xsmall-font color-darkGrey xsmall-margin">
+          <span className="zipcode">{address.zipCode}</span>, <span className="state">{address.state}</span>
+        </div>
+        <div className="data xsmall-font color-darkGrey xsmall-margin country">{address.country}</div>
+        <div className="hidden phone">{address.phone}</div>
+      </div> */}
+    </div>
+  );
+}
+function OrderCards({ fetchOrders, products, loading }) {
   useEffect(() => {
     fetchOrders();
   }, [fetchOrders]);
