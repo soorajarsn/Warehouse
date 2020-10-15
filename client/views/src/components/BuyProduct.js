@@ -83,6 +83,18 @@ function BuyProduct(props) {
   const [toasterVisible, setToasterVisible] = useState(false);
   const [qty, setQty] = useState(1);
   const {getAddresses,userLoggedIn,addresses} = props;
+  function processProducts(){
+    return products.map(product => {
+      //eslint-disable-next-line
+      let address = addresses.addresses.filter(address => address.zipCode == product.zipCode);
+      return {...product,address:address[0]};
+    })
+  }
+  function checkout(){
+    let processedProducts = processProducts();
+    populateCheckout({products:processedProducts,amount:price});
+    props.history.push('/checkout/cart');
+  }
   useEffect(() => {
     Axios.get("/api/product/" + productId)
       .then(response => {
