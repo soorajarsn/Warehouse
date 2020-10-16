@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Axios from "axios";
 import { Redirect } from "react-router-dom";
 import { clearCartProducts } from "../redux";
+import Loader from "./Loader";
 const __DEV__ = document.domain === "localhost";
 function loadScript(src) {
   return new Promise(resolve => {
@@ -72,6 +73,7 @@ function Checkout(props) {
   const { type, id } = props.match.params;
   const { userLoggedIn } = props;
   const [redirect, setRedirect] = useState(false);
+  const [loading,setLoading] = useState(false);
   useEffect(() => {
     if (!userLoggedIn) setRedirect(true);
   }, [userLoggedIn]);
@@ -84,7 +86,7 @@ function Checkout(props) {
     }
     let data;
     try {
-      data = (await Axios.post("/post/razorpay", { amount: props.checkout.amount, type, id }, getConfig(props.token))).data;
+      data = (await Axios.post("/post/createOrder", { amount: props.checkout.amount, type, id }, getConfig(props.token))).data;
     } catch (err) {
       if (err.response.status === 401) return setRedirect(true);
       else return alert("Unable to connect to server, Make sure you are online!");
@@ -100,6 +102,7 @@ function Checkout(props) {
       image: "/assets/icon.png",
       handler: function (response) {
         if(type == 'cart') props.clearCartProducts();
+        setLoading(true);
         props.history.replace('/account/orders');
       },
       theme: {
@@ -128,6 +131,7 @@ function Checkout(props) {
               )}
             </div>
           </div>
+          {loading && <Loader />} 
         </Layout>
       )}
     </React.Fragment>
