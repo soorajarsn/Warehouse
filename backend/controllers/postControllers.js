@@ -7,9 +7,10 @@ const config = require("config");
 const shortid = require("shortid");
 const getCartProducts = require("./getControllers").getCartProducts;
 const Razorpay = require("razorpay");
+const crypto = require("crypto");
 const razorpay = new Razorpay({
-  key_id: "rzp_test_k5HUtJbT6gifJp",
-  key_secret: "0uFMQQZthJOQopSED1HUCZTw",
+  key_id: config.get("razorpayKeyId"),
+  key_secret: config.get("razorpayKeySecret"),
 });
 const saveProduct = async (req, res) => {
   const { name, stocks, price, color, productClass, category, subCategory, brand, sizes, sStocks, mStocks, lStocks, xlStocks } = req.body;
@@ -266,10 +267,9 @@ const createRazorpayOrder = async (req, res) => {
     res.status(500).send({ errorMsg: "Something went wrong" });
   }
 };
-const paymentVerification = async (req, res) => {
+const paymentVerificationRazorpay = async (req, res) => {
   const secret = config.get("razorpayPaymentVerificationSecret");
   console.log("body start " + req.body + " body over");
-  const crypto = require("crypto");
   const shasum = crypto.createHmac("sha256", secret);
   shasum.update(JSON.stringify(req.body));
   const digest = shasum.digest("hex");
@@ -287,14 +287,28 @@ const paymentVerification = async (req, res) => {
         { $set: { "orders.$[order].paid": true, "orders.$[order].paymentId": paymentId,"orders.$[order].paymentCreatedAt": new Date(entity.created_at*1000)} },
         { arrayFilters: [{ "order.orderId": orderId }] }
       );
-      console.log("update result was ", updateRes.result);
-      console.log(entity, orderId, paymentId);
     }
     res.status(200).send({ status: "ok" });
   } else {
     res.status(400).send({ status: "Bad Request" });
   }
 };
+const paymentVerificationClient = async (req,res) => {
+  const {serverOrderId,paymentId,razorpaySignature,paymentCreatedAt} = req.body;
+  const hmac = crypto.createHmac('sha256',config.get("razorpayKeySecret"));
+  const data = hmac.update(serverOrderId+"|"+paymentId);
+  const digest = data.digest('hex');
+  if(digest == razorpaySignature){
+    const namespace = await database.getNamespace('users');
+    await namespace.updateOne(
+      { "orders.orderId": serverOrderId },
+      { $set: { "orders.$[order].paid": true, "orders.$[order].paymentId": paymentId,"orders.$[order].paymentCreatedAt": paymentCreatedAt} },
+      { arrayFilters: [{ "order.orderId": serverOrderId }] }
+    );
+    res.status(200).send({ status: "ok" });
+  }
+  else res.status(400).send({errorMsg:'Invalid Payment Details'});
+}
 module.exports = {
   saveProduct,
   signup,
@@ -303,5 +317,6 @@ module.exports = {
   address,
   addCart,
   createRazorpayOrder,
-  paymentVerification
+  paymentVerificationRazorpay,
+  paymentVerificationClient
 };
