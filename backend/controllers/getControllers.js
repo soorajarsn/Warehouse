@@ -2,7 +2,7 @@ const database = require("../models/database");
 const config = require("config");
 const jwt = require("jsonwebtoken");
 const ObjectID = require("mongodb").ObjectID;
-const path = require('path');
+const path = require("path");
 const getProducts = async (req, res) => {
   const { productClass, category, subCategory, page, sortBy, price, size } = req.query;
   let databaseQuery = {};
@@ -58,7 +58,7 @@ const addresses = async (req, res) => {
   return res.status(200).send({ addresses });
 };
 
-const getCartProducts = async (decoded) => {
+const getCartProducts = async decoded => {
   const userNamespace = await database.getNamespace("users");
   const cart = (await database.findOne(userNamespace, { _id: new ObjectID(decoded.id) })).cart;
   if (cart.length > 0) {
@@ -75,17 +75,18 @@ const getCartProducts = async (decoded) => {
           cart[i].title = prdct.name;
           cart[i].price = prdct.price;
           let stocks = 0;
-          prdct.sizeWiseStocks.forEach(sizeStocks => {//need to change sizeWiseStocks to size after db update;
+          prdct.sizeWiseStocks.forEach(sizeStocks => {
+            //need to change sizeWiseStocks to size after db update;
             if (sizeStocks.size === cart[i].size) stocks = sizeStocks.stocks;
           });
           cart[i].maxQty = stocks;
-          cart[i].availableSizes = prdct.sizeWiseStocks;//need to change sizeWiseStocks to size after db update;
+          cart[i].availableSizes = prdct.sizeWiseStocks; //need to change sizeWiseStocks to size after db update;
         }
       }
     });
   }
   return cart;
-}
+};
 const cart = async (req, res) => {
   const token = req.header("x-auth-token");
   if (!token) return res.status(401).send({ errorMsg: "unauthenticated" });
@@ -98,49 +99,53 @@ const cart = async (req, res) => {
   const cart = await getCartProducts(decoded);
   return res.status(200).send({ products: cart });
 };
-const product = async (req,res) => {
-  const {id} = req.params;
-  if(!id) return res.status(400).send({errorMsg:'Id Required'});
-  const namespace = await database.getNamespace('products');
-  const prdct = await database.findOne(namespace,{_id:new ObjectID(id)});
-  if(!prdct) return res.status(400).send({errorMsg:'Invalid Product Id'});
-  return res.status(200).send({product:prdct});
-}
-const logo = (req,res) => {
-  res.status(200).sendFile(path.join(__dirname+"../../client/views/public/assets/logo_4031f3e7-60f6-44da-98f7-3e8b9320ef7f_175x@2x.webp"));
-}
-const orders = async (req,res) => {
-  const token  = req.header('x-auth-token');
-  if(!token) return res.status(401).send({errorMsg:'Unauthenticated'});
+const product = async (req, res) => {
+  const { id } = req.params;
+  if (!id) return res.status(400).send({ errorMsg: "Id Required" });
+  const namespace = await database.getNamespace("products");
+  const prdct = await database.findOne(namespace, { _id: new ObjectID(id) });
+  if (!prdct) return res.status(400).send({ errorMsg: "Invalid Product Id" });
+  return res.status(200).send({ product: prdct });
+};
+const logo = (req, res) => {
+  res.status(200).sendFile(path.join(__dirname + "../../client/views/public/assets/logo_4031f3e7-60f6-44da-98f7-3e8b9320ef7f_175x@2x.webp"));
+};
+const orders = async (req, res) => {
+  const token = req.header("x-auth-token");
+  if (!token) return res.status(401).send({ errorMsg: "Unauthenticated" });
   let decoded;
-  try{
-    decoded = jwt.verify(token,config.get("jwtSecret"));
+  try {
+    decoded = jwt.verify(token, config.get("jwtSecret"));
+  } catch (err) {
+    return res.status(401).send({ errorMsg: "Unauthenticated" });
   }
-  catch(err){
-    return res.status(401).send({errorMsg:'Unauthenticated'});
+  const userNamespace = await database.getNamespace("users");
+  const productNamespace = await database.getNamespace("products");
+  const user = await database.findOne(userNamespace, { _id: new ObjectID(decoded.id), "orders.paid": true });
+  const orders = (user && user.orders) || [];
+  const addresses = (user && user.addresses) || [];
+  if (orders.length > 0) {
+    let orderProducts = [];
+    orders.forEach(order => {
+      orderProducts.push({ _id: new ObjectID(order.productId) });
+    });
+    const products = await database.findMany(productNamespace, { $or: orderProducts });
+    const ordersWithProductImages = orders.map(order => {
+      let orderWithExtraDetails;
+      products.forEach(product => {
+        if (product._id == order.productId) orderWithExtraDetails = { ...order, img: product.imageAddresses[0], title: product.name };
+      });
+      addresses.forEach(address => {
+        if (address.zipCode == order.zipCode) orderWithExtraDetails = { ...orderWithExtraDetails, address: address };
+      });
+      return orderWithExtraDetails;
+    });
+    return res.status(200).send({ products: ordersWithProductImages });
   }
-  const userNamespace = await database.getNamespace('users');
-  const productNamespace = await database.getNamespace('products');
-  const user = await database.findOne(userNamespace,{_id:new ObjectID(decoded.id),"orders.paid":true});
-  const orders = user.orders;
-  const addresses = user.addresses;
-  let orderProducts = [];
-  orders.forEach(order => {
-    orderProducts.push({_id:new ObjectID(order.productId)});
-  });
-  const products = await database.findMany(productNamespace,{$or:orderProducts});
-  const ordersWithProductImages = orders.map(order => {
-    let orderWithExtraDetails;
-    products.forEach(product => {
-      if(product._id == order.productId) orderWithExtraDetails = {...order,img:product.imageAddresses[0],title:product.name};
-    });
-    addresses.forEach(address => {
-      if(address.zipCode == order.zipCode) orderWithExtraDetails = {...orderWithExtraDetails,address:address};
-    });
-    return orderWithExtraDetails;
-  });
-  return res.status(200).send({products:ordersWithProductImages});
-}
+  else{
+    res.status(200).send({products:[]});
+  }
+};
 module.exports = {
   getProducts,
   user,
@@ -149,5 +154,5 @@ module.exports = {
   product,
   getCartProducts,
   logo,
-  orders
+  orders,
 };
