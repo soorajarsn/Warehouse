@@ -73,7 +73,7 @@ function Checkout(props) {
   const { type, id } = props.match.params;
   const { userLoggedIn } = props;
   const [redirect, setRedirect] = useState(false);
-  const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (!userLoggedIn) setRedirect(true);
   }, [userLoggedIn]);
@@ -101,9 +101,22 @@ function Checkout(props) {
       description: "Thank you for shoping with us",
       image: "/assets/icon.png",
       handler: function (response) {
-        if(type == 'cart') props.clearCartProducts();
         setLoading(true);
-        props.history.replace('/account/orders');
+        if (type == "cart") props.clearCartProducts();
+        Axios.post("/post/paymentVerification/client", {
+          serverOrderId: data.id,
+          paymentId: response.razorpay_payment_id,
+          paymentCreatedAt: new Date().getTime(),
+          razorpaySignature: response.razorpay_signature,
+        })
+          .then(res => {
+            setLoading(false);
+            props.history.replace("/account/orders");
+          })
+          .catch(err => {
+            setLoading(false);
+            props.history.replace("/account/orders");
+          });
       },
       theme: {
         color: "rgb(30, 45, 125)",
@@ -131,7 +144,7 @@ function Checkout(props) {
               )}
             </div>
           </div>
-          {loading && <Loader />} 
+          {loading && <Loader />}
         </Layout>
       )}
     </React.Fragment>
@@ -140,7 +153,7 @@ function Checkout(props) {
 const mapStateToProps = state => ({ checkout: state.checkout, token: state.user.token, userLoggedIn: state.user.userLoggedIn });
 const mapDispatchToProps = dispatch => {
   return {
-    clearCartProducts:() => dispatch(clearCartProducts())
-  }
-}
-export default connect(mapStateToProps,mapDispatchToProps)(Checkout);
+    clearCartProducts: () => dispatch(clearCartProducts()),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
