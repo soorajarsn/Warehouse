@@ -4,7 +4,7 @@ import Layout from "./Layout";
 import Features from "./Features";
 import ShoppingCards from "./ShoppingCards";
 import { connect } from "react-redux";
-import { logOut, getAddresses, deleteAddress, addToCart } from "../redux";
+import { logOut, getAddresses, deleteAddress, addToCart, populateCheckout } from "../redux";
 import { Redirect } from "react-router-dom";
 import AddAddressForm from "./Form_addAddress";
 import Axios from "axios";
@@ -83,22 +83,11 @@ function BuyProduct(props) {
   const [toasterVisible, setToasterVisible] = useState(false);
   const [qty, setQty] = useState(1);
   const {getAddresses,userLoggedIn,addresses} = props;
-  function processProducts(){
-    return products.map(product => {
-      //eslint-disable-next-line
-      let address = addresses.addresses.filter(address => address.zipCode == product.zipCode);
-      return {...product,address:address[0]};
-    })
-  }
-  function checkout(){
-    let processedProducts = processProducts();
-    populateCheckout({products:processedProducts,amount:price});
-    props.history.push('/checkout/cart');
-  }
   useEffect(() => {
     Axios.get("/api/product/" + productId)
       .then(response => {
         setProduct(response.data.product);
+        console.log(response.data.product);
       })
       .catch(err => {});
       //eslint-disable-next-line
@@ -142,7 +131,6 @@ function BuyProduct(props) {
         if (addressSelected === "Select") setToasterVisible(true);
         else {
           setToasterVisible(false);
-          console.log("add to cart dispatching");
           props.addToCart({ id: productId, size, address: addressSelected,qty });
           props.history.push("/cart");
         }
@@ -151,6 +139,26 @@ function BuyProduct(props) {
       }
     }
   }
+  function processProduct(){
+    let address = addresses.filter(address => address.zipCode == addressSelected);
+    let processedProduct = {
+      productId,
+      size,
+      zipCode:addressSelected,
+      qty,
+      img:product.imageAddresses[0],
+      title:product.name,
+      price:product.price,
+      maxQty:product.maxQty,
+      address:address[0]
+    }
+    return processedProduct;
+  }
+  function checkout(){
+    let processedProduct = processProduct();
+    props.populateCheckout({products:[processedProduct],amount:product.price*qty});
+    props.history.push('/checkout/buyProduct/'+productId);
+  }
   function handleBuyNow(event) {
     const button = event.currentTarget;
     if (button.getAttribute("data-action") !== "false") {
@@ -158,6 +166,7 @@ function BuyProduct(props) {
         if (addressSelected === "Select") setToasterVisible(true);
         else {
           setToasterVisible(false);
+          checkout();
         }
       } else {
         setRedirect(true);
@@ -276,6 +285,7 @@ const mapDispatchToProps = dispatch => {
     getAddresses: () => dispatch(getAddresses()),
     deleteAddress: body => dispatch(deleteAddress(body)),
     addToCart: body => dispatch(addToCart(body)),
+    populateCheckout: products => dispatch(populateCheckout(products))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(BuyProduct);
