@@ -19,7 +19,8 @@ router.route('/post/recover').post(postControllers.recover);
 router.route('/post/createAddress').post(postControllers.address);
 router.route('/post/addCart').post(postControllers.addCart);
 router.route('/post/createOrder').post(postControllers.createRazorpayOrder);
-router.route('/post/verification').post(postControllers.paymentVerification);
+router.route('/post/paymentVerification/razorpay').post(postControllers.paymentVerificationRazorpay);
+router.route('/post/paymentVerification/client').post(postControllers.paymentVerificationClient);
 //deleteControllers
 router.route('/api/address').delete(deleteControllers.address);
 router.route('/post/removeCart').delete(deleteControllers.removeCart);
