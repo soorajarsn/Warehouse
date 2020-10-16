@@ -71,6 +71,8 @@ function ProductCard(props) {
 }
 function Checkout(props) {
   const { type, id } = props.match.params;
+  const { size, qty, zipCode } = props.checkout.products[0]||{size:null,qty:null,zipCode:null}; //is of any use only if we are came from directly buyPage instead of cart page;
+  //in above line, if props.checkout.products[0] is undefined then handle error with ||
   const { userLoggedIn } = props;
   const [redirect, setRedirect] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -86,7 +88,8 @@ function Checkout(props) {
     }
     let data;
     try {
-      data = (await Axios.post("/post/createOrder", { amount: props.checkout.amount, type, id }, getConfig(props.token))).data;
+      //size,qty,zipCode sent to /post/createOrder are of any use only if type == 'buyProduct', i.e, we are came from directly buypage
+      data = (await Axios.post("/post/createOrder", { amount: props.checkout.amount, type, id, size, qty, zipCode }, getConfig(props.token))).data;
     } catch (err) {
       if (err.response.status === 401) return setRedirect(true);
       else return alert("Unable to connect to server, Make sure you are online!");
@@ -106,7 +109,7 @@ function Checkout(props) {
         Axios.post("/post/paymentVerification/client", {
           serverOrderId: data.id,
           paymentId: response.razorpay_payment_id,
-          paymentCreatedAt: new Date().getTime(),
+          paymentCreatedAt: new Date(),
           razorpaySignature: response.razorpay_signature,
         })
           .then(res => {
