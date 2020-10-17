@@ -186,10 +186,12 @@
         align-items: flex-start;
         min-height: 4rem; }
         @media (min-width: 1000px) and (max-width: 1600px) {
-          .layout.account-layout .layout-section-primary .product-collection .product-card .data-container .data, .layout.account-layout .layout-section-primary .product-collection .product-card .data-container .address-header {
+          .layout.account-layout .layout-section-primary .product-collection .product-card .data-container .data,
+          .layout.account-layout .layout-section-primary .product-collection .product-card .data-container .address-header {
             font-size: .95rem; } }
         @media (min-width: 1601px) {
-          .layout.account-layout .layout-section-primary .product-collection .product-card .data-container .data, .layout.account-layout .layout-section-primary .product-collection .product-card .data-container .address-header {
+          .layout.account-layout .layout-section-primary .product-collection .product-card .data-container .data,
+          .layout.account-layout .layout-section-primary .product-collection .product-card .data-container .address-header {
             font-size: 1rem; } }
       @media (min-width: 1000px) and (max-width: 1600px) {
         .layout.account-layout .layout-section-primary .product-collection .product-card button {
@@ -197,6 +199,16 @@
       @media (min-width: 1601px) {
         .layout.account-layout .layout-section-primary .product-collection .product-card button {
           font-size: 1.05rem; } }
+    .layout.account-layout .layout-section-primary .product-collection .order-container .img-container {
+      height: 20rem;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center; }
+      .layout.account-layout .layout-section-primary .product-collection .order-container .img-container img {
+        width: 100%; }
+    .layout.account-layout .layout-section-primary .product-collection .order-container .order-details {
+      padding: 0 .5rem; }
 
 .modal {
   top: 0;
