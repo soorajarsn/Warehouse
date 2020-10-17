@@ -129,22 +129,26 @@ function OrderCard({ product }) {
       <div className="img-container">
         <img src={product.img.substr(2)} alt="" />
       </div>
-      {/* <div className="order-details data-container">
-        <div className="address-header xsmall-font light-bold-font color-primary medium-margin">
-          {product.title || "Product Title goes here"}
+      <div className="order-details data-container">
+        <div className="xxxsmall-font light-bold-font color-primary xsmall-margin">{product.title}</div>
+        <div className="xxxsmall-font light-bold-font color-green ">Arriving on October 18</div>
+        <div className="xxxsmall-font xsmall-margin-top">
+          <h4 className="color-primary light-bold-font">Delivery Address:</h4>
         </div>
-        <div className="data xxsmall-font color-darkGrey xsmall-margin">
-          <span className="first-name">{product.address.firstName}</span> <span className="last-name">{address.lastName}</span>
-        </div>
-        <div className="data xsmall-font color-darkGrey xsmall-margin">
-          <span className="locality">{address.locality}</span>, <span className="city">{address.city}</span>
-        </div>
-        <div className="data xsmall-font color-darkGrey xsmall-margin">
-          <span className="zipcode">{address.zipCode}</span>, <span className="state">{address.state}</span>
-        </div>
-        <div className="data xsmall-font color-darkGrey xsmall-margin country">{address.country}</div>
-        <div className="hidden phone">{address.phone}</div>
-      </div> */}
+        <address>
+          <div className="data xxsmall-font color-darkGrey xsmall-margin">
+            <span className="first-name">{product.address.firstName}</span> <span className="last-name">{product.address.lastName}</span>
+          </div>
+          <div className="data xsmall-font color-darkGrey xsmall-margin">
+            <span className="locality">{product.address.locality}</span>, <span className="city">{product.address.city}</span>
+          </div>
+          <div className="data xsmall-font color-darkGrey xsmall-margin">
+            <span className="zipcode">{product.address.zipCode}</span>, <span className="state">{product.address.state}</span>
+          </div>
+          <div className="data xsmall-font color-darkGrey xsmall-margin country">{product.address.country}</div>
+          <div className="hidden phone">{product.address.phone}</div>
+        </address>
+      </div>
     </div>
   );
 }
@@ -154,13 +158,12 @@ function OrderCards({ fetchOrders, products, loading }) {
   }, [fetchOrders]);
   return (
     <div className="position-relative">
-      <EmptyCard pageName="orders" />
       {products.length === 0 ? (
         <EmptyCard pageName="orders" />
       ) : (
-        <div className="product-collection grd">
+        <div className="product-collection grid">
           {products.map((product, index) => (
-            <div key={index}></div>
+            <OrderCard key={index} product={product} />
           ))}
         </div>
       )}
