@@ -133,7 +133,7 @@ function OrderCard({ product }) {
         <div className="xxxsmall-font light-bold-font color-primary xsmall-margin">{product.title}</div>
         <div className="xxxsmall-font light-bold-font color-green ">Arriving on October 18</div>
         <div className="xxxsmall-font xsmall-margin-top">
-          <h4 className="color-primary light-bold-font">Delivery Address:</h4>
+          <h4 className="color-primary light-bold-font">Shipping Address:</h4>
         </div>
         <address>
           <div className="data xxsmall-font color-darkGrey xsmall-margin">
@@ -152,7 +152,7 @@ function OrderCard({ product }) {
     </div>
   );
 }
-function OrderCards({ fetchOrders, products, loading }) {
+function OrderCardsContainer({ fetchOrders, products, loading }) {
   useEffect(() => {
     fetchOrders();
   }, [fetchOrders]);
@@ -234,11 +234,7 @@ function AddressCard({ address, index, editSetters, deleteAddress }) {
     </div>
   );
 }
-function AddressCards({ addresses, getAddress, loading, editSetters, deleteAddress }) {
-  useEffect(() => {
-    console.log("use effect inside address card run");
-    getAddress();
-  }, [getAddress]);
+function AddressCardsContainer({ addresses, loading, editSetters, deleteAddress }) {
   return (
     <div className="position-relative">
       {addresses.length === 0 ? (
@@ -302,9 +298,9 @@ function Account(props) {
                 </div>
                 <hr className="no-margin" />
                 {pageName === "orders" ? (
-                  <OrderCards loading={props.orders.loading} products={props.orders.products} fetchOrders={props.fetchOrders} />
+                  <OrderCardsContainer loading={props.orders.loading} products={props.orders.products} fetchOrders={props.fetchOrders} />
                 ) : (
-                  <AddressCards addresses={props.addresses} getAddress={props.getAddresses} deleteAddress={props.deleteAddress} loading={props.loading} editSetters={editSetters} />
+                  <AddressCardsContainer addresses={props.addresses} deleteAddress={props.deleteAddress} loading={props.loading} editSetters={editSetters} />
                 )}
               </div>
             </div>
@@ -326,7 +322,6 @@ const mapStateToProps = state => ({ ...state.addresses, userLoggedIn: state.user
 const mapDispatchToProps = dispatch => {
   return {
     logOut: () => dispatch(logOut()),
-    getAddresses: () => dispatch(getAddresses()),
     deleteAddress: body => dispatch(deleteAddress(body)),
     fetchOrders: () => dispatch(fetchOrders()),
   };
