@@ -123,6 +123,14 @@ function EmptyCard({ pageName }) {
     </div>
   );
 }
+function getDeliveryComment(product) {
+  const now = new Date();
+  const deliveryBy = new Date(product.deliveryBy);
+  const comparisionResult = compareDates(now,deliveryBy);
+  if(comparisionResult == 0) return "Arriving Today";
+  else if(comparisionResult == -1) return "Arriving on "+getDateString(product.deliveryBy);
+  else return "Delivered on "+((product.deliveredOn && getDateString(product.deliveredOn)) || getDateString(product.deliveryBy));
+}
 function OrderCard({ product }) {
   return (
     <div className="product-card order-container">
@@ -131,7 +139,8 @@ function OrderCard({ product }) {
       </div>
       <div className="order-details data-container">
         <div className="xxxsmall-font light-bold-font color-primary xsmall-margin">{product.title}</div>
-        <div className="xxxsmall-font light-bold-font color-green ">Arriving on October 18</div>
+        <div className="xxxsmall-font light-bold-font">Quantity: {product.qty}</div> 
+        <div className="xxxsmall-font light-bold-font color-green xsmall-margin-top">{getDeliveryComment(product)}</div>
         <div className="xxxsmall-font xsmall-margin-top">
           <h4 className="color-primary light-bold-font">Shipping Address:</h4>
         </div>
@@ -249,6 +258,36 @@ function AddressCardsContainer({ addresses, loading, editSetters, deleteAddress 
       {loading && <Loader />}
     </div>
   );
+}
+function getDateString(dateString) {
+  const months = ["Jan", "Feb", "March", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const date = new Date(dateString);
+  const weekDay = date.getDay();
+  const monthNum = date.getMonth();
+  const monthDay = date.getDate();
+  return days[weekDay] + ", " + months[monthNum] + " " + monthDay;
+}
+function compareDates(date1, date2) {
+  //date1 - date2;
+  const year1 = date1.getYear(),
+    month1 = date1.getMonth(),
+    day1 = date1.getDate();
+  const year2 = date2.getYear(),
+    month2 = date2.getMonth(),
+    day2 = date2.getDate();
+  let yearRes = 0,
+    monthRes = 0,
+    dayRes = 0;
+  if (year1 < year2) yearRes = -1;
+  else if (year1 > year2) yearRes = 1;
+  if (month1 < month2) monthRes = -1;
+  else if (month1 > month2) monthRes = 1;
+  if (day1 < day2) dayRes = -1;
+  else if (day1 > day2) dayRes = 1;
+  if (yearRes == -1 || (yearRes == 0 && monthRes == -1) || (yearRes == 0 && monthRes == 0 && dayRes == -1)) return -1;
+  else if (yearRes == 0 && monthRes == 0 && dayRes == 0) return 0;
+  else return 1;
 }
 function Account(props) {
   const { pageName } = props.match.params;
