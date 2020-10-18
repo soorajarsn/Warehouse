@@ -135,7 +135,7 @@ let panelDataForAllProducts = [
         subCategories: ["Kurtas and Suits", "Kurtis", "Tunics and Tops", "Ethnic Dresses", "Skirts and Palazzos", "Sarees and Blouses", "Lehenga Cholis"],
       },
       {
-        category: "Western Wear",
+        category: "Western",
         subCategories: ["Dresses and Jumpsuits", "Tops", "Tshirts", "Shirts", "Shorts and Skirts", "Trousers and Capris", "Jeans and Joggins"],
       },
       {
