@@ -233,7 +233,7 @@ const createRazorpayOrder = async (req, res) => {
           maxPrice: product.maxPrice || product.price, //need to update after db update
           ...cartProduct,
           paid: false,
-          orderCreatedAt:new Date(response.created_at*1000)
+          orderCreatedAt: new Date(response.created_at * 1000),
         };
         userNamespace.updateOne({ _id: new ObjectID(decoded.id) }, { $push: { orders: order } });
       });
@@ -253,7 +253,7 @@ const createRazorpayOrder = async (req, res) => {
         size,
         zipCode,
         paid: false,
-        orderCreatedAt:new Date(response.created_at*1000)
+        orderCreatedAt: new Date(response.created_at * 1000),
       };
       userNamespace.updateOne({ _id: new ObjectID(decoded.id) }, { $push: { orders: order } });
     }
@@ -284,7 +284,14 @@ const paymentVerificationRazorpay = async (req, res) => {
       const namespace = await database.getNamespace("users");
       const updateRes = await namespace.updateOne(
         { "orders.orderId": orderId },
-        { $set: { "orders.$[order].paid": true, "orders.$[order].paymentId": paymentId,"orders.$[order].paymentCreatedAt": new Date(entity.created_at*1000)} },
+        {
+          $set: {
+            "orders.$[order].paid": true,
+            "orders.$[order].paymentId": paymentId,
+            "orders.$[order].paymentCreatedAt": new Date(entity.created_at * 1000),
+            "orders.$[order].deliveryBy": new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 7), //setting expected delivery date in 7 days;
+          },
+        },
         { arrayFilters: [{ "order.orderId": orderId }] }
       );
     }
@@ -293,22 +300,28 @@ const paymentVerificationRazorpay = async (req, res) => {
     res.status(400).send({ status: "Bad Request" });
   }
 };
-const paymentVerificationClient = async (req,res) => {
-  const {serverOrderId,paymentId,razorpaySignature,paymentCreatedAt} = req.body;
-  const hmac = crypto.createHmac('sha256',config.get("razorpayKeySecret"));
-  const data = hmac.update(serverOrderId+"|"+paymentId);
-  const digest = data.digest('hex');
-  if(digest == razorpaySignature){
-    const namespace = await database.getNamespace('users');
+const paymentVerificationClient = async (req, res) => {
+  const { serverOrderId, paymentId, razorpaySignature, paymentCreatedAt } = req.body;
+  const hmac = crypto.createHmac("sha256", config.get("razorpayKeySecret"));
+  const data = hmac.update(serverOrderId + "|" + paymentId);
+  const digest = data.digest("hex");
+  if (digest == razorpaySignature) {
+    const namespace = await database.getNamespace("users");
     await namespace.updateOne(
       { "orders.orderId": serverOrderId },
-      { $set: { "orders.$[order].paid": true, "orders.$[order].paymentId": paymentId,"orders.$[order].paymentCreatedAt": paymentCreatedAt} },
+      {
+        $set: {
+          "orders.$[order].paid": true,
+          "orders.$[order].paymentId": paymentId,
+          "orders.$[order].paymentCreatedAt": paymentCreatedAt,
+          "orders.$[order].deliveryBy": new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 7), //setting expected delivery date in 7 days;
+        },
+      },
       { arrayFilters: [{ "order.orderId": serverOrderId }] }
     );
     res.status(200).send({ status: "ok" });
-  }
-  else res.status(400).send({errorMsg:'Invalid Payment Details'});
-}
+  } else res.status(400).send({ errorMsg: "Invalid Payment Details" });
+};
 module.exports = {
   saveProduct,
   signup,
@@ -318,5 +331,5 @@ module.exports = {
   addCart,
   createRazorpayOrder,
   paymentVerificationRazorpay,
-  paymentVerificationClient
+  paymentVerificationClient,
 };
