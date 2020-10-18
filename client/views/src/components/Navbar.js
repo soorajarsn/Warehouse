@@ -105,7 +105,7 @@ function Nav(props) {
                   <div className="link flex">
                     <div className="cart-icon-container position-relative">
                       <CartSvg />
-                      <div className="no-of-items-container flex bold-font position-absolute">1</div>
+                      {props.userLoggedIn && <div className="no-of-items-container flex bold-font position-absolute">{props.cartItemsCount}</div>}
                     </div>
                     <span className="cart small-padding-left xxsmall-font medium-bold-font hidden">Cart</span>
                   </div>
@@ -137,6 +137,7 @@ const mapStateToProps = state => {
     userLoggingIn: state.user.userLoggingIn,
     userName: state.user.userName,
     userId: state.user.userId,
+    cartItemsCount:state.cart.products.length
   };
 };
 const mapDispatchToProps = {
